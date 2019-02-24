@@ -86,14 +86,15 @@
             
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="requirement.html">1. The requirements for csdfpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CSDModel.html">3. The core scientific dataset model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Importing_csdfpy.html">4. Getting Satrted With <span class="guilabel">csdfpy</span> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/examples.html">5. Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="startingFromScrach.html">6. Starting from scrach</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/A fun example.html">7. A fun 🤪 example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="referenceAPI.html">8. Reference/API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="includeme.html">1. No tile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requirement.html">2. The requirements for csdfpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">3. Installing <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CSDModel.html">4. The core scientific dataset model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Importing_csdfpy.html">5. Getting Satrted With <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/examples.html">6. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="startingFromScrach.html">7. Starting from scrach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/A fun example.html">8. A fun 🤪 example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="referenceAPI.html">9. Reference/API documentation</a></li>
 </ul>
 
             
@@ -204,7 +205,7 @@ we will focus on its <code class="docutils literal notranslate"><span class="pre
 </pre></div>
 </div>
 <p>In this case, the variable x is a tuple with a single object,
-only now, it contains a <a class="reference internal" href="api/csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> object. The controlled
+only now, it contains a <a class="reference internal" href="api/csdfpy.ControlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> object. The controlled
 variable coordinates of this object are</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
 <span class="go">[-0.28758166 -0.22712233 -0.19913859 -0.17235106 -0.1701172  -0.10372635 -0.01817061  0.05936719  0.18141424  0.34758913] cm</span>
@@ -225,7 +226,7 @@ object. The value and the unit of this object are</p>
 <p>respectively.</p>
 <div class="section" id="attributes">
 <h2>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h2>
-<p>We go through the attributes of the <a class="reference internal" href="api/csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> class,
+<p>We go through the attributes of the <a class="reference internal" href="api/csdfpy.ControlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> class,
 and show how it affects the coordinates along this dimension.</p>
 <div class="section" id="the-attributes-that-modify-the-coordinates">
 <h3>The attributes that modify the coordinates<a class="headerlink" href="#the-attributes-that-modify-the-coordinates" title="Permalink to this headline">¶</a></h3>
@@ -381,7 +382,7 @@ coordinates.  An exception will be raised otherwise,</p>
 <span class="go">Exception: The unit &#39;km / s&#39; (speed) is inconsistent with the unit &#39;min&#39; (time).</span>
 </pre></div>
 </div>
-<p>Also see <a class="reference internal" href="api/csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a></p>
+<p>Also see <a class="reference internal" href="api/csdfpy.ControlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a></p>
 </div>
 </div>
 

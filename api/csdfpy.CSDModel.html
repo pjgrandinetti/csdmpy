@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="9.3. Uncontrolled variable" href="csdfpy.UnControlledVariable.html" />
+    <link rel="next" title="9.3. Controlled variable" href="csdfpy.ControlledVariable.html" />
     <link rel="prev" title="9.1.2. new" href="Archive/csdfpy.new.html" /> 
 
   
@@ -99,7 +99,8 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../referenceAPI.html">9. Reference/API documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="csdfpy.html">9.1. csdfpy</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">9.2. CSDModel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="csdfpy.UnControlledVariable.html">9.3. Uncontrolled variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="csdfpy.ControlledVariable.html">9.3. Controlled variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="csdfpy.UnControlledVariable.html">9.4. Uncontrolled variable</a></li>
 </ul>
 </li>
 </ul>
@@ -216,7 +217,7 @@ unique <span class="math notranslate nohighlight">\(p_\alpha\)</span>-dimensiona
 <span class="math notranslate nohighlight">\(y_\alpha\)</span> must share the same set of controlled variable
 coordinates.</p>
 <p>In <code class="docutils literal notranslate"><span class="pre">csdfpy</span></code> package, every control variable, <span class="math notranslate nohighlight">\(x_k\)</span>, is represented
-as a <a class="reference internal" href="csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> object and every uncontrol variable, <span class="math notranslate nohighlight">\(y_\alpha\)</span>,
+as a <a class="reference internal" href="csdfpy.ControlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> object and every uncontrol variable, <span class="math notranslate nohighlight">\(y_\alpha\)</span>,
 by <a class="reference internal" href="csdfpy.UnControlledVariable.html#uv-api"><span class="std std-ref">Uncontrolled variable</span></a> object. The <code class="docutils literal notranslate"><span class="pre">CSDModel</span></code> class holdes and manages the
 tuples of both these variable objects.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -235,7 +236,7 @@ tuples of both these variable objects.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#csdfpy.CSDModel.controlled_variables" title="csdfpy.CSDModel.controlled_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">controlled_variables</span></code></a></td>
-<td>Return a tuple of <a class="reference internal" href="csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> objects.</td>
+<td>Return a tuple of <a class="reference internal" href="csdfpy.ControlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> objects.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#csdfpy.CSDModel.uncontrolled_variables" title="csdfpy.CSDModel.uncontrolled_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">uncontrolled_variables</span></code></a></td>
 <td>Return a tuple of <a class="reference internal" href="csdfpy.UnControlledVariable.html#uv-api"><span class="std std-ref">Uncontrolled variable</span></a> objects.</td>
@@ -259,7 +260,7 @@ tuples of both these variable objects.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#csdfpy.CSDModel.add_controlled_variable" title="csdfpy.CSDModel.add_controlled_variable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_controlled_variable</span></code></a>(*arg,&nbsp;**kwargs)</td>
-<td>Add a new <a class="reference internal" href="csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> to the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> object.</td>
+<td>Add a new <a class="reference internal" href="csdfpy.ControlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> to the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> object.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#csdfpy.CSDModel.add_uncontrolled_variable" title="csdfpy.CSDModel.add_uncontrolled_variable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_uncontrolled_variable</span></code></a>(*arg,&nbsp;**kwargs)</td>
 <td>Add a new <a class="reference internal" href="csdfpy.UnControlledVariable.html#uv-api"><span class="std std-ref">Uncontrolled variable</span></a> to the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> object.</td>
@@ -276,7 +277,7 @@ tuples of both these variable objects.</p>
 <dl class="attribute">
 <dt id="csdfpy.CSDModel.controlled_variables">
 <code class="descname">controlled_variables</code><a class="headerlink" href="#csdfpy.CSDModel.controlled_variables" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a tuple of <a class="reference internal" href="csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> objects.</p>
+<dd><p>Return a tuple of <a class="reference internal" href="csdfpy.ControlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> objects.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -317,7 +318,7 @@ tuples of both these variable objects.</p>
 <dl class="method">
 <dt id="csdfpy.CSDModel.add_controlled_variable">
 <code class="descname">add_controlled_variable</code><span class="sig-paren">(</span><em>*arg</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/csdfpy.html#CSDModel.add_controlled_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#csdfpy.CSDModel.add_controlled_variable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a new <a class="reference internal" href="csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> to the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> object.</p>
+<dd><p>Add a new <a class="reference internal" href="csdfpy.ControlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> to the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> object.</p>
 <p>There are a number of different ways to add a control variable.</p>
 <p>Add a control variable with a python dictionary containing valid
 keywords.</p>
@@ -337,7 +338,7 @@ keywords.</p>
 <span class="go">                                      reference_offset = &#39;-10 mT&#39;)</span>
 </pre></div>
 </div>
-<p>Add a control variable with a <a class="reference internal" href="csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> instance.</p>
+<p>Add a control variable with a <a class="reference internal" href="csdfpy.ControlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> instance.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">csdfpy</span> <span class="k">import</span> <span class="n">ControlledVariable</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">var1</span> <span class="o">=</span> <span class="n">ControlledVariable</span><span class="p">(</span><span class="n">sampling_interval</span> <span class="o">=</span> <span class="s1">&#39;5 G&#39;</span><span class="p">,</span>
 <span class="go">                              number_of_points = 50,</span>
@@ -420,7 +421,7 @@ extension is used.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="csdfpy.UnControlledVariable.html" class="btn btn-neutral float-right" title="9.3. Uncontrolled variable" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="csdfpy.ControlledVariable.html" class="btn btn-neutral float-right" title="9.3. Controlled variable" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="Archive/csdfpy.new.html" class="btn btn-neutral" title="9.1.2. new" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

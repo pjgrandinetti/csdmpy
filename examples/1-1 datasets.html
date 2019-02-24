@@ -315,14 +315,14 @@ functions. The first line creates a new blank figure. In the following four
 lines, we define <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, <code class="docutils literal notranslate"><span class="pre">x0</span></code>, and <code class="docutils literal notranslate"><span class="pre">y00</span></code> as previously described. The
 next line adds a plot of <code class="docutils literal notranslate"><span class="pre">y00</span></code> vs <code class="docutils literal notranslate"><span class="pre">x0</span></code> to the figure. For labeling the
 axes, we use the
-<a class="reference internal" href="../api/csdfpy.controlledVariable.html#csdfpy.ControlledVariable.axis_label" title="csdfpy.ControlledVariable.axis_label"><code class="xref py py-attr docutils literal notranslate"><span class="pre">axis_label</span></code></a> attribute of both control and
+<a class="reference internal" href="../api/csdfpy.ControlledVariable.html#csdfpy.ControlledVariable.axis_label" title="csdfpy.ControlledVariable.axis_label"><code class="xref py py-attr docutils literal notranslate"><span class="pre">axis_label</span></code></a> attribute of both control and
 uncontrol variable objects. For the figure title, we use the
 <a class="reference internal" href="../api/csdfpy.UnControlledVariable.html#csdfpy.UncontrolledVariable.name" title="csdfpy.UncontrolledVariable.name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code></a> attribute of the
 uncontrol variable object. The following <cite>if</cite> statement plot the figure with
 the x-axis in reverse, if the
-<a class="reference internal" href="../api/csdfpy.controlledVariable.html#csdfpy.ControlledVariable.reverse" title="csdfpy.ControlledVariable.reverse"><code class="xref py py-attr docutils literal notranslate"><span class="pre">reverse</span></code></a> attribute of the control
+<a class="reference internal" href="../api/csdfpy.ControlledVariable.html#csdfpy.ControlledVariable.reverse" title="csdfpy.ControlledVariable.reverse"><code class="xref py py-attr docutils literal notranslate"><span class="pre">reverse</span></code></a> attribute of the control
 variable is True.
-Please refer to the <a class="reference internal" href="../api/csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> and <a class="reference internal" href="../api/csdfpy.UnControlledVariable.html#uv-api"><span class="std std-ref">Uncontrolled variable</span></a> for additional
+Please refer to the <a class="reference internal" href="../api/csdfpy.ControlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> and <a class="reference internal" href="../api/csdfpy.UnControlledVariable.html#uv-api"><span class="std std-ref">Uncontrolled variable</span></a> for additional
 information.</p>
 <p>Now to plot the <code class="docutils literal notranslate"><span class="pre">NMRdata</span></code> contents,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot1D</span><span class="p">(</span><span class="n">NMRdata</span><span class="p">)</span>

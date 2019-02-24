@@ -220,7 +220,7 @@ respectively, of the <code class="docutils literal notranslate"><span class="pre
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">testdata1</span><span class="o">.</span><span class="n">uncontrolled_variables</span>
 </pre></div>
 </div>
-<p>where x and y are the tuples of <a class="reference internal" href="api/csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> and <a class="reference internal" href="api/csdfpy.UnControlledVariable.html#uv-api"><span class="std std-ref">Uncontrolled variable</span></a> objects. In the
+<p>where x and y are the tuples of <a class="reference internal" href="api/csdfpy.ControlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> and <a class="reference internal" href="api/csdfpy.UnControlledVariable.html#uv-api"><span class="std std-ref">Uncontrolled variable</span></a> objects. In the
 above example, both x and y are tuples with a single object</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;x is an </span><span class="si">{0}</span><span class="s1"> of length </span><span class="si">{1}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;y is an </span><span class="si">{0}</span><span class="s1"> of length </span><span class="si">{1}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
@@ -229,8 +229,8 @@ above example, both x and y are tuples with a single object</p>
 </pre></div>
 </div>
 <p>The list of controlled variable coordinates is accessed through the
-<a class="reference internal" href="api/csdfpy.controlledVariable.html#csdfpy.ControlledVariable.coordinates" title="csdfpy.ControlledVariable.coordinates"><code class="xref py py-attr docutils literal notranslate"><span class="pre">coordinates</span></code></a> attribute of the
-<a class="reference internal" href="api/csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> object, which follows</p>
+<a class="reference internal" href="api/csdfpy.ControlledVariable.html#csdfpy.ControlledVariable.coordinates" title="csdfpy.ControlledVariable.coordinates"><code class="xref py py-attr docutils literal notranslate"><span class="pre">coordinates</span></code></a> attribute of the
+<a class="reference internal" href="api/csdfpy.ControlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> object, which follows</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span> 
 <span class="go">[0.  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9] s</span>
 </pre></div>

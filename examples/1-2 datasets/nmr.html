@@ -258,7 +258,7 @@ the <code class="docutils literal notranslate"><span class="pre">NMR2Ddata</span
 </pre></div>
 </div>
 <p>and look at the coordinates of each variable using the
-<a class="reference internal" href="../../api/csdfpy.controlledVariable.html#csdfpy.ControlledVariable.coordinates" title="csdfpy.ControlledVariable.coordinates"><code class="xref py py-attr docutils literal notranslate"><span class="pre">coordinates</span></code></a> attribute of the respective
+<a class="reference internal" href="../../api/csdfpy.ControlledVariable.html#csdfpy.ControlledVariable.coordinates" title="csdfpy.ControlledVariable.coordinates"><code class="xref py py-attr docutils literal notranslate"><span class="pre">coordinates</span></code></a> attribute of the respective
 objects.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span>
 <span class="go">[-0.04104 -0.04096 -0.04088 ...  0.04064  0.04072  0.0408 ] s</span>
@@ -269,8 +269,8 @@ objects.</p>
 </div>
 <p>Notice, the unit of <code class="docutils literal notranslate"><span class="pre">x[0].coordinates</span></code> is in second. Since all the values are
 less than one second, it might be convenient to convert the unit to ms.
-We use the <a class="reference internal" href="../../api/csdfpy.controlledVariable.html#csdfpy.ControlledVariable.to" title="csdfpy.ControlledVariable.to"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to()</span></code></a> method of the
-<a class="reference internal" href="../../api/csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> class to perform the unit conversion, which follows,</p>
+We use the <a class="reference internal" href="../../api/csdfpy.ControlledVariable.html#csdfpy.ControlledVariable.to" title="csdfpy.ControlledVariable.to"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to()</span></code></a> method of the
+<a class="reference internal" href="../../api/csdfpy.ControlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> class to perform the unit conversion, which follows,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;ms&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span>
 <span class="go">[-41.04 -40.96 -40.88 ...  40.64  40.72  40.8 ] ms</span>
