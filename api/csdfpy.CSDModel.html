@@ -1,0 +1,476 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>8.2. CSDModel &mdash; csdfpy 0.0.9 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="8.3. Uncontrolled variable" href="csdfpy.UnControlledVariable.html" />
+    <link rel="prev" title="8.1.2. new" href="Archive/csdfpy.new.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> csdfpy
+          
+
+          
+            
+            <img src="../_static/csdfpy.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../requirement.html">1. The requirements for csdfpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CSDModel.html">3. The core scientific dataset model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Importing_csdfpy.html">4. Getting Satrted With <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">5. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../startingFromScrach.html">6. Starting from scrach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/A fun example.html">7. A fun 🤪 example</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../referenceAPI.html">8. Reference/API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="csdfpy.html">8.1. csdfpy</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">8.2. CSDModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="csdfpy.UnControlledVariable.html">8.3. Uncontrolled variable</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">csdfpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../referenceAPI.html">8. Reference/API documentation</a> &raquo;</li>
+        
+      <li>8.2. CSDModel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/csdfpy.CSDModel.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="csdmodel">
+<span id="csdm-api"></span><h1>8.2. CSDModel<a class="headerlink" href="#csdmodel" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="csdfpy.CSDModel">
+<em class="property">class </em><code class="descclassname">csdfpy.</code><code class="descname">CSDModel</code><span class="sig-paren">(</span><em>filename=''</em>, <em>version=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/csdfpy.html#CSDModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#csdfpy.CSDModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A python module for handling the CSD format files, <cite>.csdf</cite> and <cite>.csdfx</cite>.</p>
+<p>The module is bulit on the concept of the core scientific dataset (CSD)
+model which follows,</p>
+<div class="math notranslate nohighlight">
+\[y_\alpha = f_\alpha(x_0, x_1, ... x_k, ... x_{d-1})
+\forall \alpha \in \mathbb{Z}\]</div>
+<p>where <span class="math notranslate nohighlight">\(y_\alpha\)</span> is the uncontrolled variable and the <span class="math notranslate nohighlight">\(x_k\)</span>,
+<span class="math notranslate nohighlight">\(k \in \{0, 1, ... ,d-1\}\)</span>, are the controlled variables. The model
+supports any arbitrary <span class="math notranslate nohighlight">\(d\)</span>-dimensional controlled variable space
+where <span class="math notranslate nohighlight">\(x_k\)</span> is its <span class="math notranslate nohighlight">\(k^\mathrm{th}\)</span> dimension, and any arbitrary
+<span class="math notranslate nohighlight">\(p_\alpha\)</span>-dimensional uncontrolled variable space.</p>
+<p>The CSDModel class also support multiple uncontrolled variables. This
+is represented with the subscript <span class="math notranslate nohighlight">\(\alpha\)</span>,
+<span class="math notranslate nohighlight">\(\alpha \in \mathbb{Z}\)</span>, where each uncontrolled variable lives in a
+unique <span class="math notranslate nohighlight">\(p_\alpha\)</span>-dimensional space, with the limitation that all
+<span class="math notranslate nohighlight">\(y_\alpha\)</span> must share the same set of controlled variable
+coordinates.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">csdfpy</span></code> package, every control variable, <span class="math notranslate nohighlight">\(x_k\)</span>, is represented
+as a <a class="reference internal" href="csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> object and every uncontrol variable, <span class="math notranslate nohighlight">\(y_\alpha\)</span>,
+by <a class="reference internal" href="csdfpy.UnControlledVariable.html#uv-api"><span class="std std-ref">Uncontrolled variable</span></a> object. The <code class="docutils literal notranslate"><span class="pre">CSDModel</span></code> class holdes and manages the
+tuples of both these variable objects.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A CSDM object.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy.CSDModel.controlled_variables" title="csdfpy.CSDModel.controlled_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">controlled_variables</span></code></a></td>
+<td>Return a tuple of <a class="reference internal" href="csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> objects.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#csdfpy.CSDModel.uncontrolled_variables" title="csdfpy.CSDModel.uncontrolled_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">uncontrolled_variables</span></code></a></td>
+<td>Return a tuple of <a class="reference internal" href="csdfpy.UnControlledVariable.html#uv-api"><span class="std std-ref">Uncontrolled variable</span></a> objects.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy.CSDModel.filename" title="csdfpy.CSDModel.filename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filename</span></code></a></td>
+<td>Return the local file address to the current file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#csdfpy.CSDModel.version" title="csdfpy.CSDModel.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></td>
+<td>Return a the version number of the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> on file.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy.CSDModel.data_structure" title="csdfpy.CSDModel.data_structure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_structure</span></code></a></td>
+<td>Return the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> object as a json object.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy.CSDModel.add_controlled_variable" title="csdfpy.CSDModel.add_controlled_variable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_controlled_variable</span></code></a>(*arg,&nbsp;**kwargs)</td>
+<td>Add a new <a class="reference internal" href="csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> to the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> object.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#csdfpy.CSDModel.add_uncontrolled_variable" title="csdfpy.CSDModel.add_uncontrolled_variable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_uncontrolled_variable</span></code></a>(*arg,&nbsp;**kwargs)</td>
+<td>Add a new <a class="reference internal" href="csdfpy.UnControlledVariable.html#uv-api"><span class="std std-ref">Uncontrolled variable</span></a> to the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> object.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy.CSDModel.save" title="csdfpy.CSDModel.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(filename[,&nbsp;version])</td>
+<td>Save the CSD model to a file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#csdfpy.CSDModel.fft" title="csdfpy.CSDModel.fft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fft</span></code></a>([cv])</td>
+<td>Perform a FFT along the specified control variable (cv).</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="csdfpy.CSDModel.controlled_variables">
+<code class="descname">controlled_variables</code><a class="headerlink" href="#csdfpy.CSDModel.controlled_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a tuple of <a class="reference internal" href="csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> objects.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.CSDModel.uncontrolled_variables">
+<code class="descname">uncontrolled_variables</code><a class="headerlink" href="#csdfpy.CSDModel.uncontrolled_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a tuple of <a class="reference internal" href="csdfpy.UnControlledVariable.html#uv-api"><span class="std std-ref">Uncontrolled variable</span></a> objects.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.CSDModel.filename">
+<code class="descname">filename</code><a class="headerlink" href="#csdfpy.CSDModel.filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the local file address to the current file.</p>
+<p>The file extensions include the <cite>.csdf</cite> and the <cite>.csdfx</cite>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.CSDModel.version">
+<code class="descname">version</code><a class="headerlink" href="#csdfpy.CSDModel.version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a the version number of the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> on file.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.CSDModel.data_structure">
+<code class="descname">data_structure</code><a class="headerlink" href="#csdfpy.CSDModel.data_structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> object as a json object.</p>
+<p>The attribute cannot be modified.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><strong>AttributeError</strong> – When modified.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="csdfpy.CSDModel.add_controlled_variable">
+<code class="descname">add_controlled_variable</code><span class="sig-paren">(</span><em>*arg</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/csdfpy.html#CSDModel.add_controlled_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#csdfpy.CSDModel.add_controlled_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new <a class="reference internal" href="csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> to the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> object.</p>
+<p>There are a number of different ways to add a control variable.</p>
+<p>Add a control variable with a python dictionary containing valid
+keywords.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span> <span class="o">=</span> <span class="n">CSDModel</span><span class="p">()</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">py_dictionary</span> <span class="o">=</span> <span class="p">{</span>
+<span class="go">        &#39;sampling_interval&#39;: &#39;5 G&#39;</span>
+<span class="go">        &#39;number_of_points: 50,</span>
+<span class="go">        &#39;reference_offset&#39;: &#39;-10 mT&#39;</span>
+<span class="go">    }</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span><span class="o">.</span><span class="n">add_controlled_variable</span><span class="p">(</span><span class="n">py_dictionary</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Add a control variable with valid keyword arguaments.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span><span class="o">.</span><span class="n">add_controlled_variable</span><span class="p">(</span><span class="n">sampling_interval</span> <span class="o">=</span> <span class="s1">&#39;5 G&#39;</span><span class="p">,</span>
+<span class="go">                                      number_of_points = 50,</span>
+<span class="go">                                      reference_offset = &#39;-10 mT&#39;)</span>
+</pre></div>
+</div>
+<p>Add a control variable with a <a class="reference internal" href="csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> instance.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">csdfpy</span> <span class="k">import</span> <span class="n">ControlledVariable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">var1</span> <span class="o">=</span> <span class="n">ControlledVariable</span><span class="p">(</span><span class="n">sampling_interval</span> <span class="o">=</span> <span class="s1">&#39;5 G&#39;</span><span class="p">,</span>
+<span class="go">                              number_of_points = 50,</span>
+<span class="go">                              reference_offset = &#39;-10 mT&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span><span class="o">.</span><span class="n">add_controlled_variable</span><span class="p">(</span><span class="n">var1</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="csdfpy.CSDModel.add_uncontrolled_variable">
+<code class="descname">add_uncontrolled_variable</code><span class="sig-paren">(</span><em>*arg</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/csdfpy.html#CSDModel.add_uncontrolled_variable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#csdfpy.CSDModel.add_uncontrolled_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new <a class="reference internal" href="csdfpy.UnControlledVariable.html#uv-api"><span class="std std-ref">Uncontrolled variable</span></a> to the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> object.</p>
+<p>There are again a number of different ways to add an uncontrol
+variable.</p>
+<p>Add an uncontrol variable with a python dictionary containing valid
+keywords.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span> <span class="o">=</span> <span class="n">CSDModel</span><span class="p">()</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numpy_array</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">py_dictionary</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;components&#39;</span><span class="p">:</span> <span class="n">numpy_array</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;star&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="s1">&#39;W s&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="s1">&#39;energy&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;dataset_type&#39;</span><span class="p">:</span> <span class="s1">&#39;RGB&#39;</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span><span class="o">.</span><span class="n">add_uncontrolled_variable</span><span class="p">(</span><span class="n">py_dictionary</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Add an uncontrol variable with valid keyword arguaments.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span><span class="o">.</span><span class="n">add_uncontrolled_variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;star&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                    <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;W s&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                    <span class="n">dataset_type</span><span class="o">=</span><span class="s1">&#39;RGB&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                    <span class="n">components</span><span class="o">=</span><span class="n">numpy_array</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Add an uncontrol variable with a <a class="reference internal" href="csdfpy.UnControlledVariable.html#uv-api"><span class="std std-ref">Uncontrolled variable</span></a> instance.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">csdfpy</span> <span class="k">import</span> <span class="n">UncontrolledVariable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">var1</span> <span class="o">=</span> <span class="n">UncontrolledVariable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;star&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                            <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;W s&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                            <span class="n">dataset_type</span><span class="o">=</span><span class="s1">&#39;RGB&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                            <span class="n">components</span><span class="o">=</span><span class="n">numpy_array</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span><span class="o">.</span><span class="n">add_uncontrolled_variable</span><span class="p">(</span><span class="n">var1</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="csdfpy.CSDModel.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>filename</em>, <em>version='0.0.9'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/csdfpy.html#CSDModel.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#csdfpy.CSDModel.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the CSD model to a file.</p>
+<p>This method allows data storage with two types file extensions.
+When the data values are stored within the file, a <code class="docutils literal notranslate"><span class="pre">.csdf</span></code> file
+extension is added. When the data values are store in an external
+file either at a local or a remote server, a <code class="docutils literal notranslate"><span class="pre">.csdfx</span></code> file
+extension is used.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;myfile&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">datamodel</span></code> is an instance of the CSDModel class.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="csdfpy.CSDModel.fft">
+<code class="descname">fft</code><span class="sig-paren">(</span><em>cv=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/csdfpy.html#CSDModel.fft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#csdfpy.CSDModel.fft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a FFT along the specified control variable (cv).</p>
+<p>Needs debugging.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="csdfpy.UnControlledVariable.html" class="btn btn-neutral float-right" title="8.3. Uncontrolled variable" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Archive/csdfpy.new.html" class="btn btn-neutral" title="8.1.2. new" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Deepansh J. Srivastava
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

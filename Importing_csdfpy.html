@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>4. Getting Satrted With csdfpy package &mdash; csdfpy 0.0.9 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="5. Examples" href="examples/examples.html" />
+    <link rel="prev" title="3. The core scientific dataset model" href="CSDModel.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> csdfpy
+          
+
+          
+            
+            <img src="_static/csdfpy.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="requirement.html">1. The requirements for csdfpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CSDModel.html">3. The core scientific dataset model</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Getting Satrted With <span class="guilabel">csdfpy</span> package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#importing-the-csdfpy-package">4.1. Importing the <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accessing-controlled-and-uncontrolled-variables">4.2. Accessing controlled and uncontrolled variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plotting-the-data">4.3. Plotting the data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/examples.html">5. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="startingFromScrach.html">6. Starting from scrach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/A fun example.html">7. A fun 🤪 example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="referenceAPI.html">8. Reference/API documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">csdfpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>4. Getting Satrted With <span class="guilabel">csdfpy</span> package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/Importing_csdfpy.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="getting-satrted-with-csdfpy-package">
+<h1>4. Getting Satrted With <span class="guilabel">csdfpy</span> package<a class="headerlink" href="#getting-satrted-with-csdfpy-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="importing-the-csdfpy-package">
+<h2>4.1. Importing the <span class="guilabel">csdfpy</span> package<a class="headerlink" href="#importing-the-csdfpy-package" title="Permalink to this headline">¶</a></h2>
+<p>We have put together a set of guidelines for importing <span class="guilabel">csdfpy</span>
+package and the related functionality. We encourage the users to follow these
+guidelines to promote consistency amongst others.
+The package is imported as,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">csdfpy</span> <span class="k">as</span> <span class="nn">cp</span>  
+</pre></div>
+</div>
+<p>To load a <code class="docutils literal notranslate"><span class="pre">.csdf</span></code> or a <code class="docutils literal notranslate"><span class="pre">.csdfx</span></code> file, use the <a class="reference internal" href="api/Archive/csdfpy.load.html#csdfpy.load" title="csdfpy.load"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code></a>
+method of the <span class="guilabel">csdfpy</span> package. In the following example, we use a
+sample test file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">test_file</span><span class="p">[</span><span class="s1">&#39;test01&#39;</span><span class="p">]</span>  <span class="c1"># replace this with the filename.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">testdata1</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>Here, <code class="docutils literal notranslate"><span class="pre">testdata1</span></code> is an instance of the <a class="reference internal" href="api/csdfpy.CSDModel.html#csdm-api"><span class="std std-ref">CSDModel</span></a> class.</p>
+</div>
+<div class="section" id="accessing-controlled-and-uncontrolled-variables">
+<h2>4.2. Accessing controlled and uncontrolled variables<a class="headerlink" href="#accessing-controlled-and-uncontrolled-variables" title="Permalink to this headline">¶</a></h2>
+<p>To access the controlled and uncontrolled variables, use the
+<a class="reference internal" href="api/csdfpy.CSDModel.html#csdfpy.CSDModel.controlled_variables" title="csdfpy.CSDModel.controlled_variables"><code class="xref py py-attr docutils literal notranslate"><span class="pre">controlled_variables</span></code></a> and the
+<a class="reference internal" href="api/csdfpy.CSDModel.html#csdfpy.CSDModel.uncontrolled_variables" title="csdfpy.CSDModel.uncontrolled_variables"><code class="xref py py-attr docutils literal notranslate"><span class="pre">uncontrolled_variables</span></code></a> attributes,
+respectively, of the <code class="docutils literal notranslate"><span class="pre">testdata1</span></code> instance,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">testdata1</span><span class="o">.</span><span class="n">controlled_variables</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">testdata1</span><span class="o">.</span><span class="n">uncontrolled_variables</span>
+</pre></div>
+</div>
+<p>where x and y are the tuples of <a class="reference internal" href="api/csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> and <a class="reference internal" href="api/csdfpy.UnControlledVariable.html#uv-api"><span class="std std-ref">Uncontrolled variable</span></a> objects. In the
+above example, both x and y are tuples with a single object</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;x is an </span><span class="si">{0}</span><span class="s1"> of length </span><span class="si">{1}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;y is an </span><span class="si">{0}</span><span class="s1"> of length </span><span class="si">{1}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
+<span class="go">x is an tuple of length 1.</span>
+<span class="go">y is an tuple of length 1.</span>
+</pre></div>
+</div>
+<p>The list of controlled variable coordinates is accessed through the
+<a class="reference internal" href="api/csdfpy.controlledVariable.html#csdfpy.ControlledVariable.coordinates" title="csdfpy.ControlledVariable.coordinates"><code class="xref py py-attr docutils literal notranslate"><span class="pre">coordinates</span></code></a> attribute of the
+<a class="reference internal" href="api/csdfpy.controlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> object, which follows</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span> 
+<span class="go">[0.  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9] s</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">x[0].coordinates</span></code> returns a
+<a class="reference external" href="http://docs.astropy.org/en/stable/api/astropy.units.Quantity.html#astropy.units.Quantity">Quantity</a>
+object from the
+<a class="reference external" href="http://docs.astropy.org/en/stable/units/">Astropy</a> module.
+The <span class="guilabel">csdfpy</span> module uses the units library from
+<a class="reference external" href="http://docs.astropy.org/en/stable/units/">astropy.units</a>
+to handle the physical quantities. The <cite>value</cite> and the
+<cite>unit</cite> of the physical quantities are accessed through the Quantity
+object, using the <code class="docutils literal notranslate"><span class="pre">value</span></code> and the <code class="docutils literal notranslate"><span class="pre">unit</span></code> attributes, respectively.
+Please refer to the <a class="reference external" href="http://docs.astropy.org/en/stable/units/">astropy.units</a>
+documentation for details.
+In <span class="guilabel">csdfpy</span> module, the <code class="docutils literal notranslate"><span class="pre">Quantity.value</span></code> is a
+<a class="reference external" href="https://docs.scipy.org/doc/numpy-1.15.0/reference/generated/numpy.ndarray.html">numpy array</a>.</p>
+</div>
+<p>The list of uncontrolled variables is accessed through the
+<a class="reference internal" href="api/csdfpy.UnControlledVariable.html#csdfpy.UncontrolledVariable.components" title="csdfpy.UncontrolledVariable.components"><code class="xref py py-attr docutils literal notranslate"><span class="pre">components</span></code></a>
+attribute of the <a class="reference internal" href="api/csdfpy.UnControlledVariable.html#uv-api"><span class="std std-ref">Uncontrolled variable</span></a> object. This returns a numpy array.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">components</span>
+<span class="go">[[ 0.0000000e+00  5.8778524e-01  9.5105654e-01  9.5105654e-01</span>
+<span class="go">5.8778524e-01  1.2246469e-16 -5.8778524e-01 -9.5105654e-01</span>
+<span class="go">-9.5105654e-01 -5.8778524e-01]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">components</span><span class="p">)</span>
+<span class="go">&lt;class &#39;numpy.ndarray&#39;&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The numpy array from the <a class="reference internal" href="api/csdfpy.UnControlledVariable.html#csdfpy.UncontrolledVariable.components" title="csdfpy.UncontrolledVariable.components"><code class="xref py py-attr docutils literal notranslate"><span class="pre">components</span></code></a>
+attribute has <span class="math notranslate nohighlight">\(d+1\)</span> dimensions, where <span class="math notranslate nohighlight">\(d\)</span> is the number of
+controlled variables.</p>
+</div>
+<p>In this example, there is only one controlled variable object, and
+therefore, <code class="docutils literal notranslate"><span class="pre">y[0].components</span></code> holds a two dimensional array of shape,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(1, 10)</span>
+</pre></div>
+</div>
+<p>The first element of the shape tuple, <code class="docutils literal notranslate"><span class="pre">(1,10)</span></code>, is the number of components
+of the uncontrolled variable. In this case, the number of components is one.
+The second element, <cite>10</cite>, is the number of points along the
+<code class="docutils literal notranslate"><span class="pre">x[0].coordinates</span></code>.</p>
+</div>
+<div class="section" id="plotting-the-data">
+<h2>4.3. Plotting the data<a class="headerlink" href="#plotting-the-data" title="Permalink to this headline">¶</a></h2>
+<p>For a demonstrative purpose, we will use Python’s
+<a class="reference external" href="https://matplotlib.org">Matplotlib library</a> for producing plots.
+The users may, however, use their favorite plotting library.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis_label</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis_label</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="resource/test.pdf" src="resource/test.pdf" />
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="controlled_variables.html#controlled-variables"><span class="std std-ref">Controlled variables</span></a>,
+<a class="reference external" href="http://docs.astropy.org/en/stable/api/astropy.units.Quantity.html#astropy.units.Quantity">Quantity</a>,
+<a class="reference external" href="https://docs.scipy.org/doc/numpy-1.15.0/reference/generated/numpy.ndarray.html">numpy array</a>,
+<a class="reference external" href="https://matplotlib.org">Matplotlib library</a></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="examples/examples.html" class="btn btn-neutral float-right" title="5. Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="CSDModel.html" class="btn btn-neutral" title="3. The core scientific dataset model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Deepansh J. Srivastava
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

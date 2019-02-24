@@ -1,0 +1,1348 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>csdfpy._gcv &mdash; csdfpy 0.0.9 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> csdfpy
+          
+
+          
+            
+            <img src="../../_static/csdfpy.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../requirement.html">1. The requirements for csdfpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CSDModel.html">3. The core scientific dataset model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Importing_csdfpy.html">4. Getting Satrted With <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">5. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../startingFromScrach.html">6. Starting from scrach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/A fun example.html">7. A fun 🤪 example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../referenceAPI.html">8. Reference/API documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">csdfpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../csdfpy.html">csdfpy</a> &raquo;</li>
+        
+      <li>csdfpy._gcv</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for csdfpy._gcv</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;Grid-controlled variable classes.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.unit</span> <span class="k">import</span> <span class="n">value_object_format</span>
+<span class="kn">from</span> <span class="nn">._utils</span> <span class="k">import</span> <span class="p">(</span>
+                    <span class="n">_assign_and_check_unit_consistency</span><span class="p">,</span>
+                    <span class="n">_check_and_assign_bool</span><span class="p">,</span>
+                    <span class="n">_check_quantity</span><span class="p">,</span>
+                    <span class="n">_check_value_object</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+
+<span class="c1"># =========================================================================== #</span>
+<span class="c1">#            Linearly Sampled Grid Controlled Variable Dimension              #</span>
+<span class="c1"># =========================================================================== #</span>
+
+<div class="viewcode-block" id="_LinearlySampledGridDimension"><a class="viewcode-back" href="../../api/Archive/csdfpy.controlled_variables._linearlySampledGridDimension.html#csdfpy._gcv._LinearlySampledGridDimension">[docs]</a><span class="k">class</span> <span class="nc">_LinearlySampledGridDimension</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A linearly sampled grid controlled dimension.</span>
+
+<span class="sd">    .. warning ::</span>
+<span class="sd">        This class should not be used directly. Instead,</span>
+<span class="sd">        use the ``CSDModel`` object to access the attributes</span>
+<span class="sd">        and methods of this class. See example, :ref:`lsgd`.</span>
+
+<span class="sd">    This class returns an object which represents a physical</span>
+<span class="sd">    controlled variable, sampled linearly along a grid dimension.</span>
+<span class="sd">    Let :math:`m_k` be the sampling interval, :math:`N_k \ge 1` be the</span>
+<span class="sd">    number of points, :math:`c_k` be the reference offset, and</span>
+<span class="sd">    :math:`o_k` be the origin offset along the :math:`k^{th}`</span>
+<span class="sd">    grid dimension, then the coordinates along the</span>
+<span class="sd">    grid dimension are given as</span>
+
+<span class="sd">    .. math ::</span>
+<span class="sd">        \mathbf{X}_k^\mathrm{ref} = [m_k j ]_{j=0}^{N_k-1} - c_k \mathbf{1},</span>
+<span class="sd">    .. math ::</span>
+<span class="sd">        \mathbf{X}_k^\mathrm{abs} = \mathbf{X}_k^\mathrm{ref} + o_k \mathbf{1},</span>
+
+<span class="sd">    where :math:`\mathbf{X}_k^\mathrm{ref}` is an ordered array of the</span>
+<span class="sd">    reference controlled variable coordinates,</span>
+<span class="sd">    :math:`\mathbf{X}_k^\mathrm{abs}` is an ordered array of the absolute</span>
+<span class="sd">    controlled variable coordinates, and :math:`\mathbf{1}`</span>
+<span class="sd">    is an array of ones.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_sampling_type&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_non_quantitative&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_quantity&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_number_of_points&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_sampling_interval&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_origin_offset&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_reference_offset&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_reverse&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_label&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_period&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_fft_output_order&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_made_dimensionless&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_equivalencies&#39;</span><span class="p">,</span>
+
+                 <span class="s1">&#39;_reciprocal_quantity&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_reciprocal_number_of_points&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_reciprocal_sampling_interval&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_reciprocal_origin_offset&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_reciprocal_reference_offset&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_reciprocal_reverse&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_reciprocal_label&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_reciprocal_period&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_reciprocal_made_dimensionless&#39;</span><span class="p">,</span>
+
+                 <span class="s1">&#39;_coordinates&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_reciprocal_coordinates&#39;</span><span class="p">,</span>
+
+                 <span class="s1">&#39;_unit&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_dimensionless_unit&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_reciprocal_unit&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_reciprocal_dimensionless_unit&#39;</span><span class="p">,</span>
+
+                 <span class="s1">&#39;_type&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">_number_of_points</span><span class="p">,</span>
+                 <span class="n">_sampling_interval</span><span class="p">,</span>
+                 <span class="n">_reference_offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">_origin_offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">_quantity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">_reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">_label</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="n">_period</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">_fft_output_order</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">_made_dimensionless</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+
+                 <span class="n">_sampling_type</span><span class="o">=</span><span class="s2">&quot;grid&quot;</span><span class="p">,</span>
+                 <span class="n">_non_quantitative</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+
+                 <span class="n">_reciprocal_sampling_interval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">_reciprocal_reference_offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">_reciprocal_origin_offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">_reciprocal_quantity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">_reciprocal_reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">_reciprocal_label</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="n">_reciprocal_period</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">_reciprocal_made_dimensionless</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_sampling_type&#39;</span><span class="p">,</span> <span class="n">_sampling_type</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_non_quantitative&#39;</span><span class="p">,</span> <span class="n">_non_quantitative</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_type&#39;</span><span class="p">,</span> <span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_number_of_points&#39;</span><span class="p">,</span> <span class="n">_number_of_points</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_number_of_points&#39;</span><span class="p">,</span> <span class="n">_number_of_points</span><span class="p">)</span>
+
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_assign_and_check_unit_consistency</span><span class="p">(</span><span class="n">_sampling_interval</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_sampling_interval&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+        <span class="n">_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampling_interval</span><span class="o">.</span><span class="n">unit</span>
+        <span class="n">_reciprocal_unit</span> <span class="o">=</span> <span class="n">_unit</span><span class="o">**-</span><span class="mi">1</span>
+
+        <span class="c1"># Unit assignment</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_unit&#39;</span><span class="p">,</span> <span class="n">_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_unit&#39;</span><span class="p">,</span> <span class="n">_reciprocal_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_dimensionless_unit&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_dimensionless_unit&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Inverse sampling interval is calculated assuming a Fourier inverse.</span>
+        <span class="k">if</span> <span class="n">_reciprocal_sampling_interval</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_value</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">_number_of_points</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">sampling_interval</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                      <span class="p">)</span> <span class="o">*</span> <span class="n">_reciprocal_unit</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_value</span> <span class="o">=</span> <span class="n">_assign_and_check_unit_consistency</span><span class="p">(</span>
+                        <span class="n">_reciprocal_sampling_interval</span><span class="p">,</span> <span class="n">_reciprocal_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_sampling_interval&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+        <span class="c1"># reference Offset</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span><span class="n">_reference_offset</span><span class="p">,</span> <span class="n">_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reference_offset&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span>
+                    <span class="n">_reciprocal_reference_offset</span><span class="p">,</span> <span class="n">_reciprocal_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_reference_offset&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+        <span class="c1"># origin offset</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span><span class="n">_origin_offset</span><span class="p">,</span> <span class="n">_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_origin_offset&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span>
+                    <span class="n">_reciprocal_origin_offset</span><span class="p">,</span> <span class="n">_reciprocal_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_origin_offset&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+        <span class="c1"># made dimensionless, specific to NMR datasets</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_and_assign_bool</span><span class="p">(</span><span class="n">_made_dimensionless</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_made_dimensionless&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_and_assign_bool</span><span class="p">(</span><span class="n">_reciprocal_made_dimensionless</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_made_dimensionless&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+        <span class="c1"># reverse</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_and_assign_bool</span><span class="p">(</span><span class="n">_reverse</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reverse&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_and_assign_bool</span><span class="p">(</span><span class="n">_reciprocal_reverse</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_reverse&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+        <span class="c1"># fft_ouput_order</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_and_assign_bool</span><span class="p">(</span><span class="n">_fft_output_order</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_fft_output_order&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+        <span class="c1"># period</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span><span class="n">_period</span><span class="p">,</span> <span class="n">_unit</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_value</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="o">*</span><span class="n">_value</span><span class="o">.</span><span class="n">unit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_period&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span><span class="n">_reciprocal_period</span><span class="p">,</span> <span class="n">_reciprocal_unit</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_value</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="o">*</span><span class="n">_value</span><span class="o">.</span><span class="n">unit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_period&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+        <span class="c1"># quantity</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_quantity</span><span class="p">(</span><span class="n">_quantity</span><span class="p">,</span> <span class="n">_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_quantity&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_quantity</span><span class="p">(</span><span class="n">_reciprocal_quantity</span><span class="p">,</span> <span class="n">_reciprocal_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_quantity&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+        <span class="c1"># label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_label&#39;</span><span class="p">,</span> <span class="n">_label</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_label&#39;</span><span class="p">,</span> <span class="n">_reciprocal_label</span><span class="p">)</span>
+
+        <span class="c1"># coordinates along the dimension</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_coordinates&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_coordinates&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_coordinates</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_reciprocal_coordinates</span><span class="p">()</span>
+
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+<span class="c1">#                                Class Methods                                #</span>
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+
+    <span class="k">def</span> <span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_LinearlySampledGridDimension</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__delattr__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Attribute &#39;</span><span class="si">{0}</span><span class="s2">&#39; of class &#39;</span><span class="si">{1}</span><span class="s2">&#39; </span><span class="se">\</span>
+<span class="s2">                cannot be deleted.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Attribute &#39;</span><span class="si">{0}</span><span class="s2">&#39; cannot be </span><span class="se">\</span>
+<span class="s2">                modified.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">{0}</span><span class="s2">&#39; object has no </span><span class="se">\</span>
+<span class="s2">                attribute &#39;</span><span class="si">{1}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_getparams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;_sampling_type&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_non_quantitative&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_quantity&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_number_of_points&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_sampling_interval&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_origin_offset&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_reference_offset&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_reverse&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_period&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_fft_output_order&#39;</span><span class="p">,</span>
+
+            <span class="s1">&#39;_reciprocal_quantity&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_reciprocal_number_of_points&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_reciprocal_sampling_interval&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_reciprocal_origin_offset&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_reciprocal_reference_offset&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_reciprocal_reverse&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_reciprocal_period&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_response</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sampling_type</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_non_quantitative</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_points</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampling_interval</span><span class="p">),</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span><span class="p">),</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_origin_offset</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">made_dimensionless</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_reverse</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_quantity</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_label</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fft_output_order</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_period</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">_response</span>
+
+    <span class="k">def</span> <span class="nf">_get_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span>
+        <span class="n">_number_of_points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_points</span>
+        <span class="n">_sampling_interval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampling_interval</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">_unit</span><span class="p">)</span>
+
+        <span class="n">_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">_number_of_points</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fft_output_order</span><span class="p">:</span>
+            <span class="c1"># print(&#39;in fft output order&#39;)</span>
+            <span class="n">_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">_number_of_points</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="n">_number_of_points</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+            <span class="n">_index</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">p1</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">_number_of_points</span><span class="o">//</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+            <span class="n">_index</span><span class="p">[</span><span class="n">n</span><span class="p">:]</span> <span class="o">=</span> <span class="n">p2</span>
+
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_index</span> <span class="o">*</span> <span class="n">_sampling_interval</span>
+        <span class="c1"># print(_value)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_coordinates&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_reciprocal_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_unit</span>
+        <span class="n">_number_of_points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_points</span>
+        <span class="n">_sampling_interval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reciprocal_sampling_interval</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">_unit</span><span class="p">)</span>
+
+        <span class="n">_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">_number_of_points</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+        <span class="c1"># if not self._fft_output_order:</span>
+        <span class="c1">#     if _number_of_points % 2 == 0:</span>
+        <span class="c1">#         _index -= _number_of_points/2.0</span>
+        <span class="c1">#     else:</span>
+        <span class="c1">#         _index -= (_number_of_points-1)/2.0</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_index</span> <span class="o">*</span> <span class="n">_sampling_interval</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_coordinates&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_swap_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">temp</span><span class="p">)</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">del</span> <span class="n">temp</span>
+
+    <span class="k">def</span> <span class="nf">_reciprocal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_swap_values</span><span class="p">(</span><span class="s1">&#39;_number_of_points&#39;</span><span class="p">,</span> <span class="s1">&#39;_reciprocal_number_of_points&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_swap_values</span><span class="p">(</span>
+            <span class="s1">&#39;_sampling_interval&#39;</span><span class="p">,</span> <span class="s1">&#39;_reciprocal_sampling_interval&#39;</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_swap_values</span><span class="p">(</span><span class="s1">&#39;_reference_offset&#39;</span><span class="p">,</span> <span class="s1">&#39;_reciprocal_reference_offset&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_swap_values</span><span class="p">(</span><span class="s1">&#39;_origin_offset&#39;</span><span class="p">,</span> <span class="s1">&#39;_reciprocal_origin_offset&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_swap_values</span><span class="p">(</span>
+            <span class="s1">&#39;_made_dimensionless&#39;</span><span class="p">,</span> <span class="s1">&#39;_reciprocal_made_dimensionless&#39;</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_swap_values</span><span class="p">(</span><span class="s1">&#39;_reverse&#39;</span><span class="p">,</span> <span class="s1">&#39;_reciprocal_reverse&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_swap_values</span><span class="p">(</span><span class="s1">&#39;_unit&#39;</span><span class="p">,</span> <span class="s1">&#39;_reciprocal_unit&#39;</span><span class="p">)</span>
+
+        <span class="c1"># if self._fft_output_order:</span>
+        <span class="c1">#     self.set_attribute(&#39;_fft_output_order&#39;, False)</span>
+        <span class="c1"># else:</span>
+        <span class="c1">#     self.set_attribute(&#39;_fft_output_order&#39;, True)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_swap_values</span><span class="p">(</span><span class="s1">&#39;_quantity&#39;</span><span class="p">,</span> <span class="s1">&#39;_reciprocal_quantity&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_swap_values</span><span class="p">(</span><span class="s1">&#39;_label&#39;</span><span class="p">,</span> <span class="s1">&#39;_reciprocal_label&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_swap_values</span><span class="p">(</span><span class="s1">&#39;_period&#39;</span><span class="p">,</span> <span class="s1">&#39;_reciprocal_period&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_swap_values</span><span class="p">(</span><span class="s1">&#39;_coordinates&#39;</span><span class="p">,</span> <span class="s1">&#39;_reciprocal_coordinates&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_python_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dictionary</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;number_of_points&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_points</span>
+
+        <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;sampling_interval&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_object_format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sampling_interval</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> \
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reference_offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_object_format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_reference_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> \
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_reference_offset</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">][</span><span class="s1">&#39;reference_offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_object_format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_reference_offset</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_origin_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> \
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_origin_offset</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;origin_offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_object_format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_origin_offset</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_origin_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> \
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_origin_offset</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">][</span><span class="s1">&#39;origin_offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_object_format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_origin_offset</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reverse</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reverse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_reverse</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">][</span><span class="s1">&#39;reverse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fft_output_order</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;fft_output_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_period</span><span class="o">.</span><span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_object_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_period</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_period</span><span class="o">.</span><span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">][</span><span class="s1">&#39;period&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_object_format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_period</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quantity</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="s2">&quot;dimensionless&quot;</span><span class="p">]:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quantity</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_quantity</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="s2">&quot;dimensionless&quot;</span><span class="p">]:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">][</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_quantity</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_label</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_label</span>
+
+        <span class="k">if</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="p">{}:</span>
+            <span class="k">del</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">dictionary</span>
+
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+<span class="c1">#                               Class Attributes                              #</span>
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+
+<span class="c1"># gcv type</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">variable_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return a string specifying the grid-controlled variable type.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;Linearly sampled grid controlled variable&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">unit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># &quot;&quot;&quot;</span>
+        <span class="c1"># Returns the unit associated with the physical dimension.</span>
+        <span class="c1"># For example, a unit of &quot;km/h&quot;. This attribute cannot be updated.</span>
+
+        <span class="c1"># :Return type: ``string``</span>
+        <span class="c1"># &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_made_dimensionless</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dimensionless_unit</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span>
+        <span class="k">return</span> <span class="n">unit</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">reciprocal_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># &quot;&quot;&quot;</span>
+        <span class="c1"># Returns the unit associated with the reciprocal grid dimension.</span>
+        <span class="c1"># For example, a unit a &quot;h/km&quot;. This attribute cannot be updated.</span>
+
+        <span class="c1"># :Return type: ``string``</span>
+        <span class="c1"># &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_made_dimensionless</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_dimensionless_unit</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_unit</span>
+        <span class="k">return</span> <span class="n">unit</span>
+
+<span class="c1"># made dimensionless</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">made_dimensionless</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_made_dimensionless</span>
+
+    <span class="nd">@made_dimensionless</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">made_dimensionless</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+            <span class="n">denominator</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_origin_offset</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">denominator</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">(</span>
+                    <span class="s2">&quot;Dimension cannot be made dimensionsless with </span><span class="se">\</span>
+<span class="s2">&#39;origin_offset&#39; </span><span class="si">{0}</span><span class="s2"> and &#39;reference_offset&#39; </span><span class="si">{1}</span><span class="s2">. No changes made.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_origin_offset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span><span class="p">)</span>
+                    <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_made_dimensionless&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+<span class="c1"># reciprocal made dimensionless</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">reciprocal_made_dimensionless</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_made_dimensionless</span>
+
+    <span class="nd">@reciprocal_made_dimensionless</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">reciprocal_made_dimensionless</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+            <span class="n">denominator</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_origin_offset</span> <span class="o">+</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_reference_offset</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">denominator</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">(</span><span class="s2">&quot;Dimension cannot be made</span><span class="se">\</span>
+<span class="s2">                    dimensionsless with &#39;origin_offset&#39; </span><span class="si">{0}</span><span class="s2"> and </span><span class="se">\</span>
+<span class="s2">                    &#39;reference_offset&#39; </span><span class="si">{1}</span><span class="s2">. No changes made.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_origin_offset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_made_dimensionless&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+<span class="c1"># sampling interval</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sampling_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return sampling interval, :math:`m_k`, along the grid dimension.</span>
+
+<span class="sd">        When assigning a value, the dimensionality of the value must be</span>
+<span class="sd">        consistent with the dimensionality of the other</span>
+<span class="sd">        members specifying the grid dimension. The numerical value</span>
+<span class="sd">        associated with the sampling interval must be a positive real</span>
+<span class="sd">        number. For example, a sampling_interval of &quot;0.2 cm/s&quot;.</span>
+
+<span class="sd">        .. note:: The sampling interval along a grid and the reciprocal</span>
+<span class="sd">            grid dimension follow the Nyquist–Shannon sampling theorem.</span>
+<span class="sd">            Thus, updating the ``sampling_interval`` will trigger an</span>
+<span class="sd">            update on its reciprocal counterpart.</span>
+
+<span class="sd">        :Return type: ``Quantity`` object</span>
+<span class="sd">        :Assign type: ``string``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sampling_interval</span>
+
+    <span class="nd">@sampling_interval</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">sampling_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_assign_and_check_unit_consistency</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_value</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;The numerical value of the sampling interval </span><span class="se">\</span>
+<span class="s1">                is a positive real number. A value of </span><span class="si">{0}</span><span class="s1"> is </span><span class="se">\</span>
+<span class="s1">                provide.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">_value</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_sampling_interval&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+    <span class="c1"># Reciprocal sampling interval is calculated assuming a Fourier inverse #</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_LinearlySampledGridDimension</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+            <span class="s2">&quot;_reciprocal_sampling_interval&quot;</span><span class="p">,</span>
+            <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">_value</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_number_of_points</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_coordinates</span><span class="p">()</span>
+
+<span class="c1"># reciprocal sampling interval</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">reciprocal_sampling_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return sampling interval along the reciprocal grid dimension.</span>
+
+<span class="sd">        When assigning a value, the dimensionality of the value must be</span>
+<span class="sd">        consistent with the dimensionality of the other members</span>
+<span class="sd">        specifying the reciprocal grid dimension.</span>
+<span class="sd">        For example, a reciprocal_sampling_interval of &quot;0.5 s/m&quot;.</span>
+
+<span class="sd">        :Return type: ``Quantity`` object</span>
+<span class="sd">        :Assign type: ``string``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_sampling_interval</span>
+
+    <span class="nd">@reciprocal_sampling_interval</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">reciprocal_sampling_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_assign_and_check_unit_consistency</span><span class="p">(</span>
+            <span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reciprocal_unit</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_value</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;The numerical value of the reciprocal</span><span class="se">\</span>
+<span class="s1">                sampling interval is a positive real</span><span class="se">\</span>
+<span class="s1">                number. A value of </span><span class="si">{0}</span><span class="s1"> is provide.</span><span class="se">\</span>
+<span class="s1">                &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">_value</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_sampling_interval&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+        <span class="c1"># Sampling interval is calculated assuming a Fourier inverse #</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_LinearlySampledGridDimension</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+            <span class="s2">&quot;sampling_interval&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">_value</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_number_of_points</span><span class="p">))</span>
+        <span class="c1"># self.sampling_interval = 1/(_value*self.number_of_points)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_reciprocal_coordinates</span><span class="p">()</span>
+
+<span class="c1"># The following properties will control the order of the</span>
+<span class="c1"># controlled variable coordinates</span>
+
+<span class="c1"># coordinates</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Coordinates along the dimension.</span>
+
+<span class="sd">        The ordered array, :math:`\mathbf{X}_k^\mathrm{ref}`,</span>
+<span class="sd">        along the grid dimension. The order of these coordinates</span>
+<span class="sd">        depends on the value of the ``reverse`` and the</span>
+<span class="sd">        ``fft_output_order`` attributes of the class.</span>
+
+<span class="sd">        :Return type: ``Quantity`` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coordinates</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">_number_of_points</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_made_dimensionless</span><span class="p">:</span>
+            <span class="n">_value</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_origin_offset</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span><span class="p">)</span>
+        <span class="n">coordinates</span> <span class="o">=</span> <span class="p">(</span><span class="n">coordinates</span><span class="o">/</span><span class="n">_value</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reverse</span><span class="p">:</span>
+            <span class="n">coordinates</span> <span class="o">=</span> <span class="n">coordinates</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">coordinates</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+
+<span class="c1"># reciprocal_coordinates</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">reciprocal_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reciprocal coordinates along the dimension.</span>
+
+<span class="sd">        An ordered array of controlled variable coordinates</span>
+<span class="sd">        along the reciprocal grid dimension.</span>
+<span class="sd">        The order of these coordinates</span>
+<span class="sd">        depends on the value of the ``reciprocal_reverse``</span>
+<span class="sd">        attributes of the class.</span>
+
+<span class="sd">        :Return type: ``Quantity`` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">reciprocal_coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_coordinates</span><span class="p">[</span>
+            <span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">_number_of_points</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_made_dimensionless</span><span class="p">:</span>
+            <span class="n">_value</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_origin_offset</span> <span class="o">+</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_reference_offset</span><span class="p">)</span>
+
+            <span class="n">reciprocal_coordinates</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">reciprocal_coordinates</span><span class="o">/</span><span class="n">_value</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reciprocal_unit</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_reverse</span><span class="p">:</span>
+            <span class="n">reciprocal_coordinates</span> <span class="o">=</span> <span class="n">reciprocal_coordinates</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">reciprocal_coordinates</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_reference_offset</span><span class="o">.</span><span class="n">to</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reciprocal_unit</span>
+        <span class="p">)</span></div>
+
+
+<span class="c1"># =========================================================================== #</span>
+<span class="c1">#           Arbitrarily Sampled Grid Controlled Variable Dimension            #</span>
+<span class="c1"># =========================================================================== #</span>
+
+<div class="viewcode-block" id="_ArbitrarilySampledGridDimension"><a class="viewcode-back" href="../../api/Archive/csdfpy.controlled_variables._arbitrarilySampledGridDimension.html#csdfpy._gcv._ArbitrarilySampledGridDimension">[docs]</a><span class="k">class</span> <span class="nc">_ArbitrarilySampledGridDimension</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An arbitrarily sampled grid controlled dimension.</span>
+
+<span class="sd">    .. warning ::</span>
+<span class="sd">        This class should not be used directly. Instead,</span>
+<span class="sd">        use the ``CSDModel`` object to access the attributes</span>
+<span class="sd">        and methods of this class. See example, :ref:`asgd`.</span>
+
+<span class="sd">    This class returns an object which represents a physical</span>
+<span class="sd">    controlled variable, sampled arbitrarily along a grid dimension.</span>
+<span class="sd">    Let :math:`\mathbf{A}_k` be an ordered array of physical</span>
+<span class="sd">    quantities, :math:`c_k` be the reference offset, and</span>
+<span class="sd">    :math:`o_k` be the origin offset along the :math:`k^{th}`</span>
+<span class="sd">    grid dimension, then the coordinates along this dimension</span>
+<span class="sd">    are given as</span>
+
+<span class="sd">    .. math ::</span>
+<span class="sd">        \mathbf{X}_k^\mathrm{ref} = \mathbf{A}_k - c_k \mathbf{1},</span>
+<span class="sd">    .. math ::</span>
+<span class="sd">        \mathbf{X}_k^\mathrm{abs} = \mathbf{X}_k^\mathrm{ref} + o_k \mathbf{1},</span>
+
+<span class="sd">    where :math:`\mathbf{X}_k^\mathrm{ref}` is an ordered array of the</span>
+<span class="sd">    reference controlled variable coordinates,</span>
+<span class="sd">    :math:`\mathbf{X}_k^\mathrm{abs}` is an ordered array of the absolute</span>
+<span class="sd">    controlled variable coordinates, and</span>
+<span class="sd">    :math:`\mathbf{1}` is an array of ones.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;_sampling_type&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_non_quantitative&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_quantity&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_number_of_points&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_reference_offset&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_origin_offset&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_reverse&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_label&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_period&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_made_dimensionless&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_coordinates&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_values&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_equivalencies&#39;</span><span class="p">,</span>
+
+        <span class="s1">&#39;_reciprocal_coordinates&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_reciprocal_quantity&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_reciprocal_number_of_points&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_reciprocal_origin_offset&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_reciprocal_reference_offset&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_reciprocal_reverse&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_reciprocal_label&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_reciprocal_period&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_reciprocal_made_dimensionless&#39;</span><span class="p">,</span>
+
+        <span class="s1">&#39;_unit&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_dimensionless_unit&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_reciprocal_unit&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_reciprocal_dimensionless_unit&#39;</span><span class="p">,</span>
+
+        <span class="s1">&#39;_absolute_coordinates&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_reciprocal_absolute_coordinates&#39;</span><span class="p">,</span>
+
+        <span class="s1">&#39;_type&#39;</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">_values</span><span class="p">,</span>
+            <span class="n">_reference_offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">_origin_offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">_quantity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">_reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">_label</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="n">_period</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">_made_dimensionless</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+
+            <span class="n">_sampling_type</span><span class="o">=</span><span class="s1">&#39;grid&#39;</span><span class="p">,</span>
+            <span class="n">_non_quantitative</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+
+            <span class="n">_reciprocal_reference_offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">_reciprocal_origin_offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">_reciprocal_quantity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">_reciprocal_reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">_reciprocal_label</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="n">_reciprocal_period</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">_reciprocal_made_dimensionless</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_sampling_type&#39;</span><span class="p">,</span> <span class="n">_sampling_type</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_non_quantitative&#39;</span><span class="p">,</span> <span class="n">_non_quantitative</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_type&#39;</span><span class="p">,</span> <span class="s1">&#39;non-linear&#39;</span><span class="p">)</span>
+
+        <span class="n">_unit</span> <span class="o">=</span> <span class="n">_assign_and_check_unit_consistency</span><span class="p">(</span><span class="n">_values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">unit</span>
+        <span class="n">_reciprocal_unit</span> <span class="o">=</span> <span class="n">_unit</span><span class="o">**-</span><span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_unit&#39;</span><span class="p">,</span> <span class="n">_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_unit&#39;</span><span class="p">,</span> <span class="n">_reciprocal_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_dimensionless_unit&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_dimensionless_unit&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="c1"># reference</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span><span class="n">_reference_offset</span><span class="p">,</span> <span class="n">_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reference_offset&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span><span class="n">_reciprocal_reference_offset</span><span class="p">,</span>
+                                     <span class="n">_reciprocal_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_reference_offset&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+<span class="c1"># origin offset</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span><span class="n">_origin_offset</span><span class="p">,</span> <span class="n">_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_origin_offset&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span><span class="n">_reciprocal_origin_offset</span><span class="p">,</span>
+                                     <span class="n">_reciprocal_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_origin_offset&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+<span class="c1"># made dimensionless</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_and_assign_bool</span><span class="p">(</span><span class="n">_made_dimensionless</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_made_dimensionless&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_and_assign_bool</span><span class="p">(</span><span class="n">_reciprocal_made_dimensionless</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_made_dimensionless&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+<span class="c1"># reverse</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_and_assign_bool</span><span class="p">(</span><span class="n">_reverse</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reverse&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_and_assign_bool</span><span class="p">(</span><span class="n">_reciprocal_reverse</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_reverse&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+<span class="c1"># period</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span><span class="n">_period</span><span class="p">,</span> <span class="n">_unit</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_value</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="o">*</span><span class="n">_value</span><span class="o">.</span><span class="n">unit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_period&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span><span class="n">_reciprocal_period</span><span class="p">,</span> <span class="n">_reciprocal_unit</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_value</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="o">*</span><span class="n">_value</span><span class="o">.</span><span class="n">unit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_period&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+<span class="c1"># quantity</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_quantity</span><span class="p">(</span><span class="n">_quantity</span><span class="p">,</span> <span class="n">_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_quantity&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_quantity</span><span class="p">(</span><span class="n">_reciprocal_quantity</span><span class="p">,</span> <span class="n">_reciprocal_unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_quantity&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+<span class="c1"># label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_label&#39;</span><span class="p">,</span> <span class="n">_label</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_label&#39;</span><span class="p">,</span> <span class="n">_reciprocal_label</span><span class="p">)</span>
+
+<span class="c1"># coordinates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_coordinates</span><span class="p">(</span><span class="n">_values</span><span class="p">)</span>
+
+<span class="c1"># reciprocal coordinates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_coordinates&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+<span class="c1">#                                Class Methods                                #</span>
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+
+    <span class="k">def</span> <span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_ArbitrarilySampledGridDimension</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__delattr__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="s2">&quot;attribute &#39;</span><span class="si">{0}</span><span class="s2">&#39; of class &#39;</span><span class="si">{1}</span><span class="s2">&#39; cannot be </span><span class="se">\</span>
+<span class="s2">                deleted.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="s2">&quot;attribute &#39;</span><span class="si">{0}</span><span class="s2">&#39; cannot be modified&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="s2">&quot;&#39;</span><span class="si">{0}</span><span class="s2">&#39; object has no attribute </span><span class="se">\</span>
+<span class="s2">                &#39;</span><span class="si">{1}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getparams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;_sampling_type&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_non_quantitative&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_quantity&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_number_of_points&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_reference_offset&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_origin_offset&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_reverse&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_period&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_values&#39;</span><span class="p">,</span>
+
+            <span class="s1">&#39;_reciprocal_quantity&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_reciprocal_number_of_points&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_reciprocal_origin_offset&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_reciprocal_reference_offset&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_reciprocal_reverse&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_reciprocal_period&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_response</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sampling_type</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_non_quantitative</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_points</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reference_offset</span><span class="p">),</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">origin_offset</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">made_dimensionless</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reverse</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_label</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">period</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">_response</span>
+
+    <span class="k">def</span> <span class="nf">_get_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="n">_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="p">[</span><span class="n">_assign_and_check_unit_consistency</span><span class="p">(</span>
+            <span class="n">item</span><span class="p">,</span> <span class="n">_unit</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">_unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]</span>
+
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">_value</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span><span class="o">*</span><span class="n">_unit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_number_of_points&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_number_of_points&#39;</span><span class="p">,</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_points</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_values&#39;</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_coordinates&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_python_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dictionary</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> \
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reference_offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_object_format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_reference_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> \
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_reference_offset</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">][</span><span class="s1">&#39;reference_offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_object_format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_reference_offset</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_origin_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> \
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_origin_offset</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;origin_offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_object_format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_origin_offset</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_origin_offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> \
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_origin_offset</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">][</span><span class="s1">&#39;origin_offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_object_format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_origin_offset</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reverse</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reverse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_reverse</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">][</span><span class="s1">&#39;reverse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_period</span><span class="o">.</span><span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_object_format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_period</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_period</span><span class="o">.</span><span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">][</span><span class="s1">&#39;period&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_object_format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_period</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quantity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quantity</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_quantity</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="s2">&quot;dimensionless&quot;</span><span class="p">]:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">][</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_quantity</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_label</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_label</span>
+
+        <span class="k">if</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="p">{}:</span>
+            <span class="k">del</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">dictionary</span>
+
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+<span class="c1">#                               Class Attributes                              #</span>
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+
+<span class="c1"># gcv type</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">variable_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return a string specifying the grid-controlled variable type.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;Arbitrarily sampled grid controlled variable&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">unit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the unit associated with the physical dimension.</span>
+
+<span class="sd">        For example, a unit of &quot;cm&quot;. This attribute cannot be updated.</span>
+
+<span class="sd">        :Return type: ``string``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_made_dimensionless</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dimensionless_unit</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span>
+        <span class="k">return</span> <span class="n">unit</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">reciprocal_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the unit associated with the reciprocal grid dimension.</span>
+
+<span class="sd">        For example, a unit a &quot;cm^-1&quot;. This attribute cannot be updated.</span>
+
+<span class="sd">        :Return type: ``string``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_made_dimensionless</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_dimensionless_unit</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_unit</span>
+        <span class="k">return</span> <span class="n">unit</span>
+
+<span class="c1"># made dimensionless</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">made_dimensionless</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_made_dimensionless</span>
+
+    <span class="nd">@made_dimensionless</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">made_dimensionless</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+            <span class="n">denominator</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_origin_offset</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">denominator</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">(</span>
+                    <span class="s2">&quot;Dimension cannot be made dimensionless </span><span class="se">\</span>
+<span class="s2">                    with </span><span class="se">\n</span><span class="s2">&#39;origin_offset&#39; </span><span class="si">{0}</span><span class="s2"> and </span><span class="se">\</span>
+<span class="s2">                    &#39;reference_offset&#39; </span><span class="si">{1}</span><span class="s2">. No changes were </span><span class="se">\</span>
+<span class="s2">                    made.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_origin_offset</span><span class="p">,</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_made_dimensionless&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+<span class="c1"># reciprocal made dimensionless</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">reciprocal_made_dimensionless</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_made_dimensionless</span>
+
+    <span class="nd">@reciprocal_made_dimensionless</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">reciprocal_made_dimensionless</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+            <span class="n">denominator</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_origin_offset</span> <span class="o">+</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_reference_offset</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">denominator</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">(</span>
+                    <span class="s2">&quot;Dimension cannot be made dimensionless </span><span class="se">\</span>
+<span class="s2">                    with </span><span class="se">\n</span><span class="s2">&#39;origin_offset&#39; </span><span class="si">{0}</span><span class="s2"> and </span><span class="se">\</span>
+<span class="s2">                    &#39;reference_offset&#39; </span><span class="si">{1}</span><span class="s2">. No changes </span><span class="se">\</span>
+<span class="s2">                    made.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_origin_offset</span><span class="p">,</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_made_dimensionless&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+<span class="c1"># coordinates</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Control variable coordinates along the dimension.</span>
+
+<span class="sd">        The ordered array, :math:`\mathbf{X}_k^\mathrm{ref}`,</span>
+<span class="sd">        along the grid dimension. The order of these coordinates</span>
+<span class="sd">        depends on the value of the ``reverse`` attributes of the class.</span>
+
+<span class="sd">        :Return type: ``Quantity`` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coordinates</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">_number_of_points</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_made_dimensionless</span><span class="p">:</span>
+            <span class="n">_value</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_origin_offset</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span><span class="p">)</span>
+        <span class="n">coordinates</span> <span class="o">=</span> <span class="p">(</span><span class="n">coordinates</span><span class="o">/</span><span class="n">_value</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reverse</span><span class="p">:</span>
+            <span class="n">coordinates</span> <span class="o">=</span> <span class="n">coordinates</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">coordinates</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reference_offset</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+
+<span class="c1"># reciprocal_coordinates</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">reciprocal_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reciprocal_coordinates</span></div>
+
+
+<span class="c1"># =========================================================================== #</span>
+<span class="c1">#            Non quantitative Grid Controlled Variable Dimension              #</span>
+<span class="c1"># =========================================================================== #</span>
+
+<div class="viewcode-block" id="_NonQuantitativeGridDimension"><a class="viewcode-back" href="../../api/Archive/csdfpy.controlled_variables._nonQuantitativeGridDimension.html#csdfpy._gcv._NonQuantitativeGridDimension">[docs]</a><span class="k">class</span> <span class="nc">_NonQuantitativeGridDimension</span><span class="p">:</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;_sampling_type&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_non_quantitative&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_number_of_points&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_coordinates&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_values&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_reverse&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;_label&#39;</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">_values</span><span class="p">,</span>
+            <span class="n">_sampling_type</span><span class="o">=</span><span class="s1">&#39;grid&#39;</span><span class="p">,</span>
+            <span class="n">_non_quantitative</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">_reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">_label</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_sampling_type&#39;</span><span class="p">,</span> <span class="n">_sampling_type</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_non_quantitative&#39;</span><span class="p">,</span> <span class="n">_non_quantitative</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_number_of_points&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">_values</span><span class="p">))</span>
+
+<span class="c1"># reverse</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_and_assign_bool</span><span class="p">(</span><span class="n">_reverse</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reverse&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+<span class="c1"># label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_label&#39;</span><span class="p">,</span> <span class="n">_label</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_coordinates</span><span class="p">(</span><span class="n">_values</span><span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+<span class="c1">#                                Class Methods                                #</span>
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+
+    <span class="k">def</span> <span class="nf">_get_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_values</span><span class="p">):</span>
+        <span class="n">_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">_values</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_values&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_coordinates&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_NonQuantitativeGridDimension</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__delattr__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="s2">&quot;Attribute &#39;</span><span class="si">{0}</span><span class="s2">&#39; of class &#39;</span><span class="si">{1}</span><span class="s2">&#39; cannot </span><span class="se">\</span>
+<span class="s2">                be deleted.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="s2">&quot;Attribute &#39;</span><span class="si">{0}</span><span class="s2">&#39; cannot be </span><span class="se">\</span>
+<span class="s2">                modified.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="s2">&quot;&#39;</span><span class="si">{0}</span><span class="s2">&#39; object has no attribute </span><span class="se">\</span>
+<span class="s2">                &#39;</span><span class="si">{1}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getparams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;_sampling_type&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_non_quantitative&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_values&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_reverse&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_response</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sampling_type</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_non_quantitative</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_number_of_points</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reverse</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_label</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">_response</span>
+
+    <span class="k">def</span> <span class="nf">_get_python_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dictionary</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;non_quantitative&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reverse</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;reverse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span>
+
+        <span class="k">return</span> <span class="n">dictionary</span>
+
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+<span class="c1">#                               Class Attributes                              #</span>
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+
+<span class="c1"># gcv type</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">variable_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a string specifying the grid-controlled variable type.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;Non-quantitative grid controlled variable&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">axis_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span>
+
+<span class="c1"># coordinates</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :Return type: ``numpy array`` of strings.</span>
+
+<span class="sd">        The attribute returns the controlled variable coordinates</span>
+<span class="sd">        along the dimension. The order of these coordinates</span>
+<span class="sd">        depends on the value of the ``reverse`` attribute of the class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coordinates</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reverse</span><span class="p">:</span>
+            <span class="n">coordinates</span> <span class="o">=</span> <span class="n">coordinates</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">coordinates</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Deepansh J. Srivastava
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

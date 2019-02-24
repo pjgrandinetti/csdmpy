@@ -1,0 +1,1239 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>csdfpy.uv &mdash; csdfpy 0.0.9 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> csdfpy
+          
+
+          
+            
+            <img src="../../_static/csdfpy.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../requirement.html">1. The requirements for csdfpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CSDModel.html">3. The core scientific dataset model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Importing_csdfpy.html">4. Getting Satrted With <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">5. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../startingFromScrach.html">6. Starting from scrach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/A fun example.html">7. A fun 🤪 example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../referenceAPI.html">8. Reference/API documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">csdfpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../csdfpy.html">csdfpy</a> &raquo;</li>
+        
+      <li>csdfpy.uv</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for csdfpy.uv</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;Uncontrolled variable object: attributes and methods.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">._utils</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">_assign_and_check_unit_consistency</span><span class="p">,</span>
+    <span class="n">_check_quantity</span><span class="p">,</span>
+    <span class="n">_check_encoding</span><span class="p">,</span>
+    <span class="n">_check_numeric_type</span><span class="p">,</span>
+    <span class="n">_check_dataset_type</span><span class="p">,</span>
+    <span class="n">numpy_dtype_to_numeric_type</span><span class="p">,</span>
+    <span class="n">_type_message</span><span class="p">,</span>
+    <span class="n">_axis_label</span><span class="p">,</span>
+    <span class="n">_get_dictionary</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
+
+<span class="kn">from</span> <span class="nn">.unit</span> <span class="k">import</span> <span class="n">value_object_format</span>
+<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="k">import</span> <span class="n">urlopen</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="k">import</span> <span class="n">urlparse</span>
+
+
+<span class="k">def</span> <span class="nf">_get_absolute_data_address</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the absolute path address of a local data file.</span>
+
+<span class="sd">    :params: data_path:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_data_abs_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+    <span class="n">_file_abs_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="n">_common_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">commonpath</span><span class="p">([</span><span class="n">_data_abs_path</span><span class="p">,</span> <span class="n">_file_abs_path</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">_common_path</span> <span class="o">!=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">_file_abs_path</span><span class="p">[:</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">file</span><span class="p">)])):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="s2">&quot;invalid path to external data file, &#39;</span><span class="si">{0}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">_data_abs_path</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="n">_relative_path_to_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">file</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">_relative_path_to_data</span> <span class="o">=</span> <span class="n">_data_abs_path</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">_common_path</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="n">_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_common_path</span><span class="p">,</span>
+                         <span class="n">_relative_path_to_file</span><span class="p">,</span>
+                         <span class="n">_relative_path_to_data</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="s1">&#39;file:&#39;</span><span class="o">+</span><span class="n">_path</span>
+
+
+<span class="k">def</span> <span class="nf">_get_relative_data_address</span><span class="p">(</span><span class="n">data_absolute_uri</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">data_absolute_uri</span><span class="p">)</span>
+    <span class="n">_data_abs_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">_file_abs_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="n">_common_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">commonpath</span><span class="p">([</span><span class="n">_data_abs_path</span><span class="p">,</span> <span class="n">_file_abs_path</span><span class="p">])</span>
+    <span class="n">_data_rel_path</span> <span class="o">=</span> <span class="n">_data_abs_path</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">_common_path</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="s1">&#39;file:./&#39;</span><span class="o">+</span><span class="n">_data_rel_path</span>
+
+
+<span class="k">def</span> <span class="nf">_get_absolute_uri_path</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">uri</span>
+    <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">netloc</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">_get_absolute_data_address</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span>
+
+
+<div class="viewcode-block" id="UncontrolledVariable"><a class="viewcode-back" href="../../api/csdfpy.UnControlledVariable.html#csdfpy.UncontrolledVariable">[docs]</a><span class="k">class</span> <span class="nc">UncontrolledVariable</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Uncontrolled variable class.</span>
+
+<span class="sd">    This class returns an object which represents an uncontrol variable.</span>
+<span class="sd">    Each uncontrol variable, :math:`y_\alpha`, resides in a</span>
+<span class="sd">    :math:`p_\alpha`-dimensional space, for example, a scalar resides in an</span>
+<span class="sd">    one-dimensional space, a vector resides in a :math:`n`-dimensional vector</span>
+<span class="sd">    space, and a second rank symmetric tensor resides in a six-dimensional</span>
+<span class="sd">    space. We refer the coordinates of a data value from this</span>
+<span class="sd">    :math:`p_\alpha`-dimensional space as the components of the</span>
+<span class="sd">    data value. For example, if the coordinates of a magnetic field vector is</span>
+<span class="sd">    (&quot;1 T&quot;, &quot;25 mT&quot;), then &quot;1 T&quot; and &quot;25 mT&quot; are the components of the</span>
+<span class="sd">    magnetic field vector.</span>
+
+<span class="sd">    **Constructing a ControlledVariable object.**</span>
+
+<span class="sd">    There are two different ways to construct an instance of the</span>
+<span class="sd">    UncontrolledVariable class.</span>
+
+<span class="sd">    `Create an uncontrol variable using a python dictionary containing valid</span>
+<span class="sd">    keywords.` ::</span>
+
+<span class="sd">        &gt;&gt;&gt; from csdfpy import UncontrolledVariable</span>
+<span class="sd">        &gt;&gt;&gt; numpy_array = (100*np.random.rand(3,50)).astype(np.uint8))</span>
+<span class="sd">        &gt;&gt;&gt; py_dictionary = {</span>
+<span class="sd">        ...     &#39;components&#39;: numpy_array,</span>
+<span class="sd">        ...     &#39;name&#39;: &#39;star&#39;,</span>
+<span class="sd">        ...     &#39;unit&#39;: &#39;W s&#39;,</span>
+<span class="sd">        ...     &#39;quantity&#39;: &#39;energy&#39;,</span>
+<span class="sd">        ...     &#39;dataset_type&#39;: &#39;RGB&#39;</span>
+<span class="sd">        ... }</span>
+<span class="sd">        &gt;&gt;&gt; var1 = UncontrolledVariable(py_dictionary)</span>
+<span class="sd">        &gt;&gt;&gt; print(var1.data_structure)</span>
+<span class="sd">        {</span>
+<span class="sd">          &quot;name&quot;: &quot;star&quot;,</span>
+<span class="sd">          &quot;unit&quot;: &quot; s * W&quot;,</span>
+<span class="sd">          &quot;quantity&quot;: &quot;energy&quot;,</span>
+<span class="sd">          &quot;numeric_type&quot;: &quot;uint8&quot;,</span>
+<span class="sd">          &quot;dataset_type&quot;: &quot;RGB&quot;,</span>
+<span class="sd">          &quot;components&quot;: &quot;[78, 78, ...... 44, 44], [37, 37, ...... 22, 22], [72, 72, ...... 44, 44]&quot;</span>
+<span class="sd">        }</span>
+
+<span class="sd">    `Create an uncontrol variable with valid keyword arguaments.` ::</span>
+
+<span class="sd">        &gt;&gt;&gt; var2 = UncontrolledVariable(name=&#39;star&#39;,</span>
+<span class="sd">        ...                             unit=&#39;W s&#39;,</span>
+<span class="sd">        ...                             dataset_type=&#39;RGB&#39;,</span>
+<span class="sd">        ...                             components=numpy_array)</span>
+<span class="sd">        &gt;&gt;&gt; print(var2.data_structure)</span>
+<span class="sd">        {</span>
+<span class="sd">          &quot;name&quot;: &quot;star&quot;,</span>
+<span class="sd">          &quot;unit&quot;: &quot; s * W&quot;,</span>
+<span class="sd">          &quot;quantity&quot;: &quot;energy&quot;,</span>
+<span class="sd">          &quot;numeric_type&quot;: &quot;uint8&quot;,</span>
+<span class="sd">          &quot;dataset_type&quot;: &quot;RGB&quot;,</span>
+<span class="sd">          &quot;components&quot;: &quot;[78, 78, ...... 44, 44], [37, 37, ...... 22, 22], [72, 72, ...... 44, 44]&quot;</span>
+<span class="sd">        }</span>
+
+<span class="sd">    The above two examples create two different UncontrolledVariable objects,</span>
+<span class="sd">    with the same content, but, using two different approaches.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;uv&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a new instance of UncontrolVariable object.&quot;&quot;&quot;</span>
+        <span class="c1"># if args != () and isinstance(args[0], ControlledVariable):</span>
+        <span class="c1">#     print(&#39;inside __new__. arg&#39;)</span>
+        <span class="c1">#     return args[0]</span>
+        <span class="c1"># else:</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">UncontrolledVariable</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="c1"># instance.__init__(*args, **kwargs)</span>
+        <span class="k">return</span> <span class="n">instance</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize an instance of UncontrolVariable object.&quot;&quot;&quot;</span>
+        <span class="n">dictionary</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;component_labels&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;encoding&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;numeric_type&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;dataset_type&#39;</span><span class="p">:</span> <span class="s1">&#39;scalar&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;components&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;components_URI&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;sampling_schedule&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;filename&#39;</span><span class="p">:</span> <span class="vm">__file__</span>
+        <span class="p">}</span>
+
+        <span class="n">default_keys</span> <span class="o">=</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="n">input_dict</span> <span class="o">=</span> <span class="n">_get_dictionary</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">input_keys</span> <span class="o">=</span> <span class="n">input_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">input_keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">default_keys</span><span class="p">:</span>
+                <span class="n">dictionary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;filename&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span>
+
+        <span class="n">_uv_object</span> <span class="o">=</span> <span class="n">_UnControlledVariable</span><span class="p">(</span>
+                    <span class="n">_name</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+                    <span class="n">_unit</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;unit&#39;</span><span class="p">],</span>
+                    <span class="n">_quantity</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">],</span>
+                    <span class="n">_encoding</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;encoding&#39;</span><span class="p">],</span>
+                    <span class="n">_numeric_type</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;numeric_type&#39;</span><span class="p">],</span>
+                    <span class="n">_dataset_type</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;dataset_type&#39;</span><span class="p">],</span>
+                    <span class="n">_component_labels</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;component_labels&#39;</span><span class="p">],</span>
+                    <span class="n">_components</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;components&#39;</span><span class="p">],</span>
+                    <span class="n">_components_uri</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;components_URI&#39;</span><span class="p">],</span>
+                    <span class="n">_sampling_schedule</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;sampling_schedule&#39;</span><span class="p">],</span>
+                    <span class="n">_filename</span><span class="o">=</span><span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span>
+                <span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">UncontrolledVariable</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="s1">&#39;uv&#39;</span><span class="p">,</span> <span class="n">_uv_object</span><span class="p">)</span>
+
+<span class="c1"># =========================================================================== #</span>
+<span class="c1">#                                 Attributes                                  #</span>
+<span class="c1"># =========================================================================== #</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string containing the name of the uncontrolled variable.</span>
+
+<span class="sd">        This attribute is editable. For example, ::</span>
+
+<span class="sd">            &gt;&gt;&gt; y.name</span>
+<span class="sd">            star</span>
+<span class="sd">            &gt;&gt;&gt; y.name = &#39;rock star&#39;</span>
+
+<span class="sd">        In the above example, ``y`` is an instance of the UncontrolledVariable</span>
+<span class="sd">        class.</span>
+
+<span class="sd">        :returns: A string.</span>
+<span class="sd">        :raises TypeError: When the assigned value is not a string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span>
+
+    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">_type_message</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_name&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+<span class="c1"># Unit #</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">unit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the unit associated the uncontrolled variable values.</span>
+
+<span class="sd">        This attribute cannot be edited. To convert the unit, use the ``to``</span>
+<span class="sd">        method of the class. ::</span>
+
+<span class="sd">            &gt;&gt;&gt; y.unit</span>
+<span class="sd">            W s</span>
+
+<span class="sd">        :returns: A ``unit`` object.</span>
+<span class="sd">        :raises AttributeError: When assigned a value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">_unit</span><span class="p">)</span>
+
+    <span class="nd">@unit</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">unit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="s2">&quot;`unit` attribute cannot be modified. Use ``to`` method for unit &quot;</span>
+            <span class="s2">&quot;conversion.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">quantity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string with a quantity name of the uncontrolled variable.</span>
+
+<span class="sd">        When assigning a value, the attribute raises a</span>
+<span class="sd">        NotImplementedError. ::</span>
+
+<span class="sd">            &gt;&gt;&gt; y.quantity</span>
+<span class="sd">            energy</span>
+
+<span class="sd">        :returns: A string.</span>
+<span class="sd">        :raises NotImplementedError: When assigning a value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">_quantity</span><span class="p">)</span>
+
+    <span class="nd">@quantity</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">quantity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="s1">&#39;The feature to modify the `quantity` attribute is not yet &#39;</span>
+                <span class="s1">&#39;implemented.&#39;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">encoding</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string describing the encoding method.</span>
+
+<span class="sd">        The attribute hold the value that determines the method used when</span>
+<span class="sd">        storing the data values to a file. Currently, there are</span>
+<span class="sd">        three valid encoding methods:</span>
+
+<span class="sd">        | ``raw``</span>
+<span class="sd">        | ``base64``</span>
+<span class="sd">        | ``none``</span>
+
+<span class="sd">        The value, `raw`, mean that data is stored as binary data.</span>
+<span class="sd">        The value, `base64`, implies that the data is stored as</span>
+<span class="sd">        a base64 string, while, `none` refers to text-based storage. This</span>
+<span class="sd">        attribute of the class is *only* relavent when storing the data</span>
+<span class="sd">        to a file and is specified as a string containing a *valid* encoding</span>
+<span class="sd">        method, for example, ::</span>
+
+<span class="sd">            &gt;&gt;&gt; y.encoding = &#39;base64&#39;</span>
+
+<span class="sd">        :returns: A string.</span>
+<span class="sd">        :raises ValueError: If an invalid value is assigned.</span>
+<span class="sd">        :raises TypeError: When the assigned value is not a string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">_encoding</span><span class="p">)</span>
+
+    <span class="nd">@encoding</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">encoding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">_type_message</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">_check_encoding</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_encoding&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">numeric_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string describing the numeric type of data values.</span>
+
+<span class="sd">        There are currently thirteen valid numeric types which are:</span>
+
+<span class="sd">        ==============   ============   ============   ============</span>
+<span class="sd">        ``uint8``        ``int8``       ``float16``    ``complex64``</span>
+<span class="sd">        ``uint16``       ``int16``      ``float32``    ``complex128``</span>
+<span class="sd">        ``uint32``       ``int32``      ``float64``</span>
+<span class="sd">        ``uint64``       ``int64``</span>
+<span class="sd">        ==============   ============   ============   ============</span>
+
+<span class="sd">        When assigning a value, this attribute updates the `numeric type` as</span>
+<span class="sd">        well as the `dtype` of the numpy array from the corresponding</span>
+<span class="sd">        ``components`` attribute. We recommended using the numeric type to</span>
+<span class="sd">        change the `dtype` of the numpy array. For example, ::</span>
+
+<span class="sd">            &gt;&gt;&gt; y.components</span>
+<span class="sd">            [[0.56928902 0.44169458 0.68068357 0.24362424 0.25700121]]</span>
+<span class="sd">            &gt;&gt;&gt; y.numeric_type</span>
+<span class="sd">            float64</span>
+<span class="sd">            &gt;&gt;&gt; y.numeric_type = &#39;complex64&#39;</span>
+<span class="sd">            &gt;&gt;&gt; y.components</span>
+<span class="sd">            [[0.569289  +0.j 0.4416946 +0.j 0.68068355+0.j 0.24362424+0.j  0.25700122+0.j]]</span>
+
+<span class="sd">        :returns: A string.</span>
+<span class="sd">        :raises ValueError: If an invalid key-value is assigned.</span>
+<span class="sd">        :raises TypeError: When the assigned value is not a string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">_numeric_type</span><span class="p">)</span>
+
+    <span class="nd">@numeric_type</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">numeric_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">_type_message</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
+        <span class="n">_va</span><span class="p">,</span> <span class="n">npType</span> <span class="o">=</span> <span class="n">_check_numeric_type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_numeric_type&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_npType&#39;</span><span class="p">,</span> <span class="n">npType</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span>
+            <span class="s1">&#39;_components&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">npType</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dataset_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string describing the dataset type of data values.</span>
+
+<span class="sd">        There are currently six dataset types,</span>
+
+<span class="sd">        | ``RGB``</span>
+<span class="sd">        | ``RGBA``</span>
+<span class="sd">        | ``scalar``</span>
+<span class="sd">        | ``vector_n``</span>
+<span class="sd">        | ``matrix_n_m``</span>
+<span class="sd">        | ``symmetric_matrix_n``</span>
+
+<span class="sd">        Here `n` and `m` are integers. The attribute can also be used</span>
+<span class="sd">        to assign a ``dataset_type`` to the dataset. ::</span>
+
+<span class="sd">            &gt;&gt;&gt; y.dataset_type</span>
+<span class="sd">            RGB</span>
+<span class="sd">            &gt;&gt;&gt; y.dataset_type = &#39;vector_3&#39;</span>
+
+<span class="sd">        :returs: A string.</span>
+<span class="sd">        :raise ValueError: If an invalid value is assigned.</span>
+<span class="sd">        :raises TypeError: When the assigned value is not a string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">_dataset_type</span><span class="p">)</span>
+
+    <span class="nd">@dataset_type</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">dataset_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">_type_message</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
+        <span class="n">value</span><span class="p">,</span> <span class="n">component</span> <span class="o">=</span> <span class="n">_check_dataset_type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_dataset_type&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">component_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return an ordered array of labels.</span>
+
+<span class="sd">        The labels in the ordered array are associated with the ordered array</span>
+<span class="sd">        of components from the ``components`` attribute.</span>
+<span class="sd">        The individual labels are accessed with proper indexing,</span>
+<span class="sd">        for example, ::</span>
+
+<span class="sd">            &gt;&gt;&gt; y.component_labels</span>
+<span class="sd">            [&#39;dxx&#39;, &#39;dxy&#39;, &#39;dxz&#39;, &#39;dyy&#39;, &#39;dyz&#39;, &#39;dzz&#39;]</span>
+<span class="sd">            &gt;&gt;&gt; y.component_labels[2]</span>
+<span class="sd">            &#39;dxz&#39;</span>
+
+<span class="sd">        Similarly, when assigning a value, ::</span>
+
+<span class="sd">            &gt;&gt;&gt; y.component_labels = [&#39;x&#39;, &#39;y&#39;, &#39;z&#39;]</span>
+
+<span class="sd">        .. todo::</span>
+<span class="sd">            Check the component labels.</span>
+
+<span class="sd">        :raises TypeError: When the assigned value is not a string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">_component_labels</span><span class="p">)</span>
+
+    <span class="nd">@component_labels</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">component_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_compnents_label</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">axis_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the axis label associated with the dimension.</span>
+
+<span class="sd">        This supplementary attribute is convenient for labeling axes.</span>
+<span class="sd">        For quantitative controlled variables, this attributes returns a</span>
+<span class="sd">        string, &#39;label / unit&#39;,  if the label is not an empty string. If the</span>
+<span class="sd">        label is an empty string, &#39;quantity / unit’ is returned instead.</span>
+<span class="sd">        For example, consider a temporal controlled variable where</span>
+
+<span class="sd">        &gt;&gt;&gt; x[0].label</span>
+<span class="sd">        &#39;&#39;</span>
+<span class="sd">        &gt;&gt;&gt; x[0].axis_label</span>
+<span class="sd">        &#39;speed / m/s&#39;</span>
+
+<span class="sd">        For non-quantitative controlled variables, this attribute returns</span>
+<span class="sd">        the &#39;label&#39;.</span>
+
+<span class="sd">        :returns: A string.</span>
+<span class="sd">        :raises AttributeError: When assigned a value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">component_labels</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_axis_label</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">_unit</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">labels</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">components</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the components of data values.</span>
+
+<span class="sd">        The value of the ``components`` attribute of the uncontrolled variables</span>
+<span class="sd">        :math:`y_\alpha`, is a numpy array of shape</span>
+<span class="sd">        :math:`(p_\alpha \times N_{d-1} \times ... N_1 \times N_0)` where</span>
+<span class="sd">        :math:`p_\alpha` is the number of components, and :math:`N_k` is the</span>
+<span class="sd">        number of points sampled along the :math:`k^\mathrm{th}` controlled</span>
+<span class="sd">        variable. The total number of dimensions of this array is :math:`d+1`</span>
+<span class="sd">        where :math:`d` is number of controlled variables. Note, the</span>
+<span class="sd">        shape of the numpy array follows a reverse order based on the ordered</span>
+<span class="sd">        list of controlled variables, that is, the :math:`k^\mathrm{th}`</span>
+<span class="sd">        controlled variable lies along the :math:`(d-k)^\mathrm{th}` axis of</span>
+<span class="sd">        the numpy array. Thus, the first controlled variable, :math:`x_0`</span>
+<span class="sd">        with :math:`N_0` points, is the last axis, :math:`d`, and the last</span>
+<span class="sd">        controlled variable, :math:`x_{d-1}` with :math:`N_{d-1}` points, is</span>
+<span class="sd">        the first axis of the numpy array. The zeroth axis, with</span>
+<span class="sd">        :math:`p_\alpha` points is the number of components.</span>
+
+<span class="sd">        This attribute can only be updated when the shape of the new array is</span>
+<span class="sd">        the same as the shape of the components array.</span>
+
+<span class="sd">        For example, let ::</span>
+
+<span class="sd">            &gt;&gt;&gt; y.components</span>
+<span class="sd">            [[0.3823 0.4595 0.4944 0.9614 0.814 ]]</span>
+<span class="sd">            &gt;&gt;&gt; y.numeric_type</span>
+<span class="sd">            float16</span>
+
+<span class="sd">        be a one component uncontrolled variable with five data values. The</span>
+<span class="sd">        numeric type of data values, in this example, is ``float16``. To</span>
+<span class="sd">        update the components array, the ``components`` attribute is assigned</span>
+<span class="sd">        with an array whose shape is (1,5). In the following example, a numpy</span>
+<span class="sd">        array of random values is assigned to the ``components`` attribute. ::</span>
+
+<span class="sd">            &gt;&gt;&gt; y.components = np.random.rand(1,5)</span>
+<span class="sd">            [[0.01616425 0.25530287 0.15347935 0.07685529 0.19680315]]</span>
+<span class="sd">            &gt;&gt;&gt; y.numeric_type</span>
+<span class="sd">            float64</span>
+
+<span class="sd">        Notice, the value of the ``numeric_type`` attribute is updated based on</span>
+<span class="sd">        the `dtype` of the numpy array. In this other example, ::</span>
+
+<span class="sd">            &gt;&gt;&gt; y.components = np.random.rand(1,10)</span>
+<span class="sd">            ---------------------------------------------------------------------------</span>
+<span class="sd">            ValueError                                Traceback (most recent call last)</span>
+
+<span class="sd">            &lt;ipython-input-20-a2621a428043&gt; in &lt;module&gt;()</span>
+<span class="sd">            ----&gt; 1 dts.uncontrolled_variables[0].components = np.random.rand(1,10)</span>
+<span class="sd">                2 # print(dts.uncontrolled_variables[0].components)</span>
+<span class="sd">                3 # print(dts.uncontrolled_variables[0].numeric_type)</span>
+<span class="sd">            ~/csdfpy/uv.py in components(self, value)</span>
+<span class="sd">                367                     &quot;shape of the components array, `{2}`.&quot;</span>
+<span class="sd">                368                 ).format(</span>
+<span class="sd">            --&gt; 369                     value.__class__.__name__,</span>
+<span class="sd">                370                     value.shape,</span>
+<span class="sd">                371                     self.components.shape</span>
+
+<span class="sd">            ValueError: The shape of `ndarray`, `(1, 10)`, is not consistent with</span>
+<span class="sd">            the shape of the components array, `(1, 5)`.</span>
+
+<span class="sd">        a ``ValueError`` is raised because the shape of input array (1,10) is</span>
+<span class="sd">        not consistent with the shape of the components array, (1,5).</span>
+
+<span class="sd">        :returns: A ``numpy array``.</span>
+<span class="sd">        :raises ValueError: When assigning an array whose shape is</span>
+<span class="sd">            not consistent with the shape of the components array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">_components</span>
+
+    <span class="nd">@components</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">components</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">_set_components</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;The shape of `</span><span class="si">{0}</span><span class="s2">`, `</span><span class="si">{1}</span><span class="s2">`, is not consistent with the &quot;</span>
+                    <span class="s2">&quot;shape of the components array, `</span><span class="si">{2}</span><span class="s2">`.&quot;</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                    <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">shape</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">components_uri</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the uri of the data file where data components are stored.</span>
+
+<span class="sd">        This attribute is only informative and cannot be modified. Its value is</span>
+<span class="sd">        a string containing the local or remote address of a file where the</span>
+<span class="sd">        data values are stored.</span>
+
+<span class="sd">        :returns: A string</span>
+<span class="sd">        :raises AttributeError: When assigining a value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">_components_uri</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;NotImplemented.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">_sampling_schedule</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the UncontrolledVariable object as a json object.</span>
+
+<span class="sd">        This attribute is useful for a quick view of the data structure. Note,</span>
+<span class="sd">        the JSON object from this attribute is not the same as the one written</span>
+<span class="sd">        to the file. For convenience, the values from the ``components``</span>
+<span class="sd">        attribute are truncated to the first and the last two numbers per</span>
+<span class="sd">        component. Also, the encoding keyword is hidden from this view.</span>
+<span class="sd">        Further, this attribute cannot be modified. ::</span>
+
+<span class="sd">            &gt;&gt;&gt; print(y.data_structure)</span>
+<span class="sd">            {</span>
+<span class="sd">              &quot;name&quot;: &quot;rock star&quot;,</span>
+<span class="sd">              &quot;unit&quot;: &quot; s * W&quot;,</span>
+<span class="sd">              &quot;quantity&quot;: &quot;energy&quot;,</span>
+<span class="sd">              &quot;numeric_type&quot;: &quot;uint8&quot;,</span>
+<span class="sd">              &quot;dataset_type&quot;: &quot;RGB&quot;,</span>
+<span class="sd">              &quot;components&quot;: &quot;[4, 4, ...... 88, 88], [79, 79, ...... 47, 47], [63, 63, ...... 71, 71]&quot;</span>
+<span class="sd">            }</span>
+
+
+<span class="sd">        :raises AttributeError: When modified.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dictionary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_python_dictionary</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># =========================================================================== #</span>
+<span class="c1">#                                  Methods                                    #</span>
+<span class="c1"># =========================================================================== #</span>
+
+    <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;NotImplemented.&quot;&quot;&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">_assign_and_check_unit_consistency</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_unit&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="o">*</span><span class="n">value</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="o">*</span><span class="n">value</span><span class="o">.</span><span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_components&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">*</span><span class="n">value</span><span class="p">)</span>
+
+<div class="viewcode-block" id="UncontrolledVariable.to"><a class="viewcode-back" href="../../api/csdfpy.UnControlledVariable.html#csdfpy.UncontrolledVariable.to">[docs]</a>    <span class="k">def</span> <span class="nf">to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;NotImplemented.&quot;&quot;&quot;</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_components&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">*</span><span class="n">factor</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_unit&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">reshape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reshape the components array.</span>
+
+<span class="sd">        The array id reshaped relative to the number of points in controlled</span>
+<span class="sd">        variables. Let :math:`N_k` be the number of points sampled along the</span>
+<span class="sd">        :math:`k^\mathrm{th}` control variable, then the shape of the</span>
+<span class="sd">        ``component`` array is</span>
+<span class="sd">        :math:`(p_\alpha \times N_{d-1} \times ... N_1 \times N_0)` where</span>
+<span class="sd">        :math:`p_\alpha` is the number of components.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">_total_components</span><span class="p">,)</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">nptype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">_npType</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span>
+            <span class="s1">&#39;_components&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">),</span>
+                                      <span class="n">dtype</span><span class="o">=</span><span class="n">nptype</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_python_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dataset_index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                              <span class="n">for_display</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the UnontrolledVariable object as a python dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">_get_python_dictionary</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span>
+                                              <span class="n">dataset_index</span><span class="p">,</span>
+                                              <span class="n">for_display</span><span class="p">,</span>
+                                              <span class="n">version</span><span class="p">)</span></div>
+
+
+<span class="k">class</span> <span class="nc">_UnControlledVariable</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An uncontrolled variable core object.</span>
+
+<span class="sd">        keywork aruament :</span>
+<span class="sd">          name : any string</span>
+<span class="sd">          format : either &#39;binary&#39; or &#39;text&#39;.</span>
+<span class="sd">          data_type : one of &#39;float32&#39;, &#39;float64&#39;, &#39;comple64&#39; or &#39;complex128&#39;.</span>
+<span class="sd">          unit : unit associated with the dataset.</span>
+<span class="sd">          quantity : the physical qunatity associated with the dataset.</span>
+<span class="sd">          values : ordered array in format specified at keywords &#39;format&#39;</span>
+<span class="sd">                   and &#39;data_type&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_name&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_unit&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_quantity&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_encoding&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_numeric_type&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_dataset_type&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_component_labels&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_components&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_components_uri&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_sampling_schedule&#39;</span><span class="p">,</span>
+
+                 <span class="s1">&#39;_npType&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_total_components&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;_filename&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="n">_unit</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="n">_quantity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">_encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">_numeric_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">_dataset_type</span><span class="o">=</span><span class="s1">&#39;scalar&#39;</span><span class="p">,</span>
+            <span class="n">_component_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">_components</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">_components_uri</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">_sampling_schedule</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">_filename</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">_components</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">_components_uri</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;Either &#39;</span><span class="si">{0}</span><span class="s2">&#39; or &#39;</span><span class="si">{1}</span><span class="s2">&#39; is not present.&quot;</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;components&#39;</span><span class="p">,</span> <span class="s1">&#39;components_URI&#39;</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="c1"># unit, name, and quantity</span>
+        <span class="n">_va</span> <span class="o">=</span> <span class="n">_assign_and_check_unit_consistency</span><span class="p">(</span><span class="n">_unit</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_unit&#39;</span><span class="p">,</span> <span class="n">_va</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_name&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">_name</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_quantity&#39;</span><span class="p">,</span> <span class="n">_check_quantity</span><span class="p">(</span><span class="n">_quantity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span><span class="p">))</span>
+
+        <span class="c1"># dataset_tpye</span>
+        <span class="n">_va</span><span class="p">,</span> <span class="n">total_components</span> <span class="o">=</span> <span class="n">_check_dataset_type</span><span class="p">(</span><span class="n">_dataset_type</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_dataset_type&#39;</span><span class="p">,</span> <span class="n">_va</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_total_components&#39;</span><span class="p">,</span> <span class="n">total_components</span><span class="p">)</span>
+
+        <span class="c1"># components label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_compnents_label</span><span class="p">(</span><span class="n">_component_labels</span><span class="p">)</span>
+
+        <span class="c1"># if components is a python list</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_components</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">_encoding</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="s1">&#39;raw&#39;</span><span class="p">,</span> <span class="s1">&#39;base64&#39;</span><span class="p">]:</span>
+                <span class="n">_components</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">_components</span><span class="p">)</span>
+
+        <span class="c1"># if components is numpy array</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_components</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="c1"># encoding</span>
+            <span class="n">_encoding</span> <span class="o">=</span> <span class="s1">&#39;base64&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_encoding&#39;</span><span class="p">,</span> <span class="n">_check_encoding</span><span class="p">(</span><span class="n">_encoding</span><span class="p">))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_components</span><span class="p">(</span><span class="n">_components</span><span class="p">,</span> <span class="n">_numeric_type</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_components_uri&#39;</span><span class="p">,</span> <span class="n">_components_uri</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># encoding</span>
+            <span class="k">if</span> <span class="n">_encoding</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`encoding` type not specified.&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_encoding&#39;</span><span class="p">,</span> <span class="n">_check_encoding</span><span class="p">(</span><span class="n">_encoding</span><span class="p">))</span>
+
+            <span class="c1"># numeric type and numpy types</span>
+            <span class="k">if</span> <span class="n">_numeric_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`numeric_type` type not specified.&quot;</span><span class="p">)</span>
+            <span class="n">_va</span><span class="p">,</span> <span class="n">npType</span> <span class="o">=</span> <span class="n">_check_numeric_type</span><span class="p">(</span><span class="n">_numeric_type</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_numeric_type&#39;</span><span class="p">,</span> <span class="n">_va</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_npType&#39;</span><span class="p">,</span> <span class="n">npType</span><span class="p">)</span>
+
+            <span class="c1"># components and components URI</span>
+            <span class="k">if</span> <span class="n">_components</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">_components</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decode_components</span><span class="p">(</span><span class="n">_components</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">_components_uri</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">_absolute_URI</span> <span class="o">=</span> <span class="n">_get_absolute_uri_path</span><span class="p">(</span>
+                    <span class="n">_components_uri</span><span class="p">,</span> <span class="n">_filename</span>
+                <span class="p">)</span>
+                <span class="n">_components</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">_absolute_URI</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                <span class="n">_components</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decode_components</span><span class="p">(</span><span class="n">_components</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_components&#39;</span><span class="p">,</span> <span class="n">_components</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_components_uri&#39;</span><span class="p">,</span> <span class="n">_components_uri</span><span class="p">)</span>
+
+            <span class="c1"># sampling schedule</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            .. todo::</span>
+<span class="sd">                Support for under sampled orthogonal grid based datasets</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_sampling_schedule&#39;</span><span class="p">,</span> <span class="n">_sampling_schedule</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_UnControlledVariable</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_compnents_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">component_labels</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assign an array of strings, based on the number of components.</span>
+
+<span class="sd">        If no label is provided, a default values,</span>
+<span class="sd">        :math:`[&#39;&#39;, &#39;&#39;, N_k]`, is assigned. If the number of component labels</span>
+<span class="sd">        does not match the total number of components, a warning is raised and</span>
+<span class="sd">        the inconsistency is resolved by appropriate truncating or additing the</span>
+<span class="sd">        required number of strings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">component_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span>
+                <span class="s1">&#39;_component_labels&#39;</span><span class="p">,</span>
+                <span class="p">[</span><span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_components</span><span class="p">)]</span>
+            <span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">component_labels</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;A list of string labels is required, &quot;</span>
+                    <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> provided.&quot;</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">component_labels</span><span class="p">))</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">component_labels</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_total_components</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;The number of component labels, </span><span class="si">{0}</span><span class="s2">, &quot;</span>
+                    <span class="s2">&quot;is not equal to the number of components, &quot;</span>
+                    <span class="s2">&quot;</span><span class="si">{1}</span><span class="s2">. The inconsistency is resolved by &quot;</span>
+                    <span class="s2">&quot;appropriate truncation or addition of &quot;</span>
+                    <span class="s2">&quot;strings padding.&quot;</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">component_labels</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_total_components</span><span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="n">_lables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_components</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">component_labels</span><span class="p">):</span>
+                <span class="n">_lables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_component_labels&#39;</span><span class="p">,</span> <span class="n">_lables</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_component_labels&#39;</span><span class="p">,</span> <span class="n">component_labels</span><span class="p">)</span>
+
+<span class="c1"># =========================================================================== #</span>
+<span class="c1">#                                Private Methods                              #</span>
+<span class="c1"># =========================================================================== #</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__delattr__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete attribute.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="s2">&quot;Attribute &#39;</span><span class="si">{0}</span><span class="s2">&#39; cannot be deleted.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set attributes.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="s2">&quot;Attribute &#39;</span><span class="si">{0}</span><span class="s2">&#39; cannot be modified.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;The &#39;</span><span class="si">{0}</span><span class="s2">&#39; object has no attribute &#39;</span><span class="si">{1}</span><span class="s2">&#39;.&quot;</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_download_file_contents_from_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_check_number_of_components_and_encoding_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Verify the consistency of encoding wrt the number of components.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">length</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_total_components</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;dataset_type &#39;</span><span class="si">{0}</span><span class="s2">&#39; is non consistent with&quot;</span>
+                    <span class="s2">&quot;total number of components, </span><span class="si">{1}</span><span class="s2">&quot;</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dataset_type</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_set_components</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_components</span><span class="p">,</span> <span class="n">_numeric_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># numeric type</span>
+        <span class="k">if</span> <span class="n">_numeric_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_numeric_type</span> <span class="o">=</span> <span class="n">numpy_dtype_to_numeric_type</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">_components</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">_va</span><span class="p">,</span> <span class="n">npType</span> <span class="o">=</span> <span class="n">_check_numeric_type</span><span class="p">(</span><span class="n">_numeric_type</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_numeric_type&#39;</span><span class="p">,</span> <span class="n">_va</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_npType&#39;</span><span class="p">,</span> <span class="n">npType</span><span class="p">)</span>
+
+        <span class="c1"># components</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span>
+            <span class="s1">&#39;_components&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">_components</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_npType</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_decode_components</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_components</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Decode the components based on the encoding key value.</span>
+
+<span class="sd">        The valid encodings are &#39;base64&#39;, &#39;none&#39; (text), and &#39;raw&#39; (binary).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_val_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">_components</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encoding</span> <span class="o">==</span> <span class="s1">&#39;base64&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_number_of_components_and_encoding_key</span><span class="p">(</span><span class="n">_val_len</span><span class="p">)</span>
+            <span class="n">_components</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">item</span><span class="p">),</span>
+                                     <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_npType</span><span class="p">)</span>
+                                     <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">_components</span><span class="p">])</span>
+
+            <span class="n">_components</span><span class="o">.</span><span class="n">setflags</span><span class="p">(</span><span class="n">write</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">_components</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encoding</span> <span class="o">==</span> <span class="s1">&#39;none&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_number_of_components_and_encoding_key</span><span class="p">(</span><span class="n">_val_len</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_npType</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;&lt;c8&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;c16&#39;</span><span class="p">]:</span>
+                <span class="n">_components</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span>
+                        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">_components</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_npType</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">_components</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">_components</span><span class="p">],</span>
+                    <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_npType</span>
+                <span class="p">)</span>
+
+            <span class="n">_components</span><span class="o">.</span><span class="n">setflags</span><span class="p">(</span><span class="n">write</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">_components</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encoding</span> <span class="o">==</span> <span class="s1">&#39;raw&#39;</span><span class="p">:</span>
+            <span class="n">_components</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">_components</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_npType</span><span class="p">)</span>
+
+            <span class="n">_components</span> <span class="o">=</span> <span class="n">_components</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_total_components</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span>
+                    <span class="n">_components</span><span class="o">.</span><span class="n">size</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_components</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="n">_components</span><span class="o">.</span><span class="n">setflags</span><span class="p">(</span><span class="n">write</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">_components</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encoding</span> <span class="o">==</span> <span class="s1">&#39;ndarray&#39;</span><span class="p">:</span>
+            <span class="n">_components</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">_components</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_npType</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">_components</span>
+
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="s2">&quot;&#39;</span><span class="si">{0}</span><span class="s2">&#39; is an invalid data &#39;encoding&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_encoding</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getparams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;_unit&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_quantity&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_numeric_type&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_dataset_type&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_sampling_schedule&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_npType&#39;</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_response</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_components_uri</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unit</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_quantity</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_component_labels</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_encoding</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_numeric_type</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dataset_type</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">_response</span>
+
+    <span class="k">def</span> <span class="nf">_get_python_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dataset_index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="n">for_display</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the UnontrolledVariable object as a python dictionary.&quot;&quot;&quot;</span>
+        <span class="n">dictionary</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unit</span><span class="p">)</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;unit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_object_format</span><span class="p">(</span>
+                <span class="mf">1.0</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_unit</span><span class="p">,</span> <span class="n">numerical_value</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quantity</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;dimensionless&#39;</span><span class="p">,</span> <span class="s1">&#39;unknown&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_quantity</span>
+
+        <span class="n">print_label</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_component_labels</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">print_label</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">print_label</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;component_labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_component_labels</span>
+
+        <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;numeric_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_numeric_type</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataset_type</span> <span class="o">!=</span> <span class="s1">&#39;scalar&#39;</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;dataset_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataset_type</span>
+
+        <span class="k">if</span> <span class="n">for_display</span><span class="p">:</span>
+            <span class="n">_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_components</span><span class="p">)):</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_components</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+                <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                       <span class="nb">str</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])]</span>
+                <span class="n">_string</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;[</span><span class="si">{0}</span><span class="s2">, </span><span class="si">{1}</span><span class="s2">, ...... </span><span class="si">{2}</span><span class="s2">, </span><span class="si">{3}</span><span class="s2">], &quot;</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">lst</span><span class="p">)</span>
+                <span class="c1"># &#39;&#39;.join(</span>
+                <span class="c1">#     [</span>
+                <span class="c1">#         &#39;[ &#39;, str(temp[0]), &#39;,  &#39;, str(temp[1]),</span>
+                <span class="c1">#         &#39; ...... &#39;, str(temp[-2]), &#39;,  &#39;,</span>
+                <span class="c1">#         str(temp[-1]), &#39; ], &#39;</span>
+                <span class="c1">#     ]</span>
+                <span class="c1"># )</span>
+                <span class="n">_str</span> <span class="o">=</span> <span class="n">_str</span> <span class="o">+</span> <span class="n">_string</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;components&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_str</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">for_display</span><span class="p">:</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;encoding&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_encoding</span><span class="p">)</span>
+
+            <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_components</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_numeric_type</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;complex&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_numeric_type</span> <span class="o">==</span> <span class="s1">&#39;complex64&#39;</span><span class="p">:</span>
+                    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+                        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_components</span><span class="p">,</span> <span class="n">size</span><span class="o">*</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+                    <span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_numeric_type</span> <span class="o">==</span> <span class="s1">&#39;complex128&#39;</span><span class="p">:</span>
+                    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+                        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_components</span><span class="p">,</span> <span class="n">size</span><span class="o">*</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span>
+                    <span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_components</span><span class="p">):</span>
+                    <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_components</span><span class="o">.</span><span class="n">real</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+                    <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_components</span><span class="o">.</span><span class="n">imag</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_components</span><span class="p">,</span> <span class="n">size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_npType</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_components</span><span class="p">):</span>
+                    <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_components</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encoding</span> <span class="o">==</span> <span class="s1">&#39;none&#39;</span><span class="p">:</span>
+                <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;components&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encoding</span> <span class="o">==</span> <span class="s1">&#39;base64&#39;</span><span class="p">:</span>
+                <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;components&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span>
+                    <span class="n">item</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">c</span><span class="p">]</span>
+
+            <span class="c1"># print (&#39;before raw&#39;)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encoding</span> <span class="o">==</span> <span class="s1">&#39;raw&#39;</span><span class="p">:</span>
+                <span class="c1"># print (&#39;in raw&#39;)</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">dataset_index</span><span class="p">)</span>
+                <span class="n">file_save_path_abs</span> <span class="o">=</span> <span class="n">_get_absolute_uri_path</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;abs URI&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_components_uri</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;rel filename&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+                <span class="n">data_path_relative</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="s1">&#39;file:.&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">index</span> <span class="o">+</span> <span class="s1">&#39;.dat&#39;</span>
+                <span class="p">)</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;relative path&#39;</span><span class="p">,</span> <span class="n">data_path_relative</span><span class="p">)</span>
+                <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;components_URI&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_path_relative</span>
+
+                <span class="n">data_path_absolute</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
+                    <span class="n">urlparse</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                        <span class="n">file_save_path_abs</span><span class="p">,</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">data_path_relative</span><span class="p">)</span><span class="o">.</span><span class="n">path</span>
+                    <span class="p">))</span><span class="o">.</span><span class="n">path</span>
+                <span class="p">)</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="n">data_path_absolute</span><span class="p">)</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">data_path_absolute</span><span class="p">)</span>
+
+            <span class="n">c</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">del</span> <span class="n">c</span>
+        <span class="k">return</span> <span class="n">dictionary</span>
+
+<span class="c1"># ------------- Public Methods ------------------ #</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Deepansh J. Srivastava
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

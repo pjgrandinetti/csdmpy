@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Linearly sampled grid-controlled-variable &mdash; csdfpy 0.0.9 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> csdfpy
+          
+
+          
+            
+            <img src="../../_static/csdfpy.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../requirement.html">1. The requirements for csdfpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CSDModel.html">3. The core scientific dataset model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Importing_csdfpy.html">4. Getting Satrted With <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">5. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../startingFromScrach.html">6. Starting from scrach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/A fun example.html">7. A fun 🤪 example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../referenceAPI.html">8. Reference/API documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">csdfpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Linearly sampled grid-controlled-variable</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api/Archive/csdfpy.controlled_variables._linearlySampledGridDimension.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="linearly-sampled-grid-controlled-variable">
+<span id="lsgd-api"></span><h1>Linearly sampled grid-controlled-variable<a class="headerlink" href="#linearly-sampled-grid-controlled-variable" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="csdfpy._gcv._LinearlySampledGridDimension">
+<em class="property">class </em><code class="descclassname">csdfpy._gcv.</code><code class="descname">_LinearlySampledGridDimension</code><span class="sig-paren">(</span><em>_number_of_points</em>, <em>_sampling_interval</em>, <em>_reference_offset=None</em>, <em>_origin_offset=None</em>, <em>_quantity=None</em>, <em>_reverse=False</em>, <em>_label=''</em>, <em>_period=None</em>, <em>_fft_output_order=False</em>, <em>_made_dimensionless=False</em>, <em>_sampling_type='grid'</em>, <em>_non_quantitative=False</em>, <em>_reciprocal_sampling_interval=None</em>, <em>_reciprocal_reference_offset=None</em>, <em>_reciprocal_origin_offset=None</em>, <em>_reciprocal_quantity=None</em>, <em>_reciprocal_reverse=False</em>, <em>_reciprocal_label=''</em>, <em>_reciprocal_period=None</em>, <em>_reciprocal_made_dimensionless=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/csdfpy/_gcv.html#_LinearlySampledGridDimension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#csdfpy._gcv._LinearlySampledGridDimension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A linearly sampled grid controlled dimension.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This class should not be used directly. Instead,
+use the <code class="docutils literal notranslate"><span class="pre">CSDModel</span></code> object to access the attributes
+and methods of this class. See example, <a class="reference internal" href="../../cv.linear.html#lsgd"><span class="std std-ref">Linearly sampled grid controlled variable</span></a>.</p>
+</div>
+<p>This class returns an object which represents a physical
+controlled variable, sampled linearly along a grid dimension.
+Let <span class="math notranslate nohighlight">\(m_k\)</span> be the sampling interval, <span class="math notranslate nohighlight">\(N_k \ge 1\)</span> be the
+number of points, <span class="math notranslate nohighlight">\(c_k\)</span> be the reference offset, and
+<span class="math notranslate nohighlight">\(o_k\)</span> be the origin offset along the <span class="math notranslate nohighlight">\(k^{th}\)</span>
+grid dimension, then the coordinates along the
+grid dimension are given as</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{X}_k^\mathrm{ref} = [m_k j ]_{j=0}^{N_k-1} - c_k \mathbf{1},\]</div>
+<div class="math notranslate nohighlight">
+\[\mathbf{X}_k^\mathrm{abs} = \mathbf{X}_k^\mathrm{ref} + o_k \mathbf{1},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{X}_k^\mathrm{ref}\)</span> is an ordered array of the
+reference controlled variable coordinates,
+<span class="math notranslate nohighlight">\(\mathbf{X}_k^\mathrm{abs}\)</span> is an ordered array of the absolute
+controlled variable coordinates, and <span class="math notranslate nohighlight">\(\mathbf{1}\)</span>
+is an array of ones.</p>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy._gcv._LinearlySampledGridDimension.sampling_interval" title="csdfpy._gcv._LinearlySampledGridDimension.sampling_interval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sampling_interval</span></code></a></td>
+<td>Return sampling interval, <span class="math notranslate nohighlight">\(m_k\)</span>, along the grid dimension.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#csdfpy._gcv._LinearlySampledGridDimension.coordinates" title="csdfpy._gcv._LinearlySampledGridDimension.coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">coordinates</span></code></a></td>
+<td>Coordinates along the dimension.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="csdfpy._gcv._LinearlySampledGridDimension.sampling_interval">
+<code class="descname">sampling_interval</code><a class="headerlink" href="#csdfpy._gcv._LinearlySampledGridDimension.sampling_interval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return sampling interval, <span class="math notranslate nohighlight">\(m_k\)</span>, along the grid dimension.</p>
+<p>When assigning a value, the dimensionality of the value must be
+consistent with the dimensionality of the other
+members specifying the grid dimension. The numerical value
+associated with the sampling interval must be a positive real
+number. For example, a sampling_interval of “0.2 cm/s”.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The sampling interval along a grid and the reciprocal
+grid dimension follow the Nyquist–Shannon sampling theorem.
+Thus, updating the <code class="docutils literal notranslate"><span class="pre">sampling_interval</span></code> will trigger an
+update on its reciprocal counterpart.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">Quantity</span></code> object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Assign type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">string</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy._gcv._LinearlySampledGridDimension.coordinates">
+<code class="descname">coordinates</code><a class="headerlink" href="#csdfpy._gcv._LinearlySampledGridDimension.coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Coordinates along the dimension.</p>
+<p>The ordered array, <span class="math notranslate nohighlight">\(\mathbf{X}_k^\mathrm{ref}\)</span>,
+along the grid dimension. The order of these coordinates
+depends on the value of the <code class="docutils literal notranslate"><span class="pre">reverse</span></code> and the
+<code class="docutils literal notranslate"><span class="pre">fft_output_order</span></code> attributes of the class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">Quantity</span></code> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Deepansh J. Srivastava
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

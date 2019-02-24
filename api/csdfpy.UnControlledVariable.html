@@ -1,0 +1,742 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>8.3. Uncontrolled variable &mdash; csdfpy 0.0.9 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="8.2. CSDModel" href="csdfpy.CSDModel.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> csdfpy
+          
+
+          
+            
+            <img src="../_static/csdfpy.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../requirement.html">1. The requirements for csdfpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CSDModel.html">3. The core scientific dataset model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Importing_csdfpy.html">4. Getting Satrted With <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">5. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../startingFromScrach.html">6. Starting from scrach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/A fun example.html">7. A fun 🤪 example</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../referenceAPI.html">8. Reference/API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="csdfpy.html">8.1. csdfpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="csdfpy.CSDModel.html">8.2. CSDModel</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">8.3. Uncontrolled variable</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">csdfpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../referenceAPI.html">8. Reference/API documentation</a> &raquo;</li>
+        
+      <li>8.3. Uncontrolled variable</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/csdfpy.UnControlledVariable.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="uncontrolled-variable">
+<span id="uv-api"></span><h1>8.3. Uncontrolled variable<a class="headerlink" href="#uncontrolled-variable" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="csdfpy.UncontrolledVariable">
+<em class="property">class </em><code class="descclassname">csdfpy.</code><code class="descname">UncontrolledVariable</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/csdfpy/uv.html#UncontrolledVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#csdfpy.UncontrolledVariable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Uncontrolled variable class.</p>
+<p>This class returns an object which represents an uncontrol variable.
+Each uncontrol variable, <span class="math notranslate nohighlight">\(y_\alpha\)</span>, resides in a
+<span class="math notranslate nohighlight">\(p_\alpha\)</span>-dimensional space, for example, a scalar resides in an
+one-dimensional space, a vector resides in a <span class="math notranslate nohighlight">\(n\)</span>-dimensional vector
+space, and a second rank symmetric tensor resides in a six-dimensional
+space. We refer the coordinates of a data value from this
+<span class="math notranslate nohighlight">\(p_\alpha\)</span>-dimensional space as the components of the
+data value. For example, if the coordinates of a magnetic field vector is
+(“1 T”, “25 mT”), then “1 T” and “25 mT” are the components of the
+magnetic field vector.</p>
+<p><strong>Constructing a ControlledVariable object.</strong></p>
+<p>There are two different ways to construct an instance of the
+UncontrolledVariable class.</p>
+<p><cite>Create an uncontrol variable using a python dictionary containing valid
+keywords.</cite></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">csdfpy</span> <span class="k">import</span> <span class="n">UncontrolledVariable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numpy_array</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">py_dictionary</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;components&#39;</span><span class="p">:</span> <span class="n">numpy_array</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;star&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="s1">&#39;W s&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="s1">&#39;energy&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;dataset_type&#39;</span><span class="p">:</span> <span class="s1">&#39;RGB&#39;</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">var1</span> <span class="o">=</span> <span class="n">UncontrolledVariable</span><span class="p">(</span><span class="n">py_dictionary</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">var1</span><span class="o">.</span><span class="n">data_structure</span><span class="p">)</span>
+<span class="go">{</span>
+<span class="go">  &quot;name&quot;: &quot;star&quot;,</span>
+<span class="go">  &quot;unit&quot;: &quot; s * W&quot;,</span>
+<span class="go">  &quot;quantity&quot;: &quot;energy&quot;,</span>
+<span class="go">  &quot;numeric_type&quot;: &quot;uint8&quot;,</span>
+<span class="go">  &quot;dataset_type&quot;: &quot;RGB&quot;,</span>
+<span class="go">  &quot;components&quot;: &quot;[78, 78, ...... 44, 44], [37, 37, ...... 22, 22], [72, 72, ...... 44, 44]&quot;</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<p><cite>Create an uncontrol variable with valid keyword arguaments.</cite></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">var2</span> <span class="o">=</span> <span class="n">UncontrolledVariable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;star&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                            <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;W s&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                            <span class="n">dataset_type</span><span class="o">=</span><span class="s1">&#39;RGB&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                            <span class="n">components</span><span class="o">=</span><span class="n">numpy_array</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">var2</span><span class="o">.</span><span class="n">data_structure</span><span class="p">)</span>
+<span class="go">{</span>
+<span class="go">  &quot;name&quot;: &quot;star&quot;,</span>
+<span class="go">  &quot;unit&quot;: &quot; s * W&quot;,</span>
+<span class="go">  &quot;quantity&quot;: &quot;energy&quot;,</span>
+<span class="go">  &quot;numeric_type&quot;: &quot;uint8&quot;,</span>
+<span class="go">  &quot;dataset_type&quot;: &quot;RGB&quot;,</span>
+<span class="go">  &quot;components&quot;: &quot;[78, 78, ...... 44, 44], [37, 37, ...... 22, 22], [72, 72, ...... 44, 44]&quot;</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<p>The above two examples create two different UncontrolledVariable objects,
+with the same content, but, using two different approaches.</p>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy.UncontrolledVariable.name" title="csdfpy.UncontrolledVariable.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></td>
+<td>Return a string containing the name of the uncontrolled variable.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#csdfpy.UncontrolledVariable.unit" title="csdfpy.UncontrolledVariable.unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unit</span></code></a></td>
+<td>Return the unit associated the uncontrolled variable values.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy.UncontrolledVariable.quantity" title="csdfpy.UncontrolledVariable.quantity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quantity</span></code></a></td>
+<td>Return a string with a quantity name of the uncontrolled variable.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#csdfpy.UncontrolledVariable.encoding" title="csdfpy.UncontrolledVariable.encoding"><code class="xref py py-obj docutils literal notranslate"><span class="pre">encoding</span></code></a></td>
+<td>Return a string describing the encoding method.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy.UncontrolledVariable.numeric_type" title="csdfpy.UncontrolledVariable.numeric_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numeric_type</span></code></a></td>
+<td>Return a string describing the numeric type of data values.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#csdfpy.UncontrolledVariable.dataset_type" title="csdfpy.UncontrolledVariable.dataset_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dataset_type</span></code></a></td>
+<td>Return a string describing the dataset type of data values.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy.UncontrolledVariable.component_labels" title="csdfpy.UncontrolledVariable.component_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">component_labels</span></code></a></td>
+<td>Return an ordered array of labels.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#csdfpy.UncontrolledVariable.components" title="csdfpy.UncontrolledVariable.components"><code class="xref py py-obj docutils literal notranslate"><span class="pre">components</span></code></a></td>
+<td>Return the components of data values.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy.UncontrolledVariable.components_uri" title="csdfpy.UncontrolledVariable.components_uri"><code class="xref py py-obj docutils literal notranslate"><span class="pre">components_uri</span></code></a></td>
+<td>Return the uri of the data file where data components are stored.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#csdfpy.UncontrolledVariable.data_structure" title="csdfpy.UncontrolledVariable.data_structure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_structure</span></code></a></td>
+<td>Return the UncontrolledVariable object as a json object.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy.UncontrolledVariable.to" title="csdfpy.UncontrolledVariable.to"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to</span></code></a>(unit)</td>
+<td>NotImplemented.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="csdfpy.UncontrolledVariable.name">
+<code class="descname">name</code><a class="headerlink" href="#csdfpy.UncontrolledVariable.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string containing the name of the uncontrolled variable.</p>
+<p>This attribute is editable. For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">name</span>
+<span class="go">star</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;rock star&#39;</span>
+</pre></div>
+</div>
+<p>In the above example, <code class="docutils literal notranslate"><span class="pre">y</span></code> is an instance of the UncontrolledVariable
+class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A string.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><strong>TypeError</strong> – When the assigned value is not a string.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.UncontrolledVariable.unit">
+<code class="descname">unit</code><a class="headerlink" href="#csdfpy.UncontrolledVariable.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the unit associated the uncontrolled variable values.</p>
+<p>This attribute cannot be edited. To convert the unit, use the <code class="docutils literal notranslate"><span class="pre">to</span></code>
+method of the class.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">unit</span>
+<span class="go">W s</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal notranslate"><span class="pre">unit</span></code> object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><strong>AttributeError</strong> – When assigned a value.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.UncontrolledVariable.quantity">
+<code class="descname">quantity</code><a class="headerlink" href="#csdfpy.UncontrolledVariable.quantity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string with a quantity name of the uncontrolled variable.</p>
+<p>When assigning a value, the attribute raises a
+NotImplementedError.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">quantity</span>
+<span class="go">energy</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A string.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><strong>NotImplementedError</strong> – When assigning a value.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.UncontrolledVariable.encoding">
+<code class="descname">encoding</code><a class="headerlink" href="#csdfpy.UncontrolledVariable.encoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string describing the encoding method.</p>
+<p>The attribute hold the value that determines the method used when
+storing the data values to a file. Currently, there are
+three valid encoding methods:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">raw</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">base64</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">none</span></code></div>
+</div>
+<p>The value, <cite>raw</cite>, mean that data is stored as binary data.
+The value, <cite>base64</cite>, implies that the data is stored as
+a base64 string, while, <cite>none</cite> refers to text-based storage. This
+attribute of the class is <em>only</em> relavent when storing the data
+to a file and is specified as a string containing a <em>valid</em> encoding
+method, for example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="s1">&#39;base64&#39;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A string.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ValueError</strong> – If an invalid value is assigned.</li>
+<li><strong>TypeError</strong> – When the assigned value is not a string.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.UncontrolledVariable.numeric_type">
+<code class="descname">numeric_type</code><a class="headerlink" href="#csdfpy.UncontrolledVariable.numeric_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string describing the numeric type of data values.</p>
+<p>There are currently thirteen valid numeric types which are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="23%" />
+<col width="23%" />
+<col width="27%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">uint8</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">int8</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">float16</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">complex64</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">uint16</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">int16</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">float32</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">complex128</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">uint32</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">int32</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">float64</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">uint64</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">int64</span></code></td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p>When assigning a value, this attribute updates the <cite>numeric type</cite> as
+well as the <cite>dtype</cite> of the numpy array from the corresponding
+<code class="docutils literal notranslate"><span class="pre">components</span></code> attribute. We recommended using the numeric type to
+change the <cite>dtype</cite> of the numpy array. For example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">components</span>
+<span class="go">[[0.56928902 0.44169458 0.68068357 0.24362424 0.25700121]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">numeric_type</span>
+<span class="go">float64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">numeric_type</span> <span class="o">=</span> <span class="s1">&#39;complex64&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">components</span>
+<span class="go">[[0.569289  +0.j 0.4416946 +0.j 0.68068355+0.j 0.24362424+0.j  0.25700122+0.j]]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A string.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ValueError</strong> – If an invalid key-value is assigned.</li>
+<li><strong>TypeError</strong> – When the assigned value is not a string.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.UncontrolledVariable.dataset_type">
+<code class="descname">dataset_type</code><a class="headerlink" href="#csdfpy.UncontrolledVariable.dataset_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string describing the dataset type of data values.</p>
+<p>There are currently six dataset types,</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">RGB</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">RGBA</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">scalar</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">vector_n</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">matrix_n_m</span></code></div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">symmetric_matrix_n</span></code></div>
+</div>
+<p>Here <cite>n</cite> and <cite>m</cite> are integers. The attribute can also be used
+to assign a <code class="docutils literal notranslate"><span class="pre">dataset_type</span></code> to the dataset.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">dataset_type</span>
+<span class="go">RGB</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">dataset_type</span> <span class="o">=</span> <span class="s1">&#39;vector_3&#39;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returs:</th><td class="field-body"><p class="first">A string.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ValueError</strong> – If an invalid value is assigned.</li>
+<li><strong>TypeError</strong> – When the assigned value is not a string.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.UncontrolledVariable.component_labels">
+<code class="descname">component_labels</code><a class="headerlink" href="#csdfpy.UncontrolledVariable.component_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an ordered array of labels.</p>
+<p>The labels in the ordered array are associated with the ordered array
+of components from the <code class="docutils literal notranslate"><span class="pre">components</span></code> attribute.
+The individual labels are accessed with proper indexing,
+for example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">component_labels</span>
+<span class="go">[&#39;dxx&#39;, &#39;dxy&#39;, &#39;dxz&#39;, &#39;dyy&#39;, &#39;dyz&#39;, &#39;dzz&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">component_labels</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">&#39;dxz&#39;</span>
+</pre></div>
+</div>
+<p>Similarly, when assigning a value,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">component_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Check the component labels.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><strong>TypeError</strong> – When the assigned value is not a string.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.UncontrolledVariable.components">
+<code class="descname">components</code><a class="headerlink" href="#csdfpy.UncontrolledVariable.components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the components of data values.</p>
+<p>The value of the <code class="docutils literal notranslate"><span class="pre">components</span></code> attribute of the uncontrolled variables
+<span class="math notranslate nohighlight">\(y_\alpha\)</span>, is a numpy array of shape
+<span class="math notranslate nohighlight">\((p_\alpha \times N_{d-1} \times ... N_1 \times N_0)\)</span> where
+<span class="math notranslate nohighlight">\(p_\alpha\)</span> is the number of components, and <span class="math notranslate nohighlight">\(N_k\)</span> is the
+number of points sampled along the <span class="math notranslate nohighlight">\(k^\mathrm{th}\)</span> controlled
+variable. The total number of dimensions of this array is <span class="math notranslate nohighlight">\(d+1\)</span>
+where <span class="math notranslate nohighlight">\(d\)</span> is number of controlled variables. Note, the
+shape of the numpy array follows a reverse order based on the ordered
+list of controlled variables, that is, the <span class="math notranslate nohighlight">\(k^\mathrm{th}\)</span>
+controlled variable lies along the <span class="math notranslate nohighlight">\((d-k)^\mathrm{th}\)</span> axis of
+the numpy array. Thus, the first controlled variable, <span class="math notranslate nohighlight">\(x_0\)</span>
+with <span class="math notranslate nohighlight">\(N_0\)</span> points, is the last axis, <span class="math notranslate nohighlight">\(d\)</span>, and the last
+controlled variable, <span class="math notranslate nohighlight">\(x_{d-1}\)</span> with <span class="math notranslate nohighlight">\(N_{d-1}\)</span> points, is
+the first axis of the numpy array. The zeroth axis, with
+<span class="math notranslate nohighlight">\(p_\alpha\)</span> points is the number of components.</p>
+<p>This attribute can only be updated when the shape of the new array is
+the same as the shape of the components array.</p>
+<p>For example, let</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">components</span>
+<span class="go">[[0.3823 0.4595 0.4944 0.9614 0.814 ]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">numeric_type</span>
+<span class="go">float16</span>
+</pre></div>
+</div>
+<p>be a one component uncontrolled variable with five data values. The
+numeric type of data values, in this example, is <code class="docutils literal notranslate"><span class="pre">float16</span></code>. To
+update the components array, the <code class="docutils literal notranslate"><span class="pre">components</span></code> attribute is assigned
+with an array whose shape is (1,5). In the following example, a numpy
+array of random values is assigned to the <code class="docutils literal notranslate"><span class="pre">components</span></code> attribute.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">components</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">[[0.01616425 0.25530287 0.15347935 0.07685529 0.19680315]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">numeric_type</span>
+<span class="go">float64</span>
+</pre></div>
+</div>
+<p>Notice, the value of the <code class="docutils literal notranslate"><span class="pre">numeric_type</span></code> attribute is updated based on
+the <cite>dtype</cite> of the numpy array. In this other example,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">components</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">---------------------------------------------------------------------------</span>
+<span class="go">ValueError                                Traceback (most recent call last)</span>
+
+<span class="go">&lt;ipython-input-20-a2621a428043&gt; in &lt;module&gt;()</span>
+<span class="go">----&gt; 1 dts.uncontrolled_variables[0].components = np.random.rand(1,10)</span>
+<span class="go">    2 # print(dts.uncontrolled_variables[0].components)</span>
+<span class="go">    3 # print(dts.uncontrolled_variables[0].numeric_type)</span>
+<span class="go">~/csdfpy/uv.py in components(self, value)</span>
+<span class="go">    367                     &quot;shape of the components array, `{2}`.&quot;</span>
+<span class="go">    368                 ).format(</span>
+<span class="go">--&gt; 369                     value.__class__.__name__,</span>
+<span class="go">    370                     value.shape,</span>
+<span class="go">    371                     self.components.shape</span>
+
+<span class="go">ValueError: The shape of `ndarray`, `(1, 10)`, is not consistent with</span>
+<span class="go">the shape of the components array, `(1, 5)`.</span>
+</pre></div>
+</div>
+<p>a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> is raised because the shape of input array (1,10) is
+not consistent with the shape of the components array, (1,5).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">array</span></code>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><strong>ValueError</strong> – When assigning an array whose shape is
+not consistent with the shape of the components array.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.UncontrolledVariable.components_uri">
+<code class="descname">components_uri</code><a class="headerlink" href="#csdfpy.UncontrolledVariable.components_uri" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the uri of the data file where data components are stored.</p>
+<p>This attribute is only informative and cannot be modified. Its value is
+a string containing the local or remote address of a file where the
+data values are stored.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><strong>AttributeError</strong> – When assigining a value.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.UncontrolledVariable.data_structure">
+<code class="descname">data_structure</code><a class="headerlink" href="#csdfpy.UncontrolledVariable.data_structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the UncontrolledVariable object as a json object.</p>
+<p>This attribute is useful for a quick view of the data structure. Note,
+the JSON object from this attribute is not the same as the one written
+to the file. For convenience, the values from the <code class="docutils literal notranslate"><span class="pre">components</span></code>
+attribute are truncated to the first and the last two numbers per
+component. Also, the encoding keyword is hidden from this view.
+Further, this attribute cannot be modified.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">data_structure</span><span class="p">)</span>
+<span class="go">{</span>
+<span class="go">  &quot;name&quot;: &quot;rock star&quot;,</span>
+<span class="go">  &quot;unit&quot;: &quot; s * W&quot;,</span>
+<span class="go">  &quot;quantity&quot;: &quot;energy&quot;,</span>
+<span class="go">  &quot;numeric_type&quot;: &quot;uint8&quot;,</span>
+<span class="go">  &quot;dataset_type&quot;: &quot;RGB&quot;,</span>
+<span class="go">  &quot;components&quot;: &quot;[4, 4, ...... 88, 88], [79, 79, ...... 47, 47], [63, 63, ...... 71, 71]&quot;</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><strong>AttributeError</strong> – When modified.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p class="rubric">Method Documentation</p>
+<dl class="method">
+<dt id="csdfpy.UncontrolledVariable.to">
+<code class="descname">to</code><span class="sig-paren">(</span><em>unit</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/csdfpy/uv.html#UncontrolledVariable.to"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#csdfpy.UncontrolledVariable.to" title="Permalink to this definition">¶</a></dt>
+<dd><p>NotImplemented.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="csdfpy.CSDModel.html" class="btn btn-neutral" title="8.2. CSDModel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Deepansh J. Srivastava
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

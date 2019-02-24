@@ -1,0 +1,874 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>csdfpy &mdash; csdfpy 0.0.9 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> csdfpy
+          
+
+          
+            
+            <img src="../_static/csdfpy.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../requirement.html">1. The requirements for csdfpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CSDModel.html">3. The core scientific dataset model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Importing_csdfpy.html">4. Getting Satrted With <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">5. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../startingFromScrach.html">6. Starting from scrach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/A fun example.html">7. A fun 🤪 example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../referenceAPI.html">8. Reference/API documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">csdfpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>csdfpy</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for csdfpy</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;CSDModel.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">.cv</span> <span class="k">import</span> <span class="n">ControlledVariable</span>
+<span class="kn">from</span> <span class="nn">.uv</span> <span class="k">import</span> <span class="n">UncontrolledVariable</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">scipy.fftpack</span> <span class="k">import</span> <span class="n">fft</span><span class="p">,</span> <span class="n">fftshift</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
+
+<span class="n">script_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+<span class="c1"># print (script_path)</span>
+
+<span class="n">test_file</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;test01&quot;</span><span class="p">:</span> <span class="n">script_path</span><span class="o">+</span><span class="s1">&#39;/testFiles/test01.csdf&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;test02&quot;</span><span class="p">:</span> <span class="n">script_path</span><span class="o">+</span><span class="s1">&#39;/testFiles/test02.csdf&#39;</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_import_json</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)))</span>
+
+
+<div class="viewcode-block" id="load"><a class="viewcode-back" href="../api/Archive/csdfpy.load.html#csdfpy.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Open a `.csdf or `.csdfx` file and return a :ref:`csdm_api` object.</span>
+
+<span class="sd">    The file must be a json serialization of the CSD Model. ::</span>
+
+<span class="sd">        &gt;&gt;&gt; import csdfpy</span>
+<span class="sd">        &gt;&gt;&gt; data1 = csdfpy.load(&#39;local/address/to/the/file.csdf&#39;)</span>
+
+<span class="sd">    In the above example, ``data1`` is an instance of CSDModel class.</span>
+
+<span class="sd">    :params: filename: A local address to the `.csdf or `.csdfx` file.</span>
+<span class="sd">    :returns: CSDModel object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;&#39;open&#39; method requires a data file address.&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">dictionary</span> <span class="o">=</span> <span class="n">_import_json</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+    <span class="c1"># Create the CSDModel and populate the attribures</span>
+    <span class="n">_version</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;CSDM&#39;</span><span class="p">][</span><span class="s1">&#39;version&#39;</span><span class="p">]</span>
+
+    <span class="n">csdm</span> <span class="o">=</span> <span class="n">CSDModel</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">_version</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;CSDM&#39;</span><span class="p">][</span><span class="s1">&#39;controlled_variables&#39;</span><span class="p">]:</span>
+        <span class="n">csdm</span><span class="o">.</span><span class="n">add_controlled_variable</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">dat</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;CSDM&#39;</span><span class="p">][</span><span class="s1">&#39;uncontrolled_variables&#39;</span><span class="p">]:</span>
+        <span class="n">csdm</span><span class="o">.</span><span class="n">add_uncontrolled_variable</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>    <span class="c1"># filename)</span>
+
+    <span class="n">_type</span> <span class="o">=</span> <span class="p">[(</span><span class="n">item</span><span class="o">.</span><span class="n">sampling_type</span> <span class="o">==</span> <span class="s1">&#39;grid&#39;</span><span class="p">)</span>
+             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">csdm</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">_type</span><span class="p">):</span>
+        <span class="n">npts</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">number_of_points</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">csdm</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">]</span>
+        <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">npts</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">csdm</span><span class="o">.</span><span class="n">uncontrolled_variables</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_type</span> <span class="o">=</span> <span class="p">[(</span><span class="n">item</span><span class="o">.</span><span class="n">sampling_type</span> <span class="o">==</span> <span class="s1">&#39;scatter&#39;</span><span class="p">)</span>
+                 <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">csdm</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">_type</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;controlled_variables can be either be all grid &quot;</span>
+                    <span class="s2">&quot;or all scatter type. Type mixing is not supported.&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+<span class="c1"># Create the augmentation layer model #</span>
+
+    <span class="k">return</span> <span class="n">csdm</span></div>
+
+
+<div class="viewcode-block" id="new"><a class="viewcode-back" href="../api/Archive/csdfpy.new.html#csdfpy.new">[docs]</a><span class="k">def</span> <span class="nf">new</span><span class="p">():</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return an empty CSDModel object. ::</span>
+
+<span class="sd">        &gt;&gt;&gt; import csdfpy</span>
+<span class="sd">        &gt;&gt;&gt; emptydata = csdfpy.new()</span>
+<span class="sd">        &gt;&gt;&gt; print(emptydata.data_structure)</span>
+<span class="sd">        {</span>
+<span class="sd">          &quot;CSDM&quot;: {</span>
+<span class="sd">            &quot;uncontrolled_variables&quot;: [],</span>
+<span class="sd">            &quot;controlled_variables&quot;: [],</span>
+<span class="sd">            &quot;version&quot;: &quot;0.0.9&quot;</span>
+<span class="sd">          }</span>
+<span class="sd">        }</span>
+
+<span class="sd">    :returns: A CSDModel object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">CSDModel</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="CSDModel"><a class="viewcode-back" href="../api/csdfpy.CSDModel.html#csdfpy.CSDModel">[docs]</a><span class="k">class</span> <span class="nc">CSDModel</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A python module for handling the CSD format files, `.csdf` and `.csdfx`.</span>
+
+<span class="sd">    The module is bulit on the concept of the core scientific dataset (CSD)</span>
+<span class="sd">    model which follows,</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        y_\alpha = f_\alpha(x_0, x_1, ... x_k, ... x_{d-1})</span>
+<span class="sd">        \forall \alpha \in \mathbb{Z}</span>
+
+<span class="sd">    where :math:`y_\alpha` is the uncontrolled variable and the :math:`x_k`,</span>
+<span class="sd">    :math:`k \in \{0, 1, ... ,d-1\}`, are the controlled variables. The model</span>
+<span class="sd">    supports any arbitrary :math:`d`-dimensional controlled variable space</span>
+<span class="sd">    where :math:`x_k` is its :math:`k^\mathrm{th}` dimension, and any arbitrary</span>
+<span class="sd">    :math:`p_\alpha`-dimensional uncontrolled variable space.</span>
+
+<span class="sd">    The CSDModel class also support multiple uncontrolled variables. This</span>
+<span class="sd">    is represented with the subscript :math:`\alpha`,</span>
+<span class="sd">    :math:`\alpha \in \mathbb{Z}`, where each uncontrolled variable lives in a</span>
+<span class="sd">    unique :math:`p_\alpha`-dimensional space, with the limitation that all</span>
+<span class="sd">    :math:`y_\alpha` must share the same set of controlled variable</span>
+<span class="sd">    coordinates.</span>
+
+<span class="sd">    In ``csdfpy`` package, every control variable, :math:`x_k`, is represented</span>
+<span class="sd">    as a :ref:`cv_api` object and every uncontrol variable, :math:`y_\alpha`,</span>
+<span class="sd">    by :ref:`uv_api` object. The ``CSDModel`` class holdes and manages the</span>
+<span class="sd">    tuples of both these variable objects.</span>
+
+<span class="sd">    :returns: A CSDM object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;0.0.9&#39;</span>
+    <span class="n">_old_compatible_versions</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;0.0.9&#39;</span><span class="p">)</span>
+    <span class="n">_old_incompatible_versions</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;_controlled_variables&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_uncontrolled_variables&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_version&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;_filename&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Python module from reading and writing CSDF files.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">version</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__version__</span>
+        <span class="k">elif</span> <span class="n">version</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_old_incompatible_versions</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;Files created with the version </span><span class="si">{0}</span><span class="s2"> of the CSDModel &quot;</span>
+                    <span class="s2">&quot;are no longer supported.&quot;</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">version</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">CSDModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="s1">&#39;_controlled_variables&#39;</span><span class="p">,</span> <span class="p">())</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CSDModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="s1">&#39;_uncontrolled_variables&#39;</span><span class="p">,</span> <span class="p">())</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CSDModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="s1">&#39;_version&#39;</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CSDModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="s1">&#39;_filename&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__delattr__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete attribute.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="s2">&quot;Attribute &#39;</span><span class="si">{0}</span><span class="s2">&#39; cannot be deleted.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set attribute.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="s2">&quot;Attribute &#39;</span><span class="si">{0}</span><span class="s2">&#39; cannot be modified.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                <span class="s2">&quot;The &#39;</span><span class="si">{0}</span><span class="s2">&#39; object has no attribute &#39;</span><span class="si">{1}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="p">)</span>
+
+<span class="c1"># ---- Attribute ----#</span>
+<span class="c1"># controlled variables</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">controlled_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a tuple of :ref:`cv_api` objects.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_controlled_variables</span>
+
+<span class="c1"># uncontrolled variables</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">uncontrolled_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a tuple of :ref:`uv_api` objects.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_uncontrolled_variables</span>
+
+<span class="c1"># CSD model version on file</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a the version number of the :ref:`csdm_api` on file.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span>
+
+<span class="c1"># CSD model version on file</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the local file address to the current file.</span>
+
+<span class="sd">        The file extensions include the `.csdf` and the `.csdfx`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the :ref:`csdm_api` object as a json object.</span>
+
+<span class="sd">        The attribute cannot be modified.</span>
+
+<span class="sd">        :raises AttributeError: When modified.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dictionary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_python_dictionary</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">print_function</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                           <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># ----------- Public Methods -------------- #</span>
+
+<div class="viewcode-block" id="CSDModel.add_controlled_variable"><a class="viewcode-back" href="../api/csdfpy.CSDModel.html#csdfpy.CSDModel.add_controlled_variable">[docs]</a>    <span class="k">def</span> <span class="nf">add_controlled_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a new :ref:`cv_api` to the :ref:`csdm_api` object.</span>
+
+<span class="sd">        There are a number of different ways to add a control variable.</span>
+
+<span class="sd">        Add a control variable with a python dictionary containing valid</span>
+<span class="sd">        keywords. ::</span>
+
+<span class="sd">            &gt;&gt;&gt; datamodel = CSDModel()</span>
+<span class="sd">            ...</span>
+<span class="sd">            &gt;&gt;&gt; py_dictionary = {</span>
+<span class="sd">                    &#39;sampling_interval&#39;: &#39;5 G&#39;</span>
+<span class="sd">                    &#39;number_of_points: 50,</span>
+<span class="sd">                    &#39;reference_offset&#39;: &#39;-10 mT&#39;</span>
+<span class="sd">                }</span>
+<span class="sd">            &gt;&gt;&gt; datamodel.add_controlled_variable(py_dictionary)</span>
+
+<span class="sd">        Add a control variable with valid keyword arguaments. ::</span>
+
+<span class="sd">            &gt;&gt;&gt; datamodel.add_controlled_variable(sampling_interval = &#39;5 G&#39;,</span>
+<span class="sd">                                                  number_of_points = 50,</span>
+<span class="sd">                                                  reference_offset = &#39;-10 mT&#39;)</span>
+
+<span class="sd">        Add a control variable with a :ref:`cv_api` instance. ::</span>
+
+<span class="sd">            &gt;&gt;&gt; from csdfpy import ControlledVariable</span>
+<span class="sd">            &gt;&gt;&gt; var1 = ControlledVariable(sampling_interval = &#39;5 G&#39;,</span>
+<span class="sd">                                          number_of_points = 50,</span>
+<span class="sd">                                          reference_offset = &#39;-10 mT&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; datamodel.add_controlled_variable(var1)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">arg</span> <span class="o">!=</span> <span class="p">()</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ControlledVariable</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">CSDModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+                <span class="s1">&#39;_controlled_variables&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span> <span class="o">+</span> <span class="p">(</span>
+                    <span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">CSDModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+                <span class="s1">&#39;_controlled_variables&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span> <span class="o">+</span> <span class="p">(</span>
+                    <span class="n">ControlledVariable</span><span class="p">(</span><span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="p">)</span></div>
+
+<div class="viewcode-block" id="CSDModel.add_uncontrolled_variable"><a class="viewcode-back" href="../api/csdfpy.CSDModel.html#csdfpy.CSDModel.add_uncontrolled_variable">[docs]</a>    <span class="k">def</span> <span class="nf">add_uncontrolled_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a new :ref:`uv_api` to the :ref:`csdm_api` object.</span>
+
+<span class="sd">        There are again a number of different ways to add an uncontrol</span>
+<span class="sd">        variable.</span>
+
+<span class="sd">        Add an uncontrol variable with a python dictionary containing valid</span>
+<span class="sd">        keywords. ::</span>
+
+<span class="sd">            &gt;&gt;&gt; datamodel = CSDModel()</span>
+<span class="sd">            ...</span>
+<span class="sd">            &gt;&gt;&gt; numpy_array = (100*np.random.rand(3,50)).astype(np.uint8))</span>
+<span class="sd">            &gt;&gt;&gt; py_dictionary = {</span>
+<span class="sd">            ...     &#39;components&#39;: numpy_array,</span>
+<span class="sd">            ...     &#39;name&#39;: &#39;star&#39;,</span>
+<span class="sd">            ...     &#39;unit&#39;: &#39;W s&#39;,</span>
+<span class="sd">            ...     &#39;quantity&#39;: &#39;energy&#39;,</span>
+<span class="sd">            ...     &#39;dataset_type&#39;: &#39;RGB&#39;</span>
+<span class="sd">            ... }</span>
+<span class="sd">            &gt;&gt;&gt; datamodel.add_uncontrolled_variable(py_dictionary)</span>
+
+
+<span class="sd">        Add an uncontrol variable with valid keyword arguaments. ::</span>
+
+<span class="sd">            &gt;&gt;&gt; datamodel.add_uncontrolled_variable(name=&#39;star&#39;,</span>
+<span class="sd">            ...                                     unit=&#39;W s&#39;,</span>
+<span class="sd">            ...                                     dataset_type=&#39;RGB&#39;,</span>
+<span class="sd">            ...                                     components=numpy_array)</span>
+
+<span class="sd">        Add an uncontrol variable with a :ref:`uv_api` instance. ::</span>
+
+<span class="sd">            &gt;&gt;&gt; from csdfpy import UncontrolledVariable</span>
+<span class="sd">            &gt;&gt;&gt; var1 = UncontrolledVariable(name=&#39;star&#39;,</span>
+<span class="sd">            ...                             unit=&#39;W s&#39;,</span>
+<span class="sd">            ...                             dataset_type=&#39;RGB&#39;,</span>
+<span class="sd">            ...                             components=numpy_array)</span>
+<span class="sd">            &gt;&gt;&gt; datamodel.add_uncontrolled_variable(var1)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">arg</span> <span class="o">!=</span> <span class="p">()</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">UncontrolledVariable</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">CSDModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+                <span class="s1">&#39;_uncontrolled_variables&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">uncontrolled_variables</span> <span class="o">+</span> <span class="p">(</span>
+                    <span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">CSDModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+                <span class="s1">&#39;_uncontrolled_variables&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">uncontrolled_variables</span> <span class="o">+</span> <span class="p">(</span>
+                    <span class="n">UncontrolledVariable</span><span class="p">(</span>
+                        <span class="n">filename</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                        <span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;sampling_type&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;non_quantitative&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;number_of_points&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;sampling_interval&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;reference_offset&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;origin_offset&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;made_dimensionless&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;reverse&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;quantity&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;ftFlag&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;period&#39;</span>
+        <span class="p">]</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">)):</span>
+            <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">_info</span><span class="p">())</span>
+        <span class="n">pack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;dimension &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+                                        <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">)</span>
+                                        <span class="p">)</span>
+                                    <span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">pack</span>
+
+    <span class="k">def</span> <span class="nf">get_python_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">print_function</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                              <span class="n">version</span><span class="o">=</span><span class="n">__version__</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the CSDModel object as a python dictionary.&quot;&quot;&quot;</span>
+        <span class="n">dictionary</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;uncontrolled_variables&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;controlled_variables&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">version</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">)):</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;controlled_variables&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get_python_dictionary</span><span class="p">()</span>
+            <span class="p">)</span>
+
+        <span class="n">_length_of_uncontrolled_variables</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uncontrolled_variables</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">_length_of_uncontrolled_variables</span><span class="p">):</span>
+            <span class="n">dictionary</span><span class="p">[</span><span class="s2">&quot;uncontrolled_variables&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">uncontrolled_variables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get_python_dictionary</span><span class="p">(</span>
+                    <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+                    <span class="n">dataset_index</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
+                    <span class="n">for_display</span><span class="o">=</span><span class="n">print_function</span><span class="p">,</span>
+                    <span class="n">version</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="n">csdm</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">csdm</span><span class="p">[</span><span class="s1">&#39;CSDM&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dictionary</span>
+        <span class="k">return</span> <span class="n">csdm</span>
+
+<div class="viewcode-block" id="CSDModel.save"><a class="viewcode-back" href="../api/csdfpy.CSDModel.html#csdfpy.CSDModel.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">__version__</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save the CSD model to a file.</span>
+
+<span class="sd">        This method allows data storage with two types file extensions.</span>
+<span class="sd">        When the data values are stored within the file, a ``.csdf`` file</span>
+<span class="sd">        extension is added. When the data values are store in an external</span>
+<span class="sd">        file either at a local or a remote server, a ``.csdfx`` file</span>
+<span class="sd">        extension is used. ::</span>
+
+<span class="sd">            &gt;&gt;&gt; datamodel.save(&#39;myfile&#39;)</span>
+
+<span class="sd">        where ``datamodel`` is an instance of the CSDModel class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dictionary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_python_dictionary</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                      <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a copy of the current CSDModel object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                <span class="n">controlled_variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">cv_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">uncontrolled_variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">uv_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Repalce the controlled or the uncontrolled variable at the index.</span>
+
+<span class="sd">        :params: controlled_variable: A new ControlledVariable object or a</span>
+<span class="sd">            python dictionary corresponding to a new ControlledVariable object.</span>
+<span class="sd">        :params: cv_index: An integer corresponding to the</span>
+<span class="sd">            UncontrolledVariable object to the updated.</span>
+<span class="sd">        :params: uncontrolled_variable: A new UncontrolledVariable object or a</span>
+<span class="sd">            python dictionary corresponding to a new UncontrolledVariable</span>
+<span class="sd">            object.</span>
+<span class="sd">        :params: uv_index: An integer corresponding to the</span>
+<span class="sd">            UncontrolledVariable object to the updated.</span>
+
+<span class="sd">        .. todo::</span>
+<span class="sd">            Well, write the method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cv</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Project the data values onto the control variable at index, `cv`.</span>
+
+<span class="sd">        :params: cv: An integer cooresponding to the control variable onto</span>
+<span class="sd">            which the data values are projected.</span>
+<span class="sd">        :returns: A ``CSDModel`` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new</span> <span class="o">=</span> <span class="n">CSDModel</span><span class="p">()</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cv</span> <span class="o">&gt;</span> <span class="n">d</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;`cv` </span><span class="si">{0}</span><span class="s2"> cannot be greater than number of control&quot;</span>
+                    <span class="s2">&quot;variables, </span><span class="si">{1}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cv</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">uncontrolled_variables</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="o">-</span><span class="n">cv</span><span class="p">)</span>
+            <span class="n">new</span><span class="o">.</span><span class="n">add_uncontrolled_variable</span><span class="p">(</span>
+                <span class="n">components</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">variable</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">quantity</span><span class="o">=</span><span class="n">variable</span><span class="o">.</span><span class="n">quantity</span><span class="p">,</span>
+                <span class="n">encoding</span><span class="o">=</span><span class="n">variable</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span>
+                <span class="n">numeric_type</span><span class="o">=</span><span class="n">variable</span><span class="o">.</span><span class="n">numeric_type</span><span class="p">,</span>
+                <span class="n">dataset_type</span><span class="o">=</span><span class="n">variable</span><span class="o">.</span><span class="n">dataset_type</span><span class="p">,</span>
+                <span class="n">component_labels</span><span class="o">=</span><span class="n">variable</span><span class="o">.</span><span class="n">component_labels</span><span class="p">,</span>
+                <span class="n">components_uri</span><span class="o">=</span><span class="n">variable</span><span class="o">.</span><span class="n">components_uri</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">variable</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">cv</span><span class="p">:</span>
+                <span class="n">new</span><span class="o">.</span><span class="n">add_controlled_variable</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">new</span>
+
+<div class="viewcode-block" id="CSDModel.fft"><a class="viewcode-back" href="../api/csdfpy.CSDModel.html#csdfpy.CSDModel.fft">[docs]</a>    <span class="k">def</span> <span class="nf">fft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform a FFT along the specified control variable (cv).</span>
+
+<span class="sd">        Needs debugging.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">[</span><span class="n">cv</span><span class="p">]</span><span class="o">.</span><span class="n">is_quantitative</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Non-quantitative dimensions cannot be Fourier transformed.&#39;</span>
+            <span class="p">)</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;Arbitrarily sampled grid controlled variable&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">[</span><span class="n">cv</span><span class="p">]</span><span class="o">.</span><span class="n">variable_type</span> <span class="o">==</span> <span class="n">s</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;Fourier tranform of an arbitrarily sampled &quot;</span>
+                    <span class="s2">&quot;grid dimension is not implemanted.&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">[</span><span class="n">cv</span><span class="p">]</span><span class="o">.</span><span class="n">sampling_type</span> <span class="o">==</span> <span class="s1">&#39;scatter&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;Fourier transform of a scattered &quot;</span>
+                    <span class="s2">&quot;dimensions is not implemented.&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">cs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">[</span><span class="n">cv</span><span class="p">]</span><span class="o">.</span><span class="n">reciprocal_coordinates</span>
+
+        <span class="c1"># + \</span>
+        <span class="c1"># self.controlled_variables[cv].reciprocal_reference_offset</span>
+
+        <span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
+            <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">[</span><span class="n">cv</span><span class="p">]</span><span class="o">.</span><span class="n">reference_offset</span> <span class="o">*</span> <span class="n">cs</span>
+        <span class="p">)</span>
+
+        <span class="n">ndim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uncontrolled_variables</span><span class="p">)):</span>
+            <span class="n">signal_ft</span> <span class="o">=</span> <span class="n">fftshift</span><span class="p">(</span>
+                <span class="n">fft</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uncontrolled_variables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">components</span><span class="p">,</span>
+                    <span class="n">axis</span><span class="o">=-</span><span class="n">cv</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">axes</span><span class="o">=-</span><span class="n">cv</span><span class="o">-</span><span class="mi">1</span>
+                <span class="p">)</span> <span class="o">*</span> <span class="n">get_broadcase_shape</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">ndim</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="n">cv</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">uncontrolled_variables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span>
+                <span class="s1">&#39;_components&#39;</span><span class="p">,</span> <span class="n">signal_ft</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">[</span><span class="n">cv</span><span class="p">]</span><span class="o">.</span><span class="n">gcv</span><span class="o">.</span><span class="n">_reciprocal</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_toggle_fft_output_order</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">[</span><span class="n">cv</span><span class="p">])</span></div>
+
+    <span class="k">def</span> <span class="nf">_toggle_fft_output_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">control_variable</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">control_variable</span><span class="o">.</span><span class="n">fft_output_order</span><span class="p">:</span>
+            <span class="n">control_variable</span><span class="o">.</span><span class="n">fft_output_order</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">control_variable</span><span class="o">.</span><span class="n">fft_output_order</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add two CSDModel instances.</span>
+
+<span class="sd">        We follow a safe rule---the addition of two CSDModel instances</span>
+<span class="sd">        will only be successfull when the attributes of the corresponding</span>
+<span class="sd">        ControlledVariable instances are identical.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_compare_cv_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Cannot add&quot;</span><span class="p">)</span>
+
+        <span class="n">dim1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uncontrolled_variables</span><span class="p">)</span>
+        <span class="n">dim2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">uncontrolled_variables</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">dim1</span> <span class="o">!=</span> <span class="n">dim2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;Cannot add </span><span class="si">{0}</span><span class="s2"> and </span><span class="si">{1}</span><span class="s2">. They have differnet &quot;</span>
+                    <span class="s2">&quot;number of uncontrolled variables.&quot;</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">d1</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">_compare_uv</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">uncontrolled_variables</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                <span class="n">other</span><span class="o">.</span><span class="n">uncontrolled_variables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="p">):</span>
+                <span class="n">d1</span><span class="o">.</span><span class="n">uncontrolled_variables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">components</span> <span class="o">+=</span> \
+                    <span class="n">other</span><span class="o">.</span><span class="n">uncontrolled_variables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">components</span>
+
+        <span class="k">return</span> <span class="n">d1</span>
+
+    <span class="k">def</span> <span class="nf">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Subtract two CSDModel instances.</span>
+
+<span class="sd">        We follow a safe rule---the subtraction of two CSDModel instances</span>
+<span class="sd">        will only be successfull when the attributes of the corresponding</span>
+<span class="sd">        ControlledVariable instances are identical.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Multiply two CSDModel instances.</span>
+
+<span class="sd">        We follow a safe rule---the multiplication of two CSDModel instances</span>
+<span class="sd">        will only be successfull when the attributes of the corresponding</span>
+<span class="sd">        ControlledVariable instances are identical.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Divide two CSDModel instances.</span>
+
+<span class="sd">        We follow a safe rule---the division of two CSDModel instances</span>
+<span class="sd">        will only be successfull when the attributes of the corresponding</span>
+<span class="sd">        ControlledVariable instances are identical.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<span class="k">def</span> <span class="nf">get_broadcase_shape</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">ndim</span><span class="p">,</span> <span class="n">axis</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the broadcast array for numpy ndarray operations.&quot;&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ndim</span><span class="p">)]</span>
+    <span class="n">s</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">array</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">s</span><span class="p">)]</span>
+
+
+<span class="k">def</span> <span class="nf">_compare_cv_object</span><span class="p">(</span><span class="n">cv1</span><span class="p">,</span> <span class="n">cv2</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">cv1</span><span class="o">.</span><span class="n">gcv</span><span class="o">.</span><span class="n">_getparams</span> <span class="o">==</span> <span class="n">cv2</span><span class="o">.</span><span class="n">gcv</span><span class="o">.</span><span class="n">_getparams</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span> <span class="nf">_compare_cv_objects</span><span class="p">(</span><span class="n">object1</span><span class="p">,</span> <span class="n">object2</span><span class="p">):</span>
+    <span class="n">dim1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">object1</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">)</span>
+    <span class="n">dim2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">object2</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">)</span>
+
+    <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> and </span><span class="si">{1}</span><span class="s2"> do not have the same set of &quot;</span>
+        <span class="s2">&quot;controlled variables.&quot;</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">object1</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">object2</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dim1</span> <span class="o">!=</span> <span class="n">dim2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_compare_cv_object</span><span class="p">(</span>
+            <span class="n">object1</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">object2</span><span class="o">.</span><span class="n">controlled_variables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="k">def</span> <span class="nf">_compare_uv</span><span class="p">(</span><span class="n">uv1</span><span class="p">,</span> <span class="n">uv2</span><span class="p">):</span>
+    <span class="c1"># a = {</span>
+    <span class="c1">#     &#39;unit&#39;: True,</span>
+    <span class="c1">#     &#39;quantity&#39;: True,</span>
+    <span class="c1">#     &#39;dataset_type&#39;: True</span>
+    <span class="c1"># }</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">uv1</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">physical_type</span> <span class="o">!=</span> <span class="n">uv2</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">physical_type</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">uv1</span><span class="o">.</span><span class="n">quantity</span> <span class="o">!=</span> <span class="n">uv2</span><span class="o">.</span><span class="n">quantity</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="s2">&quot;Binary operates are not supported for &quot;</span>
+                <span class="s2">&quot;objects with different quantity.&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">uv1</span><span class="o">.</span><span class="n">dataset_type</span> <span class="o">!=</span> <span class="n">uv2</span><span class="o">.</span><span class="n">dataset_type</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="s2">&quot;Binary operates are not supported for &quot;</span>
+                <span class="s2">&quot;objects with different dataset_type.&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span>
+
+
+<span class="c1"># def _compare_uv_objects(object1, object2):</span>
+<span class="c1">#     dim1 = len(object1.uncontrolled_variables)</span>
+<span class="c1">#     dim2 = len(object2.uncontrolled_variables)</span>
+
+<span class="c1">#     for j in range(dim1):</span>
+<span class="c1">#         for i in range(dim2):</span>
+<span class="c1">#             a = _compare_uv(</span>
+<span class="c1">#                 object1.uncontrolled_variables[i],</span>
+<span class="c1">#                 object2.uncontrolled_variables[j]</span>
+<span class="c1">#             )</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Deepansh J. Srivastava
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
