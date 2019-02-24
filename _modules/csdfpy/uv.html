@@ -86,14 +86,15 @@
             
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../requirement.html">1. The requirements for csdfpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../CSDModel.html">3. The core scientific dataset model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Importing_csdfpy.html">4. Getting Satrted With <span class="guilabel">csdfpy</span> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">5. Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../startingFromScrach.html">6. Starting from scrach</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/A fun example.html">7. A fun 🤪 example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../referenceAPI.html">8. Reference/API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../includeme.html">1. No tile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../requirement.html">2. The requirements for csdfpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">3. Installing <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CSDModel.html">4. The core scientific dataset model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Importing_csdfpy.html">5. Getting Satrted With <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">6. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../startingFromScrach.html">7. Starting from scrach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/A fun example.html">8. A fun 🤪 example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../referenceAPI.html">9. Reference/API documentation</a></li>
 </ul>
 
             
@@ -193,23 +194,36 @@
 
 <span class="sd">    :params: data_path:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">_data_abs_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+    <span class="c1"># _data_abs_path = os.path.abspath(data_path)</span>
     <span class="n">_file_abs_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-    <span class="n">_common_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">commonpath</span><span class="p">([</span><span class="n">_data_abs_path</span><span class="p">,</span> <span class="n">_file_abs_path</span><span class="p">])</span>
+    <span class="c1"># print(_file_abs_path)</span>
+    <span class="c1"># _common_path = os.path.commonpath([_data_abs_path, _file_abs_path])</span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">_common_path</span> <span class="o">!=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">_file_abs_path</span><span class="p">[:</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">file</span><span class="p">)])):</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-            <span class="s2">&quot;invalid path to external data file, &#39;</span><span class="si">{0}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">_data_abs_path</span><span class="p">)</span>
-        <span class="p">)</span>
+    <span class="n">_norm_data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+    <span class="c1"># print(_norm_data_path)</span>
+    <span class="c1"># print(os.path.normpath(file))</span>
+    <span class="n">_path</span><span class="p">,</span> <span class="n">_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">_file_abs_path</span><span class="p">)</span>
+    <span class="c1"># print(_path)</span>
+    <span class="n">_join</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_path</span><span class="p">,</span> <span class="n">_norm_data_path</span><span class="p">)</span>
+    <span class="c1"># print(_join)</span>
+    <span class="c1"># print(_data_abs_path)</span>
 
-    <span class="n">_relative_path_to_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">file</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">_relative_path_to_data</span> <span class="o">=</span> <span class="n">_data_abs_path</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">_common_path</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="c1"># print(_common_path)</span>
+    <span class="c1"># print(os.path.abspath(_file_abs_path[:-len(file)]))</span>
 
-    <span class="n">_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_common_path</span><span class="p">,</span>
-                         <span class="n">_relative_path_to_file</span><span class="p">,</span>
-                         <span class="n">_relative_path_to_data</span><span class="p">)</span>
+    <span class="c1"># if (_common_path != os.path.abspath(_file_abs_path[:-len(file)])):</span>
+    <span class="c1">#     raise Exception(</span>
+    <span class="c1">#         &quot;invalid path to external data file, &#39;{0}&#39;&quot;.format(_data_abs_path)</span>
+    <span class="c1">#     )</span>
 
-    <span class="k">return</span> <span class="s1">&#39;file:&#39;</span><span class="o">+</span><span class="n">_path</span>
+    <span class="c1"># _relative_path_to_file = os.path.split(file)[0]</span>
+    <span class="c1"># _relative_path_to_data = _data_abs_path[len(_common_path)+1:]</span>
+
+    <span class="c1"># _path = os.path.join(_common_path,</span>
+    <span class="c1">#                      _relative_path_to_file,</span>
+    <span class="c1">#                      _relative_path_to_data)</span>
+
+    <span class="k">return</span> <span class="s1">&#39;file:&#39;</span><span class="o">+</span><span class="n">_join</span>
 
 
 <span class="k">def</span> <span class="nf">_get_relative_data_address</span><span class="p">(</span><span class="n">data_absolute_uri</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
@@ -224,6 +238,7 @@
 <span class="k">def</span> <span class="nf">_get_absolute_uri_path</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">uri</span>
+    <span class="c1"># print(res)</span>
     <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">netloc</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
             <span class="n">path</span> <span class="o">=</span> <span class="n">_get_absolute_data_address</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
