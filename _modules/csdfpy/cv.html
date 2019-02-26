@@ -1,4 +1,4 @@
-
+<!-- 
 
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>csdfpy.cv &mdash; csdfpy 0.0.9 documentation</title>
+  <title>csdfpy.cv &mdash; csdfpy 0.0.9alpha documentation</title>
   
 
   
@@ -86,15 +86,14 @@
             
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../includeme.html">1. No tile</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../requirement.html">2. The requirements for csdfpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../installation.html">3. Installing <span class="guilabel">csdfpy</span> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../CSDModel.html">4. The core scientific dataset model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Importing_csdfpy.html">5. Getting Satrted With <span class="guilabel">csdfpy</span> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">6. Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../startingFromScrach.html">7. Starting from scrach</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/A fun example.html">8. A fun 🤪 example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../referenceAPI.html">9. Reference/API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../requirement.html">1. The requirements for csdfpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CSDModel.html">3. The core scientific dataset model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Importing_csdfpy.html">4. Getting Started With <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">5. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../startingFromScrach.html">6. Starting from scrach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/A fun example.html">7. A fun 🤪 example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../referenceAPI.html">8. Reference/API documentation</a></li>
 </ul>
 
             
@@ -157,6 +156,7 @@
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+
            <div itemprop="articleBody">
             
   <h1>Source code for csdfpy.cv</h1><div class="highlight"><pre>
@@ -235,10 +235,10 @@
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The base ControlledVariable class.</span>
 
-<span class="sd">    This class returns an object which represents a control variable.</span>
-<span class="sd">    There are three types of control variables based on the types of</span>
-<span class="sd">    dimensions: a linearly sampled, an arbitrarily sampled, and a</span>
-<span class="sd">    non-qunatitative dimensions, respectively.</span>
+<span class="sd">    This class returns an object which represents a control variable. There are</span>
+<span class="sd">    three types of controlled variables based on the three types ofdimensions:</span>
+<span class="sd">    a linearly sampled, an arbitrarily sampled, and a</span>
+<span class="sd">    non-quantitative dimension, respectively.</span>
 
 <span class="sd">    **A linearly sampled control variable**</span>
 
@@ -251,12 +251,12 @@
 <span class="sd">    .. math ::</span>
 <span class="sd">        \begin{align}</span>
 <span class="sd">        \mathbf{X}_k &amp;= [m_k j ]_{j=0}^{N_k-1} - c_k \mathbf{1}, \\</span>
-<span class="sd">        \mathbf{X}_k^\mathrm{abs} &amp;= \mathbf{X}_k + o_k \mathbf{1},</span>
+<span class="sd">        \mathbf{X}_k^\mathrm{abs} &amp;= \mathbf{X}_k + o_k \mathbf{1}.</span>
 <span class="sd">        \end{align}</span>
 <span class="sd">        :label: eq_linear_gcv</span>
 
-<span class="sd">    where :math:`\mathbf{X}_k` and :math:`\mathbf{X}_k^\mathrm{abs}` are the</span>
-<span class="sd">    ordered arrays of the reference amd absolute control variable coordinates,</span>
+<span class="sd">    Here :math:`\mathbf{X}_k` and :math:`\mathbf{X}_k^\mathrm{abs}` are the</span>
+<span class="sd">    ordered arrays of the reference and absolute control variable coordinates,</span>
 <span class="sd">    respectively, and :math:`\mathbf{1}` is an array of ones.</span>
 
 <span class="sd">    **An arbitrarily sampled control variable**</span>
@@ -287,13 +287,12 @@
 <span class="sd">    .. math ::</span>
 <span class="sd">        \mathbf{X}_k = \mathbf{A}_k.</span>
 
-<span class="sd">    **Constructing a ControlledVariable object.**</span>
+<span class="sd">    **Creating a new control variable.**</span>
 
-<span class="sd">    There are a number of different ways to construct a control variable,</span>
-<span class="sd">    but it always returns a ControlledVariable instance.</span>
+<span class="sd">    There are two ways to create a new control variable using this class, but</span>
+<span class="sd">    it always returns a ControlledVariable instance.</span>
 
-<span class="sd">    `Create a control variable with a python dictionary containing valid</span>
-<span class="sd">    keywords.` ::</span>
+<span class="sd">    `From a python dictionary containing valid keywords.` ::</span>
 
 <span class="sd">        &gt;&gt;&gt; from csdfpy import ControlledVariable</span>
 <span class="sd">        &gt;&gt;&gt; py_dictionary = {</span>
@@ -303,7 +302,7 @@
 <span class="sd">        ... }</span>
 <span class="sd">        &gt;&gt;&gt; var1 = ControlledVariable(py_dictionary)</span>
 
-<span class="sd">    `Create a control variable with valid keyword arguaments.` ::</span>
+<span class="sd">    `From valid keyword arguaments.` ::</span>
 
 <span class="sd">        &gt;&gt;&gt; var2 = ControlledVariable(sampling_interval = &#39;5 G&#39;,</span>
 <span class="sd">        ...                           number_of_points = 50,</span>
@@ -442,7 +441,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">variable_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the type of the controlled variable.</span>
+<span class="sd">        Return the control variable type.</span>
 
 <span class="sd">        There are three types of controlled variables base on the types of</span>
 <span class="sd">        dimensions, linearly and arbitrarily sampled quantitative grid</span>
@@ -456,7 +455,7 @@
 <span class="sd">        class associated with a linearly sampled controlled variable.</span>
 
 <span class="sd">        :returns: A string.</span>
-<span class="sd">        :raises AttributeError: When the attribute is attempted to be modified.</span>
+<span class="sd">        :raises AttributeError: When the attribute is modified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gcv</span><span class="o">.</span><span class="n">variable_type</span><span class="p">)</span>
 
@@ -475,7 +474,7 @@
 <span class="sd">            grid</span>
 
 <span class="sd">        :returns: A string.</span>
-<span class="sd">        :raises AttributeError: When the attribute is attempted to be modified.</span>
+<span class="sd">        :raises AttributeError: When the attribute is modified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gcv</span><span class="o">.</span><span class="n">_sampling_type</span><span class="p">)</span>
 
@@ -487,7 +486,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return an array of coordinates, :math:`\mathbf{X}_k`, along the dimension.</span>
+<span class="sd">        Return an array of reference coordinates, :math:`\mathbf{X}_k`, along the dimension.</span>
 
 <span class="sd">        The order of these coordinates</span>
 <span class="sd">        depends on the value of the ``reverse`` and the ``fft_output_order``</span>
@@ -499,9 +498,9 @@
 
 <span class="sd">        :returns: A ``Quantity array`` when the controlled variable is</span>
 <span class="sd">                  quantitative.</span>
-<span class="sd">        :returns: A ``numpy array`` when the controlled variable is</span>
+<span class="sd">        :returns: A ``Numpy array`` when the controlled variable is</span>
 <span class="sd">                  non-quantitative.</span>
-<span class="sd">        :raises AttributeError: When the attribute is attempted to be modified.</span>
+<span class="sd">        :raises AttributeError: When the attribute is modified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gcv</span><span class="o">.</span><span class="n">coordinates</span>
 
@@ -529,7 +528,7 @@
 <span class="sd">        :returns: A ``Quantity array`` when the controlled</span>
 <span class="sd">                  variable is quantitative.</span>
 <span class="sd">        :raises AttributeError: For non-quantitative controlled variables.</span>
-<span class="sd">        :raises AttributeError: When the attribute is attempted to be modified.</span>
+<span class="sd">        :raises AttributeError: When the attribute is modified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_type</span> <span class="ow">in</span> <span class="n">_quantitative_variable_types</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gcv</span><span class="o">.</span><span class="n">coordinates</span> <span class="o">+</span> \
@@ -552,7 +551,7 @@
 <span class="sd">        :returns: A ``Quantity`` object when the controlled</span>
 <span class="sd">                  variable is quantitative.</span>
 <span class="sd">        :raises AttributeError: For non-quantitative controlled variables.</span>
-<span class="sd">        :raises AttributeError: When the attribute is attempted to be modified.</span>
+<span class="sd">        :raises AttributeError: When the attribute is modified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_type</span> <span class="ow">in</span> <span class="n">_quantitative_variable_types</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gcv</span><span class="o">.</span><span class="n">reciprocal_coordinates</span>
@@ -574,7 +573,7 @@
 <span class="sd">        :returns: A ``Quantity`` object when the controlled</span>
 <span class="sd">                  variable is quantitative.</span>
 <span class="sd">        :raises AttributeError: For non-quantitative controlled variables.</span>
-<span class="sd">        :raises AttributeError: When the attribute is attempted to be modified.</span>
+<span class="sd">        :raises AttributeError: When the attribute is modified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gcv</span><span class="o">.</span><span class="n">reciprocal_coordinates</span> <span class="o">+</span> \
             <span class="bp">self</span><span class="o">.</span><span class="n">gcv</span><span class="o">.</span><span class="n">_reciprocal_origin_offset</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gcv</span><span class="o">.</span><span class="n">reciprocal_unit</span><span class="p">)</span>
@@ -589,10 +588,11 @@
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the reference offset, :math:`c_k`, along the dimension.</span>
 
-<span class="sd">        This attribute is only `valid` for the quantitative</span>
+<span class="sd">        The attribute is only `valid` for quantitative</span>
 <span class="sd">        dimensions. When assigning a value, the dimensionality of the value</span>
-<span class="sd">        must be consistent with other members specifying the dimension. The</span>
-<span class="sd">        value is assigned with a string containing the reference offset,</span>
+<span class="sd">        must be consistent with the dimensionality of the other members</span>
+<span class="sd">        specifying the dimension. The value is assigned with a string</span>
+<span class="sd">        containing the reference offset,</span>
 <span class="sd">        for example, ::</span>
 
 <span class="sd">            &gt;&gt;&gt; x.reference_offset</span>
@@ -678,7 +678,7 @@
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the origin offset, :math:`o_k`, along the dimension.</span>
 
-<span class="sd">        This attribute is only `valid` for the quantitative</span>
+<span class="sd">        The attribute is only `valid` for quantitative</span>
 <span class="sd">        dimensions. When assigning a value, the dimensionality of the value</span>
 <span class="sd">        must be consistent with the dimensionality of other members specifying</span>
 <span class="sd">        the dimension. The value is assigned with a string containing the</span>
@@ -760,11 +760,10 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">sampling_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the sampling interval along the dimension.</span>
+<span class="sd">        Return the sampling interval, :math:`m_k`, along the dimension.</span>
 
-<span class="sd">        The sampling interval, :math:`m_k`, along the controlled variable</span>
-<span class="sd">        dimension. This attribute is only `valid` for instances specifying a</span>
-<span class="sd">        linearly sampled controlled variable dimension. When assigning a value,</span>
+<span class="sd">        The attribute is only `valid` for instances with linearly sampled</span>
+<span class="sd">        controlled-variable dimensions. When assigning a value,</span>
 <span class="sd">        the dimensionality of the value must be consistent with the</span>
 <span class="sd">        dimensionality of other members specifying the grid dimension.</span>
 <span class="sd">        Additionally, the sampling interval must be a positive real number.</span>
@@ -788,7 +787,6 @@
 <span class="sd">        :returns: A ``Quantity`` object with the sampling interval.</span>
 <span class="sd">        :raises AttributeError: For non-quantitative and arbitrarily</span>
 <span class="sd">                                sampled controlled variables.</span>
-<span class="sd">        :raises AttributeError: For non-quantitative controlled variables.</span>
 <span class="sd">        :raises TypeError: When the assigned value is not a string.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_type</span> <span class="o">==</span> <span class="n">_quantitative_variable_types</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
@@ -816,7 +814,7 @@
 <span class="sd">        Return the number of points along the dimension.</span>
 
 <span class="sd">        The number of points, :math:`N_k \ge 1`, along the controlled</span>
-<span class="sd">        variable dimension. This attribute can be updated with an</span>
+<span class="sd">        variable dimension. The attribute is updated with an</span>
 <span class="sd">        integer specifying the number of points, for example ::</span>
 
 <span class="sd">            &gt;&gt;&gt; x.number_of_points</span>
@@ -825,7 +823,7 @@
 <span class="sd">            &gt;&gt;&gt; x.coordinates</span>
 <span class="sd">            [0.  0.1 0.2 0.3 0.4] m / s</span>
 
-<span class="sd">        :returns: A ``Integer`` with the number of points.</span>
+<span class="sd">        :returns: An ``Integer`` with the number of points.</span>
 <span class="sd">        :raises TypeError: When the assigned value is not an integer.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gcv</span><span class="o">.</span><span class="n">_number_of_points</span><span class="p">)</span>
@@ -876,7 +874,7 @@
 <span class="sd">        An ordered array, :math:`\mathbf{A}_k`, of strings</span>
 <span class="sd">        containing the values. Depending on the values, either a</span>
 <span class="sd">        quantitative or a non-quantitative controlled variable dimension</span>
-<span class="sd">        is generated. For example,</span>
+<span class="sd">        is created. For example,</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">            \mathbf{A}_k = [\mathrm{&quot;0~cm&quot;}, \mathrm{&quot;4.1~µm&quot;},</span>
@@ -888,7 +886,7 @@
 <span class="sd">        .. math::</span>
 <span class="sd">            \mathbf{A}_k = [\mathrm{&quot;Cu&quot;}, \mathrm{&quot;Ag&quot;}, \mathrm{&quot;Au&quot;}]</span>
 
-<span class="sd">        will generate a non-quantitative controlled variable dimension. For</span>
+<span class="sd">        will generate a non-quantitative dimension. For</span>
 <span class="sd">        an arbitrarily sampled quantitative variables,</span>
 <span class="sd">        :math:`\mathbf{A}_k` is an ascending order of quantities. ::</span>
 
@@ -901,7 +899,7 @@
 
 <span class="sd">        :returns: A ``Quantity array`` for arbitrarily sampled controlled</span>
 <span class="sd">                        variables.</span>
-<span class="sd">        :returns: A ``numpy array`` for non-quantitative controlled variables.</span>
+<span class="sd">        :returns: A ``Numpy array`` for non-quantitative controlled variables.</span>
 <span class="sd">        :raises AttributeError: For linearly sampled controlled variables.</span>
 
 <span class="sd">        .. todo:</span>
@@ -930,7 +928,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">fft_output_order</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the fft output order of coordinates along the dimension.</span>
+<span class="sd">        Return the coordinates along the dimension according to the fft order.</span>
 
 <span class="sd">        A boolean specifying if the coordinates along the controlled</span>
 <span class="sd">        variable dimension are ordered according to the output of a</span>
@@ -949,7 +947,7 @@
 <span class="sd">        .. math ::</span>
 <span class="sd">            \mathbf{X}_k^\mathrm{ref} = [0, 1, 2, 3, 4, 5] \mathrm{~m/s}</span>
 
-<span class="sd">        when fft output order is false, then, with the fft output</span>
+<span class="sd">        when the fft output order is false. When the fft output</span>
 <span class="sd">        order is true, the order follows,</span>
 
 <span class="sd">        .. math ::</span>
@@ -984,21 +982,19 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the reverse order of coordinates along the dimension.</span>
+<span class="sd">        Return the coordinates along the dimension in the reverse order.</span>
 
 <span class="sd">        The order in which the :math:`\mathbf{X}_k` and</span>
-<span class="sd">        :math:`\mathbf{X}_k^\mathrm{abs}` (for quantitative dimensions)</span>
-<span class="sd">        coordinates are mapped to the grid indices. Let, the grid</span>
-<span class="sd">        indices are :math:`[0,1,2,...,N_k-1]`, then when reverse</span>
-<span class="sd">        is false, the mapping follows,</span>
+<span class="sd">        :math:`\mathbf{X}_k^\mathrm{abs}` coordinates map to the grid indices,</span>
+<span class="sd">        :math:`\mathbf{G}_k = [0,1,2,...,N_k-1]`. For example, consider</span>
 
 <span class="sd">        .. math ::</span>
-<span class="sd">            \mathbf{X}_k^\mathrm{ref} = [0, 1, 2, 3,...N_{k-1}] \mathrm{~m/s}</span>
+<span class="sd">            \mathbf{X}_k^\mathrm{ref} = [0, 1, 2, 3,...N_{k-1}] \mathrm{~m/s},</span>
 
-<span class="sd">        and when reverse is true, the mapping is</span>
+<span class="sd">        when the reverse is false. We the reverse is true, the mapping is</span>
 
 <span class="sd">        .. math ::</span>
-<span class="sd">            \mathbf{X}_k^\mathrm{ref} = [N_{k-1},...3, 2, 1, 0] \mathrm{~m/s}</span>
+<span class="sd">            \mathbf{X}_k^\mathrm{ref} = [N_{k-1},...3, 2, 1, 0] \mathrm{~m/s}.</span>
 
 <span class="sd">        ::</span>
 
@@ -1011,7 +1007,7 @@
 <span class="sd">            [10.008 10.006 10.004 10.002 10.   ] m / s</span>
 
 
-<span class="sd">        :returns: A ``boolean``.</span>
+<span class="sd">        :returns: A ``Boolean``.</span>
 <span class="sd">        :raises TypeError: When the assigned value is not a boolean.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gcv</span><span class="o">.</span><span class="n">_reverse</span><span class="p">)</span>
@@ -1028,7 +1024,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">reciprocal_reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the reverse order of coordinates along the reciprocal dimension.</span>
+<span class="sd">        Return the coordinates along the reciprocal dimension in reverse order.</span>
 
 <span class="sd">        The order in which the :math:`\mathbf{X_r}_k` and</span>
 <span class="sd">        :math:`\mathbf{X_r}_k^\mathrm{abs}` (for quantitative dimensions)</span>
@@ -1075,20 +1071,19 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">period</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the period of the dimension.</span>
+<span class="sd">        Return the period of a quantitative controlled variable dimension.</span>
 
-<span class="sd">        The period of the quantitative controlled variable, if any.</span>
-<span class="sd">        The default value is infinity, that is, the controlled variable is</span>
-<span class="sd">        considered non-periodic.</span>
-<span class="sd">        This attribute can be updated with a string containing</span>
-<span class="sd">        a quantity, representing the period, for example, ::</span>
+<span class="sd">        The default value of the period is infinity, i.e., the controlled</span>
+<span class="sd">        variable dimension is non-periodic. The attribute is updated with a</span>
+<span class="sd">        string containing a quantity which represents the period of the</span>
+<span class="sd">        controlled variable. For example, ::</span>
 
 <span class="sd">            &gt;&gt;&gt; x.period</span>
 <span class="sd">            inf m/s</span>
 <span class="sd">            &gt;&gt;&gt; x.period = &#39;10 m/s&#39;</span>
 
-<span class="sd">        To assign a quantitative controlled variable dimension as a</span>
-<span class="sd">        non-periodic dimension, one of the following may be used, ::</span>
+<span class="sd">        To assign a dimension as non-periodic, one of the following may be</span>
+<span class="sd">        used, ::</span>
 
 <span class="sd">            &gt;&gt;&gt; x.period = &#39;1/0 m/s&#39;</span>
 <span class="sd">            &gt;&gt;&gt; x.period = &#39;infinite m/s&#39;</span>
@@ -1177,11 +1172,8 @@
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the quantity name associated with the dimension.</span>
 
-<span class="sd">        This attribute is only `valid` for quantitative</span>
-<span class="sd">        controlled variables. The attribute returns the quantity</span>
-<span class="sd">        name, for example, &quot;speed&quot;.</span>
-<span class="sd">        Assigning a value to this attribute will raise a</span>
-<span class="sd">        ``NotImplementedError``. ::</span>
+<span class="sd">        The attribute is only `valid` for the quantitative</span>
+<span class="sd">        controlled variables. ::</span>
 
 <span class="sd">            &gt;&gt;&gt; x.quantity</span>
 <span class="sd">            speed</span>
@@ -1240,14 +1232,14 @@
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the label associated with the dimension.</span>
 
-<span class="sd">        This attribute can be updated with a</span>
-<span class="sd">        string containing the label, for example,</span>
+<span class="sd">        The attribute is updated with a string containing the label, for</span>
+<span class="sd">        example, ::</span>
 
-<span class="sd">        &gt;&gt;&gt; x.label</span>
-<span class="sd">        velocity</span>
-<span class="sd">        &gt;&gt;&gt; x.label = &#39;Wind velocity at 10 m above ground.&#39;</span>
+<span class="sd">            &gt;&gt;&gt; x.label</span>
+<span class="sd">            velocity</span>
+<span class="sd">            &gt;&gt;&gt; x.label = &#39;Wind velocity at 10 m above ground.&#39;</span>
 
-<span class="sd">        :returns: A ``string`` containing the label.</span>
+<span class="sd">        :returns: A ``String`` containing the label.</span>
 <span class="sd">        :raises TypeError: When the assigned value is not a string.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gcv</span><span class="o">.</span><span class="n">_label</span><span class="p">)</span>
@@ -1281,23 +1273,26 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">axis_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the axis label associated with the dimension.</span>
+<span class="sd">        Return a formatted string for displaying the label along the dimension.</span>
 
 <span class="sd">        This supplementary attribute is convenient for labeling axes.</span>
 <span class="sd">        For quantitative controlled variables, this attributes returns a</span>
-<span class="sd">        string, &#39;label / unit&#39;,  if the label is not an empty string. If the</span>
-<span class="sd">        label is an empty string, &#39;quantity / unit’ is returned instead.</span>
+<span class="sd">        string, &#39;label / unit&#39;,  if the `label` is not an empty string. If the</span>
+<span class="sd">        `label` is an empty string, &#39;quantity / unit’ is returned instead. Here</span>
+<span class="sd">        `quantity` and `label` are the attributes of the :ref:`cv_api`</span>
+<span class="sd">        instances described before, and `unit` is the unit associated with the</span>
+<span class="sd">        control variable.</span>
 <span class="sd">        For example, consider a temporal controlled variable where</span>
 
 <span class="sd">        &gt;&gt;&gt; x[0].label</span>
 <span class="sd">        &#39;&#39;</span>
 <span class="sd">        &gt;&gt;&gt; x[0].axis_label</span>
-<span class="sd">        &#39;speed / m/s&#39;</span>
+<span class="sd">        &#39;speed / ( m/s)&#39;</span>
 
 <span class="sd">        For non-quantitative controlled variables, this attribute returns</span>
-<span class="sd">        the &#39;label&#39;.</span>
+<span class="sd">        the `label`.</span>
 
-<span class="sd">        :returns: A string.</span>
+<span class="sd">        :returns: A ``String``.</span>
 <span class="sd">        :raises AttributeError: When assigned a value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
@@ -1319,7 +1314,8 @@
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the ControlledVariable object as a json object.</span>
 
-<span class="sd">        The attribute cannot be modified. ::</span>
+<span class="sd">        This supplementary attribute is useful for a quick preview of the data</span>
+<span class="sd">        structure. The attribute cannot be modified. ::</span>
 
 <span class="sd">            &gt;&gt;&gt; print(x.data_structure)</span>
 <span class="sd">            {</span>
@@ -1379,7 +1375,7 @@
 <span class="sd">            &gt;&gt;&gt; x[0].coordinates</span>
 <span class="sd">            [ 0. 12. 24. 36. 48.] cm / min</span>
 
-<span class="sd">        :params: unit : A string containing a unit with the same</span>
+<span class="sd">        :params: `unit` : A string containing a unit with the same</span>
 <span class="sd">            dimensionality as the controlled variable coordinates.</span>
 <span class="sd">        :raise AttributeError: For non-quantitative controlled variables.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1404,6 +1400,10 @@
            </div>
            
           </div>
+    <a href="https://github.com/DeepanshS/csdfpy">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+    </a>
+
           <footer>
   
 

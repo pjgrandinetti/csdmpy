@@ -7,13 +7,10 @@
 Welcome to csdfpy's documentation!
 ==================================
 
-``csdfpy`` is a python module for handling ``.csdf`` and ``.csdfx`` files.
-This module is build on the concept of core scientific dataset format which
-includes the core scientific dataset (CSD) model.
-
-
-.. .. autoclass:: csdfpy.CSDModel
-
+The ``csdfpy`` is a python module for handling a variety of scientific datasets
+stored using the core scientific dataset (CSD) model. The two supported file
+extensions are ``.csdf`` and ``.csdfx``. This module is build on the idea of
+a portable scientific dataset format which contains the (CSD) model.
 
 .. toctree::
     :maxdepth: 2
@@ -21,7 +18,6 @@ includes the core scientific dataset (CSD) model.
     :name: mastertoc
     :numbered:
 
-    includeme
     requirement
     installation
     CSDModel

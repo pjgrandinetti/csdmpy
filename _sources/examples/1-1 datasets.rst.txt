@@ -3,10 +3,11 @@
 :math:`(1,1)`-D datasets
 ------------------------
 
-In this section, we illustrate the simplest group of datasets, :math:`(1,1)`-D
-datasets, which are both one-dimensional control and uncontrol variable dataset.
+In this section, we illustrate the simplest subset of datasets, the 
+:math:`(1,1)`-D datasets, which are both one-dimensional in control and
+uncontrol variables.
 Let's start by first importing the :guilabel:`csdfpy` package. Here, we
-also import the :guilabel:`matplotlib.pyplot` package for producing plots. ::
+also import the :guilabel:`matplotlib.pyplot` package for rendering plots. ::
 
     >>> import csdfpy as cp
     >>> import matplotlib.pyplot as plt
@@ -42,14 +43,14 @@ also import the :guilabel:`matplotlib.pyplot` package for producing plots. ::
 NMR dataset
 ^^^^^^^^^^^
 
-Loading the file is as simple as, ::
+Loading the dataset file is as simple as, ::
 
     >>> filename = 'test/NMR/blochDecay/blochDecay_raw.csdfx'
     >>> NMRdata = cp.load(filename)
 
-where `filename` contains the local address to the `.csdfx` or `.csdf` file.
+where the `filename` contains the local address to the `.csdfx` or `.csdf` file.
 The :py:meth:`~csdfpy.load` method of the :guilabel:`csdfpy` package reads the
-file and return an object, in this case, ``NMRdata``, of the
+file and return an object, in this case, the ``NMRdata`` of the
 :ref:`CSDModel <csdm_api>` class. For a quick preview of the data contents
 from this object, use the :py:attr:`~csdfpy.CSDModel.data_structure` attribute.
 This returns a JSON object as shown below. ::
@@ -84,9 +85,9 @@ This returns a JSON object as shown below. ::
 
 .. note::
     The JSON output from the :py:attr:`~csdfpy.CSDModel.data_structure`
-    attribute is not the same as
-    the JSON serialization on file. This attribute is only intended for a quick
-    preview of the data structure and avoids displaying large data. Do not use
+    attribute is not the same as the JSON serialization on the file.
+    This attribute is only intended for a quick preview of the data 
+    structure and avoids displaying large datasets. Do not use
     the value of this attribute to save the data to the file. Instead, use the
     :py:meth:`~csdfpy.CSDModel.save` method of the :ref:`CSDModel <csdm_api>`
     class.
@@ -96,8 +97,8 @@ The tuples of controlled and the uncontrolled variables are accessed with ::
     >>> x = NMRdata.controlled_variables
     >>> y = NMRdata.uncontrolled_variables
 
-respectively. The coordinates of the controlled variable, ``x0``, and the
-component of the uncontrolled variable, ``y00``, are ::
+respectively. The coordinates of the controlled variable, `x0`, and the
+component of the uncontrolled variable, `y00`, are ::
 
     >>> x0 = x[0].cooridnates
     >>> x0
@@ -113,7 +114,7 @@ respectively.
 
 Before we plot the dataset, we find it convenient to write a small plotting
 method. This method makes it easier, later, when we describe :math:`(1,1)`-D
-examples form the number of scientific fields. The method follows, ::
+examples form a variety of scientific datasets. The method follows, ::
 
     >>> def plot1D(dataObject):
     >>>     fig, ax = plt.subplots(1,1,  figsize=(3.4,2.1))
@@ -136,13 +137,13 @@ examples form the number of scientific fields. The method follows, ::
     >>>     plt.savefig(dataObject.filename+'.pdf')
     >>>     plt.show()
 
-A quick description of the ``plot1D`` method. The method accepts an
-object of the
+Let's take a quick look at the ``plot1D`` method. The method accepts an
+instance of the
 :ref:`CSDModel <csdm_api>` class as an argument. Within the method, we make
-use of a number of attributes from this object in addition to the matplotlib
+use of the attributes from this object in addition to the matplotlib
 functions. The first line creates a new blank figure. In the following four
-lines, we define ``x``, ``y``, ``x0``, and ``y00`` as previously described. The
-next line adds a plot of ``y00`` vs ``x0`` to the figure. For labeling the
+lines, we define the `x`, `y`, `x0`, and `y00` as previously described. The
+next line adds a plot of `y00` vs. `x0` to the figure. For labeling the
 axes, we use the 
 :py:attr:`~csdfpy.ControlledVariable.axis_label` attribute of both control and
 uncontrol variable objects. For the figure title, we use the
@@ -151,8 +152,7 @@ uncontrol variable object. The following `if` statement plot the figure with
 the x-axis in reverse, if the 
 :py:attr:`~csdfpy.ControlledVariable.reverse` attribute of the control
 variable is True.
-Please refer to the :ref:`cv_api` and :ref:`uv_api` for additional
-information.
+For more information refer to the :ref:`cv_api` and :ref:`uv_api`.
 
 Now to plot the ``NMRdata`` contents,
 

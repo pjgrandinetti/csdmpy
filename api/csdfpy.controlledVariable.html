@@ -1,4 +1,4 @@
-
+<!-- 
 
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>9.3. Controlled variable &mdash; csdfpy 0.0.9 documentation</title>
+  <title>8.3. Controlled variable &mdash; csdfpy 0.0.9alpha documentation</title>
   
 
   
@@ -29,8 +29,8 @@
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="9.4. Uncontrolled variable" href="csdfpy.UnControlledVariable.html" />
-    <link rel="prev" title="9.2. CSDModel" href="csdfpy.CSDModel.html" /> 
+    <link rel="next" title="8.4. Uncontrolled variable" href="csdfpy.UnControlledVariable.html" />
+    <link rel="prev" title="8.2. CSDModel" href="csdfpy.CSDModel.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -88,19 +88,18 @@
             
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../includeme.html">1. No tile</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../requirement.html">2. The requirements for csdfpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">3. Installing <span class="guilabel">csdfpy</span> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../CSDModel.html">4. The core scientific dataset model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Importing_csdfpy.html">5. Getting Satrted With <span class="guilabel">csdfpy</span> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">6. Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../startingFromScrach.html">7. Starting from scrach</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/A fun example.html">8. A fun 🤪 example</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../referenceAPI.html">9. Reference/API documentation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="csdfpy.html">9.1. csdfpy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="csdfpy.CSDModel.html">9.2. CSDModel</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">9.3. Controlled variable</a></li>
-<li class="toctree-l2"><a class="reference internal" href="csdfpy.UnControlledVariable.html">9.4. Uncontrolled variable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../requirement.html">1. The requirements for csdfpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CSDModel.html">3. The core scientific dataset model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Importing_csdfpy.html">4. Getting Started With <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">5. Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../startingFromScrach.html">6. Starting from scrach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/A fun example.html">7. A fun 🤪 example</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../referenceAPI.html">8. Reference/API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="csdfpy.html">8.1. csdfpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="csdfpy.CSDModel.html">8.2. CSDModel</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">8.3. Controlled variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="csdfpy.UnControlledVariable.html">8.4. Uncontrolled variable</a></li>
 </ul>
 </li>
 </ul>
@@ -148,9 +147,9 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../referenceAPI.html">9. Reference/API documentation</a> &raquo;</li>
+          <li><a href="../referenceAPI.html">8. Reference/API documentation</a> &raquo;</li>
         
-      <li>9.3. Controlled variable</li>
+      <li>8.3. Controlled variable</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -167,6 +166,7 @@
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+
            <div itemprop="articleBody">
             
   
@@ -194,16 +194,16 @@
 }
 </style>
 <div class="section" id="controlled-variable">
-<span id="cv-api"></span><h1>9.3. Controlled variable<a class="headerlink" href="#controlled-variable" title="Permalink to this headline">¶</a></h1>
+<span id="cv-api"></span><h1>8.3. Controlled variable<a class="headerlink" href="#controlled-variable" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="csdfpy.ControlledVariable">
 <em class="property">class </em><code class="descclassname">csdfpy.</code><code class="descname">ControlledVariable</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/csdfpy/cv.html#ControlledVariable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#csdfpy.ControlledVariable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The base ControlledVariable class.</p>
-<p>This class returns an object which represents a control variable.
-There are three types of control variables based on the types of
-dimensions: a linearly sampled, an arbitrarily sampled, and a
-non-qunatitative dimensions, respectively.</p>
+<p>This class returns an object which represents a control variable. There are
+three types of controlled variables based on the three types ofdimensions:
+a linearly sampled, an arbitrarily sampled, and a
+non-quantitative dimension, respectively.</p>
 <p><strong>A linearly sampled control variable</strong></p>
 <p>Let <span class="math notranslate nohighlight">\(m_k\)</span> be the sampling interval, <span class="math notranslate nohighlight">\(N_k \ge 1\)</span> be the
 number of points, <span class="math notranslate nohighlight">\(c_k\)</span> be the reference offset, and
@@ -213,10 +213,10 @@ dimension are given as,</p>
 <div class="math notranslate nohighlight" id="equation-eq-linear-gcv">
 <span class="eqno">(1)<a class="headerlink" href="#equation-eq-linear-gcv" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{align}
 \mathbf{X}_k &amp;= [m_k j ]_{j=0}^{N_k-1} - c_k \mathbf{1}, \\
-\mathbf{X}_k^\mathrm{abs} &amp;= \mathbf{X}_k + o_k \mathbf{1},
+\mathbf{X}_k^\mathrm{abs} &amp;= \mathbf{X}_k + o_k \mathbf{1}.
 \end{align}\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(\mathbf{X}_k\)</span> and <span class="math notranslate nohighlight">\(\mathbf{X}_k^\mathrm{abs}\)</span> are the
-ordered arrays of the reference amd absolute control variable coordinates,
+<p>Here <span class="math notranslate nohighlight">\(\mathbf{X}_k\)</span> and <span class="math notranslate nohighlight">\(\mathbf{X}_k^\mathrm{abs}\)</span> are the
+ordered arrays of the reference and absolute control variable coordinates,
 respectively, and <span class="math notranslate nohighlight">\(\mathbf{1}\)</span> is an array of ones.</p>
 <p><strong>An arbitrarily sampled control variable</strong></p>
 <p>Let <span class="math notranslate nohighlight">\(\mathbf{A}_k\)</span> be an ordered array of ascending
@@ -238,11 +238,10 @@ Let <span class="math notranslate nohighlight">\(\mathbf{A}_k\)</span> be an arr
 the corresponding coordinates along this dimension follow,</p>
 <div class="math notranslate nohighlight">
 \[\mathbf{X}_k = \mathbf{A}_k.\]</div>
-<p><strong>Constructing a ControlledVariable object.</strong></p>
-<p>There are a number of different ways to construct a control variable,
-but it always returns a ControlledVariable instance.</p>
-<p><cite>Create a control variable with a python dictionary containing valid
-keywords.</cite></p>
+<p><strong>Creating a new control variable.</strong></p>
+<p>There are two ways to create a new control variable using this class, but
+it always returns a ControlledVariable instance.</p>
+<p><cite>From a python dictionary containing valid keywords.</cite></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">csdfpy</span> <span class="k">import</span> <span class="n">ControlledVariable</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">py_dictionary</span> <span class="o">=</span> <span class="p">{</span>
 <span class="gp">... </span>    <span class="s1">&#39;sampling_interval&#39;</span><span class="p">:</span> <span class="s1">&#39;5 G&#39;</span>
@@ -252,7 +251,7 @@ keywords.</cite></p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">var1</span> <span class="o">=</span> <span class="n">ControlledVariable</span><span class="p">(</span><span class="n">py_dictionary</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><cite>Create a control variable with valid keyword arguaments.</cite></p>
+<p><cite>From valid keyword arguaments.</cite></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">var2</span> <span class="o">=</span> <span class="n">ControlledVariable</span><span class="p">(</span><span class="n">sampling_interval</span> <span class="o">=</span> <span class="s1">&#39;5 G&#39;</span><span class="p">,</span>
 <span class="gp">... </span>                          <span class="n">number_of_points</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
 <span class="gp">... </span>                          <span class="n">reference_offset</span> <span class="o">=</span> <span class="s1">&#39;-10 mT&#39;</span><span class="p">)</span>
@@ -266,10 +265,10 @@ keywords.</cite></p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#csdfpy.ControlledVariable.variable_type" title="csdfpy.ControlledVariable.variable_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variable_type</span></code></a></td>
-<td>Return the type of the controlled variable.</td>
+<td>Return the control variable type.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#csdfpy.ControlledVariable.coordinates" title="csdfpy.ControlledVariable.coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">coordinates</span></code></a></td>
-<td>Return an array of coordinates, <span class="math notranslate nohighlight">\(\mathbf{X}_k\)</span>, along the dimension.</td>
+<td>Return an array of reference coordinates, <span class="math notranslate nohighlight">\(\mathbf{X}_k\)</span>, along the dimension.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#csdfpy.ControlledVariable.absolute_coordinates" title="csdfpy.ControlledVariable.absolute_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">absolute_coordinates</span></code></a></td>
 <td>Return an array of absolute coordinates, <span class="math notranslate nohighlight">\(\mathbf{X}_k^\mathrm{abs}\)</span>, along the dimension.</td>
@@ -281,7 +280,7 @@ keywords.</cite></p>
 <td>Return the number of points along the dimension.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#csdfpy.ControlledVariable.sampling_interval" title="csdfpy.ControlledVariable.sampling_interval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sampling_interval</span></code></a></td>
-<td>Return the sampling interval along the dimension.</td>
+<td>Return the sampling interval, <span class="math notranslate nohighlight">\(m_k\)</span>, along the dimension.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#csdfpy.ControlledVariable.reference_offset" title="csdfpy.ControlledVariable.reference_offset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reference_offset</span></code></a></td>
 <td>Return the reference offset, <span class="math notranslate nohighlight">\(c_k\)</span>, along the dimension.</td>
@@ -290,10 +289,10 @@ keywords.</cite></p>
 <td>Return the origin offset, <span class="math notranslate nohighlight">\(o_k\)</span>, along the dimension.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#csdfpy.ControlledVariable.reverse" title="csdfpy.ControlledVariable.reverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reverse</span></code></a></td>
-<td>Return the reverse order of coordinates along the dimension.</td>
+<td>Return the coordinates along the dimension in the reverse order.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#csdfpy.ControlledVariable.fft_output_order" title="csdfpy.ControlledVariable.fft_output_order"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fft_output_order</span></code></a></td>
-<td>Return the fft output order of coordinates along the dimension.</td>
+<td>Return the coordinates along the dimension according to the fft order.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#csdfpy.ControlledVariable.quantity" title="csdfpy.ControlledVariable.quantity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">quantity</span></code></a></td>
 <td>Return the quantity name associated with the dimension.</td>
@@ -302,10 +301,10 @@ keywords.</cite></p>
 <td>Return the label associated with the dimension.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#csdfpy.ControlledVariable.period" title="csdfpy.ControlledVariable.period"><code class="xref py py-obj docutils literal notranslate"><span class="pre">period</span></code></a></td>
-<td>Return the period of the dimension.</td>
+<td>Return the period of a quantitative controlled variable dimension.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#csdfpy.ControlledVariable.axis_label" title="csdfpy.ControlledVariable.axis_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">axis_label</span></code></a></td>
-<td>Return the axis label associated with the dimension.</td>
+<td>Return a formatted string for displaying the label along the dimension.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#csdfpy.ControlledVariable.data_structure" title="csdfpy.ControlledVariable.data_structure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_structure</span></code></a></td>
 <td>Return the ControlledVariable object as a json object.</td>
@@ -328,7 +327,7 @@ keywords.</cite></p>
 <dl class="attribute">
 <dt id="csdfpy.ControlledVariable.variable_type">
 <code class="descname">variable_type</code><a class="headerlink" href="#csdfpy.ControlledVariable.variable_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the type of the controlled variable.</p>
+<dd><p>Return the control variable type.</p>
 <p>There are three types of controlled variables base on the types of
 dimensions, linearly and arbitrarily sampled quantitative grid
 dimensions and non-quantitative dimension.
@@ -345,7 +344,7 @@ class associated with a linearly sampled controlled variable.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A string.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><strong>AttributeError</strong> – When the attribute is attempted to be modified.</td>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><strong>AttributeError</strong> – When the attribute is modified.</td>
 </tr>
 </tbody>
 </table>
@@ -354,7 +353,7 @@ class associated with a linearly sampled controlled variable.</p>
 <dl class="attribute">
 <dt id="csdfpy.ControlledVariable.coordinates">
 <code class="descname">coordinates</code><a class="headerlink" href="#csdfpy.ControlledVariable.coordinates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return an array of coordinates, <span class="math notranslate nohighlight">\(\mathbf{X}_k\)</span>, along the dimension.</p>
+<dd><p>Return an array of reference coordinates, <span class="math notranslate nohighlight">\(\mathbf{X}_k\)</span>, along the dimension.</p>
 <p>The order of these coordinates
 depends on the value of the <code class="docutils literal notranslate"><span class="pre">reverse</span></code> and the <code class="docutils literal notranslate"><span class="pre">fft_output_order</span></code>
 (only applicable when sampling is linear along the dimension)
@@ -370,10 +369,10 @@ attributes of the class. This attribute cannot be modified.</p>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal notranslate"><span class="pre">Quantity</span> <span class="pre">array</span></code> when the controlled variable is
 quantitative.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">array</span></code> when the controlled variable is
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal notranslate"><span class="pre">Numpy</span> <span class="pre">array</span></code> when the controlled variable is
 non-quantitative.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><strong>AttributeError</strong> – When the attribute is attempted to be modified.</td>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><strong>AttributeError</strong> – When the attribute is modified.</td>
 </tr>
 </tbody>
 </table>
@@ -407,7 +406,7 @@ variable is quantitative.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
 <li><strong>AttributeError</strong> – For non-quantitative controlled variables.</li>
-<li><strong>AttributeError</strong> – When the attribute is attempted to be modified.</li>
+<li><strong>AttributeError</strong> – When the attribute is modified.</li>
 </ul>
 </td>
 </tr>
@@ -422,7 +421,7 @@ variable is quantitative.</p>
 <p>An ordered array, <span class="math notranslate nohighlight">\(\mathbf{A}_k\)</span>, of strings
 containing the values. Depending on the values, either a
 quantitative or a non-quantitative controlled variable dimension
-is generated. For example,</p>
+is created. For example,</p>
 <div class="math notranslate nohighlight">
 \[\mathbf{A}_k = [\mathrm{&quot;0~cm&quot;}, \mathrm{&quot;4.1~µm&quot;},
 \mathrm{&quot;0.3~mm&quot;}, \mathrm{&quot;5.8~m&quot;}, \mathrm{&quot;32.4~km&quot;}]\]</div>
@@ -430,7 +429,7 @@ is generated. For example,</p>
 while,</p>
 <div class="math notranslate nohighlight">
 \[\mathbf{A}_k = [\mathrm{&quot;Cu&quot;}, \mathrm{&quot;Ag&quot;}, \mathrm{&quot;Au&quot;}]\]</div>
-<p>will generate a non-quantitative controlled variable dimension. For
+<p>will generate a non-quantitative dimension. For
 an arbitrarily sampled quantitative variables,
 <span class="math notranslate nohighlight">\(\mathbf{A}_k\)</span> is an ascending order of quantities.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;0cm&#39;</span><span class="p">,</span> <span class="s1">&#39;4.1µm&#39;</span><span class="p">,</span> <span class="s1">&#39;0.3mm&#39;</span><span class="p">,</span> <span class="s1">&#39;5.8m&#39;</span><span class="p">,</span> <span class="s1">&#39;32.4km&#39;</span><span class="p">]</span>
@@ -447,7 +446,7 @@ and the non-quantitative controlled variable respectively.</p>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal notranslate"><span class="pre">Quantity</span> <span class="pre">array</span></code> for arbitrarily sampled controlled
 variables.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal notranslate"><span class="pre">numpy</span> <span class="pre">array</span></code> for non-quantitative controlled variables.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal notranslate"><span class="pre">Numpy</span> <span class="pre">array</span></code> for non-quantitative controlled variables.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><strong>AttributeError</strong> – For linearly sampled controlled variables.</td>
 </tr>
@@ -460,7 +459,7 @@ variables.</td>
 <code class="descname">number_of_points</code><a class="headerlink" href="#csdfpy.ControlledVariable.number_of_points" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the number of points along the dimension.</p>
 <p>The number of points, <span class="math notranslate nohighlight">\(N_k \ge 1\)</span>, along the controlled
-variable dimension. This attribute can be updated with an
+variable dimension. The attribute is updated with an
 integer specifying the number of points, for example</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">number_of_points</span>
 <span class="go">10</span>
@@ -473,7 +472,7 @@ integer specifying the number of points, for example</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal notranslate"><span class="pre">Integer</span></code> with the number of points.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An <code class="docutils literal notranslate"><span class="pre">Integer</span></code> with the number of points.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><strong>TypeError</strong> – When the assigned value is not an integer.</td>
 </tr>
@@ -484,10 +483,9 @@ integer specifying the number of points, for example</p>
 <dl class="attribute">
 <dt id="csdfpy.ControlledVariable.sampling_interval">
 <code class="descname">sampling_interval</code><a class="headerlink" href="#csdfpy.ControlledVariable.sampling_interval" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the sampling interval along the dimension.</p>
-<p>The sampling interval, <span class="math notranslate nohighlight">\(m_k\)</span>, along the controlled variable
-dimension. This attribute is only <cite>valid</cite> for instances specifying a
-linearly sampled controlled variable dimension. When assigning a value,
+<dd><p>Return the sampling interval, <span class="math notranslate nohighlight">\(m_k\)</span>, along the dimension.</p>
+<p>The attribute is only <cite>valid</cite> for instances with linearly sampled
+controlled-variable dimensions. When assigning a value,
 the dimensionality of the value must be consistent with the
 dimensionality of other members specifying the grid dimension.
 Additionally, the sampling interval must be a positive real number.
@@ -519,7 +517,6 @@ will automatically trigger an update on its reciprocal counterpart.</p>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
 <li><strong>AttributeError</strong> – For non-quantitative and arbitrarily
 sampled controlled variables.</li>
-<li><strong>AttributeError</strong> – For non-quantitative controlled variables.</li>
 <li><strong>TypeError</strong> – When the assigned value is not a string.</li>
 </ul>
 </td>
@@ -532,10 +529,11 @@ sampled controlled variables.</li>
 <dt id="csdfpy.ControlledVariable.reference_offset">
 <code class="descname">reference_offset</code><a class="headerlink" href="#csdfpy.ControlledVariable.reference_offset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the reference offset, <span class="math notranslate nohighlight">\(c_k\)</span>, along the dimension.</p>
-<p>This attribute is only <cite>valid</cite> for the quantitative
+<p>The attribute is only <cite>valid</cite> for quantitative
 dimensions. When assigning a value, the dimensionality of the value
-must be consistent with other members specifying the dimension. The
-value is assigned with a string containing the reference offset,
+must be consistent with the dimensionality of the other members
+specifying the dimension. The value is assigned with a string
+containing the reference offset,
 for example,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">reference_offset</span>
 <span class="go">0 cm/s</span>
@@ -565,7 +563,7 @@ for example,</p>
 <dt id="csdfpy.ControlledVariable.origin_offset">
 <code class="descname">origin_offset</code><a class="headerlink" href="#csdfpy.ControlledVariable.origin_offset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the origin offset, <span class="math notranslate nohighlight">\(o_k\)</span>, along the dimension.</p>
-<p>This attribute is only <cite>valid</cite> for the quantitative
+<p>The attribute is only <cite>valid</cite> for quantitative
 dimensions. When assigning a value, the dimensionality of the value
 must be consistent with the dimensionality of other members specifying
 the dimension. The value is assigned with a string containing the
@@ -597,17 +595,15 @@ origin offset, for example,</p>
 <dl class="attribute">
 <dt id="csdfpy.ControlledVariable.reverse">
 <code class="descname">reverse</code><a class="headerlink" href="#csdfpy.ControlledVariable.reverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the reverse order of coordinates along the dimension.</p>
+<dd><p>Return the coordinates along the dimension in the reverse order.</p>
 <p>The order in which the <span class="math notranslate nohighlight">\(\mathbf{X}_k\)</span> and
-<span class="math notranslate nohighlight">\(\mathbf{X}_k^\mathrm{abs}\)</span> (for quantitative dimensions)
-coordinates are mapped to the grid indices. Let, the grid
-indices are <span class="math notranslate nohighlight">\([0,1,2,...,N_k-1]\)</span>, then when reverse
-is false, the mapping follows,</p>
+<span class="math notranslate nohighlight">\(\mathbf{X}_k^\mathrm{abs}\)</span> coordinates map to the grid indices,
+<span class="math notranslate nohighlight">\(\mathbf{G}_k = [0,1,2,...,N_k-1]\)</span>. For example, consider</p>
 <div class="math notranslate nohighlight">
-\[\mathbf{X}_k^\mathrm{ref} = [0, 1, 2, 3,...N_{k-1}] \mathrm{~m/s}\]</div>
-<p>and when reverse is true, the mapping is</p>
+\[\mathbf{X}_k^\mathrm{ref} = [0, 1, 2, 3,...N_{k-1}] \mathrm{~m/s},\]</div>
+<p>when the reverse is false. We the reverse is true, the mapping is</p>
 <div class="math notranslate nohighlight">
-\[\mathbf{X}_k^\mathrm{ref} = [N_{k-1},...3, 2, 1, 0] \mathrm{~m/s}\]</div>
+\[\mathbf{X}_k^\mathrm{ref} = [N_{k-1},...3, 2, 1, 0] \mathrm{~m/s}.\]</div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">reverse</span>
 <span class="go">False</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">coordinates</span>
@@ -621,7 +617,7 @@ is false, the mapping follows,</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal notranslate"><span class="pre">boolean</span></code>.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal notranslate"><span class="pre">Boolean</span></code>.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><strong>TypeError</strong> – When the assigned value is not a boolean.</td>
 </tr>
@@ -632,7 +628,7 @@ is false, the mapping follows,</p>
 <dl class="attribute">
 <dt id="csdfpy.ControlledVariable.fft_output_order">
 <code class="descname">fft_output_order</code><a class="headerlink" href="#csdfpy.ControlledVariable.fft_output_order" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the fft output order of coordinates along the dimension.</p>
+<dd><p>Return the coordinates along the dimension according to the fft order.</p>
 <p>A boolean specifying if the coordinates along the controlled
 variable dimension are ordered according to the output of a
 fast Fourier transform (FFT) routine. This attribute is only
@@ -648,7 +644,7 @@ This is also the ordering needed for the input of the inverse FFT.
 For example, consider</p>
 <div class="math notranslate nohighlight">
 \[\mathbf{X}_k^\mathrm{ref} = [0, 1, 2, 3, 4, 5] \mathrm{~m/s}\]</div>
-<p>when fft output order is false, then, with the fft output
+<p>when the fft output order is false. When the fft output
 order is true, the order follows,</p>
 <div class="math notranslate nohighlight">
 \[\mathbf{X}_k^\mathrm{ref} = [0 ,1, 2, -3, -2, -1] \mathrm{~m/s}\]</div>
@@ -668,11 +664,8 @@ order is true, the order follows,</p>
 <dt id="csdfpy.ControlledVariable.quantity">
 <code class="descname">quantity</code><a class="headerlink" href="#csdfpy.ControlledVariable.quantity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the quantity name associated with the dimension.</p>
-<p>This attribute is only <cite>valid</cite> for quantitative
-controlled variables. The attribute returns the quantity
-name, for example, “speed”.
-Assigning a value to this attribute will raise a
-<code class="docutils literal notranslate"><span class="pre">NotImplementedError</span></code>.</p>
+<p>The attribute is only <cite>valid</cite> for the quantitative
+controlled variables.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">quantity</span>
 <span class="go">speed</span>
 </pre></div>
@@ -698,8 +691,8 @@ Assigning a value to this attribute will raise a
 <dt id="csdfpy.ControlledVariable.label">
 <code class="descname">label</code><a class="headerlink" href="#csdfpy.ControlledVariable.label" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the label associated with the dimension.</p>
-<p>This attribute can be updated with a
-string containing the label, for example,</p>
+<p>The attribute is updated with a string containing the label, for
+example,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">label</span>
 <span class="go">velocity</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Wind velocity at 10 m above ground.&#39;</span>
@@ -709,7 +702,7 @@ string containing the label, for example,</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal notranslate"><span class="pre">string</span></code> containing the label.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal notranslate"><span class="pre">String</span></code> containing the label.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><strong>TypeError</strong> – When the assigned value is not a string.</td>
 </tr>
@@ -720,19 +713,18 @@ string containing the label, for example,</p>
 <dl class="attribute">
 <dt id="csdfpy.ControlledVariable.period">
 <code class="descname">period</code><a class="headerlink" href="#csdfpy.ControlledVariable.period" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the period of the dimension.</p>
-<p>The period of the quantitative controlled variable, if any.
-The default value is infinity, that is, the controlled variable is
-considered non-periodic.
-This attribute can be updated with a string containing
-a quantity, representing the period, for example,</p>
+<dd><p>Return the period of a quantitative controlled variable dimension.</p>
+<p>The default value of the period is infinity, i.e., the controlled
+variable dimension is non-periodic. The attribute is updated with a
+string containing a quantity which represents the period of the
+controlled variable. For example,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">period</span>
 <span class="go">inf m/s</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="s1">&#39;10 m/s&#39;</span>
 </pre></div>
 </div>
-<p>To assign a quantitative controlled variable dimension as a
-non-periodic dimension, one of the following may be used,</p>
+<p>To assign a dimension as non-periodic, one of the following may be
+used,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="s1">&#39;1/0 m/s&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="s1">&#39;infinite m/s&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="s1">&#39;∞ m/s&#39;</span>
@@ -759,25 +751,28 @@ controlled variables.</p>
 <dl class="attribute">
 <dt id="csdfpy.ControlledVariable.axis_label">
 <code class="descname">axis_label</code><a class="headerlink" href="#csdfpy.ControlledVariable.axis_label" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the axis label associated with the dimension.</p>
+<dd><p>Return a formatted string for displaying the label along the dimension.</p>
 <p>This supplementary attribute is convenient for labeling axes.
 For quantitative controlled variables, this attributes returns a
-string, ‘label / unit’,  if the label is not an empty string. If the
-label is an empty string, ‘quantity / unit’ is returned instead.
+string, ‘label / unit’,  if the <cite>label</cite> is not an empty string. If the
+<cite>label</cite> is an empty string, ‘quantity / unit’ is returned instead. Here
+<cite>quantity</cite> and <cite>label</cite> are the attributes of the <a class="reference internal" href="#cv-api"><span class="std std-ref">Controlled variable</span></a>
+instances described before, and <cite>unit</cite> is the unit associated with the
+control variable.
 For example, consider a temporal controlled variable where</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">label</span>
 <span class="go">&#39;&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis_label</span>
-<span class="go">&#39;speed / m/s&#39;</span>
+<span class="go">&#39;speed / ( m/s)&#39;</span>
 </pre></div>
 </div>
 <p>For non-quantitative controlled variables, this attribute returns
-the ‘label’.</p>
+the <cite>label</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A string.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal notranslate"><span class="pre">String</span></code>.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><strong>AttributeError</strong> – When assigned a value.</td>
 </tr>
@@ -789,7 +784,8 @@ the ‘label’.</p>
 <dt id="csdfpy.ControlledVariable.data_structure">
 <code class="descname">data_structure</code><a class="headerlink" href="#csdfpy.ControlledVariable.data_structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the ControlledVariable object as a json object.</p>
-<p>The attribute cannot be modified.</p>
+<p>This supplementary attribute is useful for a quick preview of the data
+structure. The attribute cannot be modified.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">data_structure</span><span class="p">)</span>
 <span class="go">{</span>
 <span class="go">    &quot;number_of_points&quot;: 5,</span>
@@ -833,7 +829,7 @@ and is only <cite>valid</cite> for physical dimensions.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Params:</th><td class="field-body">unit : A string containing a unit with the same
+<tr class="field-odd field"><th class="field-name">Params:</th><td class="field-body"><cite>unit</cite> : A string containing a unit with the same
 dimensionality as the controlled variable coordinates.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><strong>AttributeError</strong> – For non-quantitative controlled variables.</td>
@@ -850,14 +846,18 @@ dimensionality as the controlled variable coordinates.</td>
            </div>
            
           </div>
+    <a href="https://github.com/DeepanshS/csdfpy">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+    </a>
+
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="csdfpy.UnControlledVariable.html" class="btn btn-neutral float-right" title="9.4. Uncontrolled variable" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="csdfpy.UnControlledVariable.html" class="btn btn-neutral float-right" title="8.4. Uncontrolled variable" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="csdfpy.CSDModel.html" class="btn btn-neutral" title="9.2. CSDModel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="csdfpy.CSDModel.html" class="btn btn-neutral" title="8.2. CSDModel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

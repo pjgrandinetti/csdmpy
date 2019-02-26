@@ -41,5 +41,16 @@ it is easily human readable and also integrable with any
 number of programming languages and field related
 application-software.
 
+The CSD model follows,
 
-.. seeAlso:: :ref:`csdm_api`
+.. math::
+
+    y_\alpha = f_\alpha(x_0, x_1, ... x_k, ... x_{d-1})
+    \forall \alpha \in \mathbb{Z}
+
+where :math:`y_\alpha` is the uncontrolled variable and the :math:`x_k`,
+:math:`k \in \{0, 1, ... ,d-1\}`, are the controlled variables. The model
+supports any arbitrary :math:`d`-dimensional controlled variable space
+where :math:`x_k` is its :math:`k^\mathrm{th}` dimension, and any arbitrary
+:math:`p_\alpha`-dimensional uncontrolled variable space where every dimension
+is a component of the uncontrolled variable.
