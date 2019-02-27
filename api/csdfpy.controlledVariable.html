@@ -90,7 +90,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../requirement.html">1. The requirements for csdfpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../CSDModel.html">3. The core scientific dataset model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CSDModel.html">3. The core scientific dataset (CSD) model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Importing_csdfpy.html">4. Getting Started With <span class="guilabel">csdfpy</span> package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">5. Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../startingFromScrach.html">6. Starting from scrach</a></li>
@@ -155,7 +155,9 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/api/csdfpy.ControlledVariable.rst.txt" rel="nofollow"> View page source</a>
+            
+              <a href="https://github.com/DeepanshS/csdfpy/blob/master/docs/source/api/csdfpy.ControlledVariable.rst" class="fa fa-github"> Edit on GitHub</a>
+            
           
         
       </li>
@@ -244,17 +246,19 @@ it always returns a ControlledVariable instance.</p>
 <p><cite>From a python dictionary containing valid keywords.</cite></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">csdfpy</span> <span class="k">import</span> <span class="n">ControlledVariable</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">py_dictionary</span> <span class="o">=</span> <span class="p">{</span>
-<span class="gp">... </span>    <span class="s1">&#39;sampling_interval&#39;</span><span class="p">:</span> <span class="s1">&#39;5 G&#39;</span>
-<span class="gp">... </span>    <span class="s1">&#39;number_of_points: 50,</span>
-<span class="gp">... </span>    <span class="s1">&#39;reference_offset&#39;</span><span class="p">:</span> <span class="s1">&#39;-10 mT&#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;sampling_interval&#39;</span><span class="p">:</span> <span class="s1">&#39;5 G&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;number_of_points&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;reference_offset&#39;</span><span class="p">:</span> <span class="s1">&#39;-10 mT&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;origin_offset&#39;</span><span class="p">:</span> <span class="s1">&#39;10 T&#39;</span>
 <span class="gp">... </span><span class="p">}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">var1</span> <span class="o">=</span> <span class="n">ControlledVariable</span><span class="p">(</span><span class="n">py_dictionary</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">ControlledVariable</span><span class="p">(</span><span class="n">py_dictionary</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><cite>From valid keyword arguaments.</cite></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">var2</span> <span class="o">=</span> <span class="n">ControlledVariable</span><span class="p">(</span><span class="n">sampling_interval</span> <span class="o">=</span> <span class="s1">&#39;5 G&#39;</span><span class="p">,</span>
-<span class="gp">... </span>                          <span class="n">number_of_points</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
-<span class="gp">... </span>                          <span class="n">reference_offset</span> <span class="o">=</span> <span class="s1">&#39;-10 mT&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">ControlledVariable</span><span class="p">(</span><span class="n">sampling_interval</span> <span class="o">=</span> <span class="s1">&#39;5 G&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                       <span class="n">number_of_points</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+<span class="gp">... </span>                       <span class="n">reference_offset</span> <span class="o">=</span> <span class="s1">&#39;-10 mT&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                       <span class="n">origin_offset</span> <span class="o">=</span> <span class="s1">&#39;10 T&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p class="rubric">Attributes Summary</p>
@@ -332,7 +336,7 @@ it always returns a ControlledVariable instance.</p>
 dimensions, linearly and arbitrarily sampled quantitative grid
 dimensions and non-quantitative dimension.
 This attribute cannot be modified.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">variable_type</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">variable_type</span><span class="p">)</span>
 <span class="go">Linearly sampled grid controlled variable</span>
 </pre></div>
 </div>
@@ -358,8 +362,8 @@ class associated with a linearly sampled controlled variable.</p>
 depends on the value of the <code class="docutils literal notranslate"><span class="pre">reverse</span></code> and the <code class="docutils literal notranslate"><span class="pre">fft_output_order</span></code>
 (only applicable when sampling is linear along the dimension)
 attributes of the class. This attribute cannot be modified.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">coordinates</span>
-<span class="go">[0.  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9] m/s</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">[100. 105. 110. 115. 120. 125. 130. 135. 140. 145.] G</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -388,10 +392,10 @@ these coordinates depends on the value of the <code class="docutils literal notr
 <code class="docutils literal notranslate"><span class="pre">fft_output_order</span></code> (only applicable when sampling is linear along
 the dimension) attributes of the class. This attribute cannot be
 modified.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">origin_offset</span>
-<span class="go">100.0 m / s</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">absolute_coordinates</span>
-<span class="go">[100.  100.1 100.2 100.3 100.4 100.5 100.6 100.7 100.8 100.9] m / s</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">origin_offset</span><span class="p">)</span>
+<span class="go">10.0 T</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">absolute_coordinates</span><span class="p">)</span>
+<span class="go">[100100. 100105. 100110. 100115. 100120. 100125. 100130. 100135. 100140. 100145.] G</span>
 </pre></div>
 </div>
 <p>In the above example, the absolute coordinate is <code class="docutils literal notranslate"><span class="pre">coordinates</span>
@@ -432,7 +436,10 @@ while,</p>
 <p>will generate a non-quantitative dimension. For
 an arbitrarily sampled quantitative variables,
 <span class="math notranslate nohighlight">\(\mathbf{A}_k\)</span> is an ascending order of quantities.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;0cm&#39;</span><span class="p">,</span> <span class="s1">&#39;4.1µm&#39;</span><span class="p">,</span> <span class="s1">&#39;0.3mm&#39;</span><span class="p">,</span> <span class="s1">&#39;5.8m&#39;</span><span class="p">,</span> <span class="s1">&#39;32.4km&#39;</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="n">ControlledVariable</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cm&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;0cm&#39;</span><span class="p">,</span> <span class="s1">&#39;4.1µm&#39;</span><span class="p">,</span> <span class="s1">&#39;0.3mm&#39;</span><span class="p">,</span> <span class="s1">&#39;5.8m&#39;</span><span class="p">,</span> <span class="s1">&#39;32.4km&#39;</span><span class="p">]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span> <span class="o">=</span> <span class="n">ControlledVariable</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">],</span> <span class="n">non_quantitative</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Cu&#39;</span><span class="p">,</span> <span class="s1">&#39;Ag&#39;</span><span class="p">,</span> <span class="s1">&#39;Au&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -461,11 +468,11 @@ variables.</td>
 <p>The number of points, <span class="math notranslate nohighlight">\(N_k \ge 1\)</span>, along the controlled
 variable dimension. The attribute is updated with an
 integer specifying the number of points, for example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">number_of_points</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">number_of_points</span><span class="p">)</span>
 <span class="go">10</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">number_of_points</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">coordinates</span>
-<span class="go">[0.  0.1 0.2 0.3 0.4] m / s</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">[0.  0.1 0.2 0.3 0.4] G</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -491,15 +498,15 @@ dimensionality of other members specifying the grid dimension.
 Additionally, the sampling interval must be a positive real number.
 The value is assigned with a string containing the sampling interval,
 for example,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">sampling_interval</span>
-<span class="go">0.1 m/s</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">sampling_interval</span> <span class="o">=</span> <span class="s2">&quot;0.2 cm/s&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">coordinates</span>
-<span class="go">[0.    0.002 0.004 0.006 0.008] m / s</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">sampling_interval</span><span class="p">)</span>
+<span class="go">5.0 G</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">sampling_interval</span> <span class="o">=</span> <span class="s2">&quot;0.1 G&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">[0.  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9] G</span>
 </pre></div>
 </div>
-<p>Here, the original sampling interval, ‘0.1 m’ is modified to
-‘0.2 cm/s’.</p>
+<p>Here, the original sampling interval, ‘5 G’ is modified to
+‘0.1 G’.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The sampling interval along a grid dimension and the
@@ -535,11 +542,11 @@ must be consistent with the dimensionality of the other members
 specifying the dimension. The value is assigned with a string
 containing the reference offset,
 for example,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">reference_offset</span>
-<span class="go">0 cm/s</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">reference_offset</span> <span class="o">=</span> <span class="s2">&quot;-10 m/s&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">coordinates</span>
-<span class="go">[10.    10.002 10.004 10.006 10.008] m / s</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">reference_offset</span><span class="p">)</span>
+<span class="go">-10.0 mT</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">reference_offset</span> <span class="o">=</span> <span class="s2">&quot;0 T&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">[ 0.  5. 10. 15. 20. 25. 30. 35. 40. 45.] G</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -568,11 +575,11 @@ dimensions. When assigning a value, the dimensionality of the value
 must be consistent with the dimensionality of other members specifying
 the dimension. The value is assigned with a string containing the
 origin offset, for example,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">origin_offset</span>
-<span class="go">0 cm/s</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">origin_offset</span> <span class="o">=</span> <span class="s2">&quot;120.2 km/s&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">absolute_coordinates</span>
-<span class="go">[120210.    120210.002 120210.004 120210.006 120210.008] m / s</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">origin_offset</span><span class="p">)</span>
+<span class="go">10.0 T</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">origin_offset</span> <span class="o">=</span> <span class="s2">&quot;1e5 G&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">absolute_coordinates</span><span class="p">)</span>
+<span class="go">[100000. 100005. 100010. 100015. 100020. 100025. 100030. 100035. 100040. 100045.] G</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -603,16 +610,13 @@ origin offset, for example,</p>
 \[\mathbf{X}_k^\mathrm{ref} = [0, 1, 2, 3,...N_{k-1}] \mathrm{~m/s},\]</div>
 <p>when the reverse is false. We the reverse is true, the mapping is</p>
 <div class="math notranslate nohighlight">
-\[\mathbf{X}_k^\mathrm{ref} = [N_{k-1},...3, 2, 1, 0] \mathrm{~m/s}.\]</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">reverse</span>
-<span class="go">False</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">coordinates</span>
-<span class="go">[10.    10.002 10.004 10.006 10.008] m / s</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">reverse</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">coordinates</span>
-<span class="go">[10.008 10.006 10.004 10.002 10.   ] m / s</span>
-</pre></div>
-</div>
+\[ \begin{align}\begin{aligned}\mathbf{X}_k^\mathrm{ref} = [N_{k-1},...3, 2, 1, 0] \mathrm{~m/s}.\\&gt;&gt;&gt; x.reverse
+False
+&gt;&gt;&gt; print(x.coordinates)
+[0.  0.1 0.2 0.3 0.4] G
+&gt;&gt;&gt; x.reverse = True
+&gt;&gt;&gt; print(x.coordinates)
+[0.4 0.3 0.2 0.1 0. ] G\end{aligned}\end{align} \]</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -648,6 +652,20 @@ For example, consider</p>
 order is true, the order follows,</p>
 <div class="math notranslate nohighlight">
 \[\mathbf{X}_k^\mathrm{ref} = [0 ,1, 2, -3, -2, -1] \mathrm{~m/s}\]</div>
+<p>The following is a test example.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">test</span> <span class="o">=</span> <span class="n">ControlledVariable</span><span class="p">(</span><span class="n">sampling_interval</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                          <span class="n">number_of_points</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">[0. 1. 2. 3. 4. 5. 6. 7. 8. 9.]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test</span><span class="o">.</span><span class="n">fft_output_order</span>
+<span class="go">False</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test</span><span class="o">.</span><span class="n">fft_output_order</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">[ 0.  1.  2.  3.  4. -5. -4. -3. -2. -1.]</span>
+</pre></div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -666,8 +684,8 @@ order is true, the order follows,</p>
 <dd><p>Return the quantity name associated with the dimension.</p>
 <p>The attribute is only <cite>valid</cite> for the quantitative
 controlled variables.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">quantity</span>
-<span class="go">speed</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">quantity</span><span class="p">)</span>
+<span class="go">magnetic flux density</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -694,8 +712,8 @@ controlled variables.</p>
 <p>The attribute is updated with a string containing the label, for
 example,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">label</span>
-<span class="go">velocity</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Wind velocity at 10 m above ground.&#39;</span>
+<span class="go">&#39;&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;field strength&#39;</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -718,16 +736,16 @@ example,</p>
 variable dimension is non-periodic. The attribute is updated with a
 string containing a quantity which represents the period of the
 controlled variable. For example,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">period</span>
-<span class="go">inf m/s</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="s1">&#39;10 m/s&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">period</span><span class="p">)</span>
+<span class="go">inf G</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="s1">&#39;1 T&#39;</span>
 </pre></div>
 </div>
 <p>To assign a dimension as non-periodic, one of the following may be
 used,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="s1">&#39;1/0 m/s&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="s1">&#39;infinite m/s&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="s1">&#39;∞ m/s&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="s1">&#39;1/0 T&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="s1">&#39;infinity µT&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="s1">&#39;∞ G&#39;</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -760,10 +778,10 @@ string, ‘label / unit’,  if the <cite>label</cite> is not an empty string. I
 instances described before, and <cite>unit</cite> is the unit associated with the
 control variable.
 For example, consider a temporal controlled variable where</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">label</span>
-<span class="go">&#39;&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis_label</span>
-<span class="go">&#39;speed / ( m/s)&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">label</span>
+<span class="go">&#39;field strength&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">axis_label</span>
+<span class="go">&#39;field strength / ( G)&#39;</span>
 </pre></div>
 </div>
 <p>For non-quantitative controlled variables, this attribute returns
@@ -788,14 +806,16 @@ the <cite>label</cite>.</p>
 structure. The attribute cannot be modified.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">data_structure</span><span class="p">)</span>
 <span class="go">{</span>
+<span class="go">    &quot;reciprocal&quot;: {</span>
+<span class="go">        &quot;reference_offset&quot;: &quot;5.0 T^-1&quot;,</span>
+<span class="go">        &quot;origin_offset&quot;: &quot;400.0 µT^-1&quot;</span>
+<span class="go">    },</span>
 <span class="go">    &quot;number_of_points&quot;: 5,</span>
-<span class="go">    &quot;sampling_interval&quot;: &quot;0.2 cm * s^-1&quot;,</span>
-<span class="go">    &quot;reference_offset&quot;: &quot;-10.0 m * s^-1&quot;,</span>
-<span class="go">    &quot;origin_offset&quot;: &quot;120.2 km * s^-1&quot;,</span>
+<span class="go">    &quot;sampling_interval&quot;: &quot;0.1 G&quot;,</span>
+<span class="go">    &quot;origin_offset&quot;: &quot;100000.0 G&quot;,</span>
 <span class="go">    &quot;reverse&quot;: true,</span>
-<span class="go">    &quot;fft_output_order&quot;: true,</span>
-<span class="go">    &quot;quantity&quot;: &quot;speed&quot;,</span>
-<span class="go">    &quot;label&quot;: &quot;Wind velocity at 10 m above ground.&quot;</span>
+<span class="go">    &quot;quantity&quot;: &quot;magnetic flux density&quot;,</span>
+<span class="go">    &quot;label&quot;: &quot;field strength&quot;</span>
 <span class="go">}</span>
 </pre></div>
 </div>
@@ -818,11 +838,11 @@ structure. The attribute cannot be modified.</p>
 <a class="reference external" href="http://docs.astropy.org/en/stable/api/ astropy.units.Quantity.html#astropy.units.Quantity.to">Quantity</a> class
 and is only <cite>valid</cite> for physical dimensions.</p>
 <p>For example, if</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span>
-<span class="go">[0.  0.2 0.4 0.6 0.8] cm / s</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cm / min&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span>
-<span class="go">[ 0. 12. 24. 36. 48.] cm / min</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">[0.4 0.3 0.2 0.1 0. ] G</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;µT&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">[40. 30. 20. 10.  0.] uT</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -893,8 +913,6 @@ dimensionality as the controlled variable coordinates.</td>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/language_data.js"></script>
         <script type="text/javascript" src="../_static/copybutton.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
 
   

@@ -90,7 +90,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../requirement.html">1. The requirements for csdfpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../CSDModel.html">3. The core scientific dataset model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CSDModel.html">3. The core scientific dataset (CSD) model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Importing_csdfpy.html">4. Getting Started With <span class="guilabel">csdfpy</span> package</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../examples.html">5. Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../1-1 datasets.html">5.1. <span class="math notranslate nohighlight">\((1,1)\)</span>-D datasets</a></li>
@@ -163,7 +163,9 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/examples/1-2 datasets/nmr.rst.txt" rel="nofollow"> View page source</a>
+            
+              <a href="https://github.com/DeepanshS/csdfpy/blob/master/docs/source/examples/1-2 datasets/nmr.rst" class="fa fa-github"> Edit on GitHub</a>
+            
           
         
       </li>
@@ -205,7 +207,9 @@
 <h1>5.3.2. NMR dataset<a class="headerlink" href="#nmr-dataset" title="Permalink to this headline">¶</a></h1>
 <p>The following is a <span class="math notranslate nohighlight">\((1,2)\)</span>-D NMR dataset. Start by loading the
 file.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;test/NMR/satrec/satRec_raw.csdfx&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">csdfpy</span> <span class="k">as</span> <span class="nn">cp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../../test-datasets/NMR/satrec/satRec_raw.csdfx&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">NMR2Ddata</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="p">(</span><span class="n">NMR2Ddata</span><span class="o">.</span><span class="n">data_structure</span><span class="p">)</span>
 <span class="go">{</span>
@@ -260,10 +264,10 @@ the <code class="docutils literal notranslate"><span class="pre">NMR2Ddata</span
 <p>and look at the coordinates of each variable using the
 <a class="reference internal" href="../../api/csdfpy.ControlledVariable.html#csdfpy.ControlledVariable.coordinates" title="csdfpy.ControlledVariable.coordinates"><code class="xref py py-attr docutils literal notranslate"><span class="pre">coordinates</span></code></a> attribute of the respective
 objects.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
 <span class="go">[-0.04104 -0.04096 -0.04088 ...  0.04064  0.04072  0.0408 ] s</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
 <span class="go">[ 1.  5. 10. 20. 40. 80.] s</span>
 </pre></div>
 </div>
@@ -272,13 +276,13 @@ less than one second, it might be convenient to convert the unit to ms.
 We use the <a class="reference internal" href="../../api/csdfpy.ControlledVariable.html#csdfpy.ControlledVariable.to" title="csdfpy.ControlledVariable.to"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to()</span></code></a> method of the
 <a class="reference internal" href="../../api/csdfpy.ControlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> class to perform the unit conversion, which follows,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;ms&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
 <span class="go">[-41.04 -40.96 -40.88 ...  40.64  40.72  40.8 ] ms</span>
 </pre></div>
 </div>
 <p>Similarly, the components of the data is accessed using the
 <a class="reference internal" href="../../api/csdfpy.UnControlledVariable.html#csdfpy.UncontrolledVariable.components" title="csdfpy.UncontrolledVariable.components"><code class="xref py py-attr docutils literal notranslate"><span class="pre">components</span></code></a> attribute.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="go">[[  182.26953   +136.4989j    -530.45996   +145.59097j</span>
 <span class="go">  -648.56055   +296.6433j   ... -1034.6655    +123.473114j</span>
 <span class="go">    137.29883   +144.3381j    -151.75049    -18.316727j]</span>
@@ -319,7 +323,7 @@ exhaustingly long. Here is one such example.</p>
 <span class="gp">... </span>                                            <span class="s1">&#39;height_ratios&#39;</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">]})</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">axi</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">im</span> <span class="o">=</span> <span class="n">NonUniformImage</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span>  <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray_r&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">im</span> <span class="o">=</span> <span class="n">NonUniformImage</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span>  <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bone_r&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">im</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y00</span><span class="o">/</span><span class="n">y00</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
@@ -411,8 +415,6 @@ exhaustingly long. Here is one such example.</p>
         <script type="text/javascript" src="../../_static/doctools.js"></script>
         <script type="text/javascript" src="../../_static/language_data.js"></script>
         <script type="text/javascript" src="../../_static/copybutton.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
 
   

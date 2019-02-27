@@ -88,7 +88,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../requirement.html">1. The requirements for csdfpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../CSDModel.html">3. The core scientific dataset model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CSDModel.html">3. The core scientific dataset (CSD) model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Importing_csdfpy.html">4. Getting Started With <span class="guilabel">csdfpy</span> package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">5. Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../startingFromScrach.html">6. Starting from scrach</a></li>
@@ -172,6 +172,7 @@
 
 <span class="kn">from</span> <span class="nn">._utils</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">_assign_and_check_unit_consistency</span><span class="p">,</span>
+    <span class="n">_check_unit_consistency</span><span class="p">,</span>
     <span class="n">_check_quantity</span><span class="p">,</span>
     <span class="n">_check_encoding</span><span class="p">,</span>
     <span class="n">_check_numeric_type</span><span class="p">,</span>
@@ -183,7 +184,11 @@
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
 
-<span class="kn">from</span> <span class="nn">.unit</span> <span class="k">import</span> <span class="n">value_object_format</span>
+<span class="kn">from</span> <span class="nn">.unit</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">value_object_format</span><span class="p">,</span>
+    <span class="n">string_to_unit</span>
+<span class="p">)</span>
+
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="k">import</span> <span class="n">urlopen</span>
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="k">import</span> <span class="n">urlparse</span>
 
@@ -244,7 +249,8 @@
 <span class="sd">    `From a python dictionary containing valid keywords.` ::</span>
 
 <span class="sd">        &gt;&gt;&gt; from csdfpy import UncontrolledVariable</span>
-<span class="sd">        &gt;&gt;&gt; numpy_array = (100*np.random.rand(3,50)).astype(np.uint8))</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; numpy_array = np.arange(30).reshape(3,10).astype(np.uint8)</span>
 <span class="sd">        &gt;&gt;&gt; py_dictionary = {</span>
 <span class="sd">        ...     &#39;components&#39;: numpy_array,</span>
 <span class="sd">        ...     &#39;name&#39;: &#39;star&#39;,</span>
@@ -252,14 +258,14 @@
 <span class="sd">        ...     &#39;quantity&#39;: &#39;energy&#39;,</span>
 <span class="sd">        ...     &#39;dataset_type&#39;: &#39;RGB&#39;</span>
 <span class="sd">        ... }</span>
-<span class="sd">        &gt;&gt;&gt; var1 = UncontrolledVariable(py_dictionary)</span>
+<span class="sd">        &gt;&gt;&gt; y = UncontrolledVariable(py_dictionary)</span>
 
 <span class="sd">    `From valid keyword arguaments.` ::</span>
 
-<span class="sd">        &gt;&gt;&gt; var2 = UncontrolledVariable(name=&#39;star&#39;,</span>
-<span class="sd">        ...                             unit=&#39;W s&#39;,</span>
-<span class="sd">        ...                             dataset_type=&#39;RGB&#39;,</span>
-<span class="sd">        ...                             components=numpy_array)</span>
+<span class="sd">        &gt;&gt;&gt; y = UncontrolledVariable(name=&#39;star&#39;,</span>
+<span class="sd">        ...                          unit=&#39;W s&#39;,</span>
+<span class="sd">        ...                          dataset_type=&#39;RGB&#39;,</span>
+<span class="sd">        ...                          components=numpy_array)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;uv&#39;</span><span class="p">]</span>
@@ -328,7 +334,7 @@
 <span class="sd">        The attribute is editable. For example, ::</span>
 
 <span class="sd">            &gt;&gt;&gt; y.name</span>
-<span class="sd">            star</span>
+<span class="sd">            &#39;star&#39;</span>
 <span class="sd">            &gt;&gt;&gt; y.name = &#39;rock star&#39;</span>
 
 <span class="sd">        In the above example, ``y`` is an instance of the UncontrolledVariable</span>
@@ -355,7 +361,7 @@
 <span class="sd">        :py:meth:`~csdfpy.UncontrolledVariable.to` method of the class. ::</span>
 
 <span class="sd">            &gt;&gt;&gt; y.unit</span>
-<span class="sd">            W s</span>
+<span class="sd">            Unit(&quot;s W&quot;)</span>
 
 <span class="sd">        :returns: A ``Unit`` object.</span>
 <span class="sd">        :raises AttributeError: When assigned a value.</span>
@@ -377,7 +383,7 @@
 <span class="sd">        ::</span>
 
 <span class="sd">            &gt;&gt;&gt; y.quantity</span>
-<span class="sd">            energy</span>
+<span class="sd">            &#39;energy&#39;</span>
 
 <span class="sd">        :returns: A ``String``.</span>
 <span class="sd">        :raises NotImplementedError: When assigning a value.</span>
@@ -448,13 +454,20 @@
 <span class="sd">        recommended the use of the numeric type attribute for updating</span>
 <span class="sd">        the `dtype` of the Numpy array. For example, ::</span>
 
-<span class="sd">            &gt;&gt;&gt; y.components</span>
-<span class="sd">            [[0.56928902 0.44169458 0.68068357 0.24362424 0.25700121]]</span>
+<span class="sd">            &gt;&gt;&gt; print(y.components)</span>
+<span class="sd">            [[ 0  1  2  3  4  5  6  7  8  9]</span>
+<span class="sd">             [10 11 12 13 14 15 16 17 18 19]</span>
+<span class="sd">             [20 21 22 23 24 25 26 27 28 29]]</span>
 <span class="sd">            &gt;&gt;&gt; y.numeric_type</span>
-<span class="sd">            float64</span>
+<span class="sd">            &#39;uint8&#39;</span>
 <span class="sd">            &gt;&gt;&gt; y.numeric_type = &#39;complex64&#39;</span>
-<span class="sd">            &gt;&gt;&gt; y.components</span>
-<span class="sd">            [[0.569289  +0.j 0.4416946 +0.j 0.68068355+0.j 0.24362424+0.j  0.25700122+0.j]]</span>
+<span class="sd">            &gt;&gt;&gt; print(y.components)</span>
+<span class="sd">            [[ 0.+0.j  1.+0.j  2.+0.j  3.+0.j  4.+0.j  5.+0.j  6.+0.j  7.+0.j  8.+0.j</span>
+<span class="sd">               9.+0.j]</span>
+<span class="sd">             [10.+0.j 11.+0.j 12.+0.j 13.+0.j 14.+0.j 15.+0.j 16.+0.j 17.+0.j 18.+0.j</span>
+<span class="sd">              19.+0.j]</span>
+<span class="sd">             [20.+0.j 21.+0.j 22.+0.j 23.+0.j 24.+0.j 25.+0.j 26.+0.j 27.+0.j 28.+0.j</span>
+<span class="sd">              29.+0.j]]</span>
 
 <span class="sd">        :returns: A ``String``.</span>
 <span class="sd">        :raises ValueError: If an invalid value is assigned.</span>
@@ -491,7 +504,7 @@
 <span class="sd">        to assign a `dataset type` to the dataset. ::</span>
 
 <span class="sd">            &gt;&gt;&gt; y.dataset_type</span>
-<span class="sd">            RGB</span>
+<span class="sd">            &#39;RGB&#39;</span>
 <span class="sd">            &gt;&gt;&gt; y.dataset_type = &#39;vector_3&#39;</span>
 
 <span class="sd">        :returs: A ``String``.</span>
@@ -510,19 +523,20 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">component_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return an ordered array of labels relative to the order of the :py:attr:`~csdfpy.UncontrolledVariable.components`.</span>
+<span class="sd">        Return an ordered array of labels relative to the order of the :py:attr:`~csdfpy.UncontrolledVariable.components`. ::</span>
+
+<span class="sd">            &gt;&gt;&gt; y.component_labels</span>
+<span class="sd">            [&#39;&#39;, &#39;&#39;, &#39;&#39;]</span>
+
+<span class="sd">        When assigning a value, simply assign an array with same size ::</span>
+
+<span class="sd">            &gt;&gt;&gt; y.component_labels = [&#39;x&#39;, &#39;y&#39;, &#39;z&#39;]</span>
 
 <span class="sd">        The individual labels are accessed with proper indexing,</span>
 <span class="sd">        for example, ::</span>
 
-<span class="sd">            &gt;&gt;&gt; y.component_labels</span>
-<span class="sd">            [&#39;dxx&#39;, &#39;dxy&#39;, &#39;dxz&#39;, &#39;dyy&#39;, &#39;dyz&#39;, &#39;dzz&#39;]</span>
 <span class="sd">            &gt;&gt;&gt; y.component_labels[2]</span>
-<span class="sd">            &#39;dxz&#39;</span>
-
-<span class="sd">        Similarly, when assigning a value, ::</span>
-
-<span class="sd">            &gt;&gt;&gt; y.component_labels = [&#39;x&#39;, &#39;y&#39;, &#39;z&#39;]</span>
+<span class="sd">            &#39;z&#39;</span>
 
 <span class="sd">        .. todo::</span>
 <span class="sd">            Check the component labels.</span>
@@ -547,12 +561,12 @@
 <span class="sd">        string, otherwise, &#39;quantity / unit’. Here</span>
 <span class="sd">        `quantity`, `component_labels`, and `unit` are the attributes of the</span>
 <span class="sd">        :ref:`uv_api` instances described before.</span>
-<span class="sd">        For example, consider a diffusion tensor uncontrolled variable where</span>
+<span class="sd">        For example, consider a diffusion tensor uncontrolled variable where ::</span>
 
-<span class="sd">        &gt;&gt;&gt; x[0].component_labels</span>
-<span class="sd">        [&#39;dxx&#39;, &#39;dxy&#39;, &#39;dxz&#39;, &#39;dyy&#39;, &#39;dyz&#39;, &#39;dzz&#39;]</span>
-<span class="sd">        &gt;&gt;&gt; x[0].axis_label[0]</span>
-<span class="sd">        &#39;dxx / ( cm^2/s)&#39;</span>
+<span class="sd">            &gt;&gt;&gt; y.component_labels[1]</span>
+<span class="sd">            &#39;y&#39;</span>
+<span class="sd">            &gt;&gt;&gt; y.axis_label[1]</span>
+<span class="sd">            &#39;y / ( s * W)&#39;</span>
 
 <span class="sd">        :returns: A ``String``.</span>
 <span class="sd">        :raises AttributeError: When assigned a value.</span>
@@ -588,12 +602,12 @@
 <span class="sd">        This attribute can only be updated when the shape of the new array is</span>
 <span class="sd">        the same as the shape of the components array.</span>
 
-<span class="sd">        For example, let ::</span>
+<span class="sd">        For example, ::</span>
 
-<span class="sd">            &gt;&gt;&gt; y.components</span>
-<span class="sd">            [[0.3823 0.4595 0.4944 0.9614 0.814 ]]</span>
+<span class="sd">            &gt;&gt;&gt; print(y.components.shape)</span>
+<span class="sd">            (3, 10)</span>
 <span class="sd">            &gt;&gt;&gt; y.numeric_type</span>
-<span class="sd">            float16</span>
+<span class="sd">            &#39;complex64&#39;</span>
 
 <span class="sd">        be a single-component uncontrolled variable with five data values. The</span>
 <span class="sd">        numeric type of data values, in this example, is `float16`. To update</span>
@@ -601,32 +615,21 @@
 <span class="sd">        attribute. In the following example, we assign a Numpy</span>
 <span class="sd">        array of random numbers. ::</span>
 
-<span class="sd">            &gt;&gt;&gt; y.components = np.random.rand(1,5)</span>
-<span class="sd">            [[0.01616425 0.25530287 0.15347935 0.07685529 0.19680315]]</span>
+<span class="sd">            &gt;&gt;&gt; y.components = np.linspace(0,256,30, dtype=&#39;u1&#39;).reshape(3,10)</span>
 <span class="sd">            &gt;&gt;&gt; y.numeric_type</span>
-<span class="sd">            float64</span>
+<span class="sd">            &#39;uint8&#39;</span>
 
 <span class="sd">        Notice, the value of the `numeric_type` attribute is automatically</span>
-<span class="sd">        updated based on the `dtype` of the Numpy array.</span>
+<span class="sd">        updated based on the `dtype` of the Numpy array. In this case, from a</span>
+<span class="sd">        *complex64* to *uint8*.</span>
 <span class="sd">        In this other example, ::</span>
 
-<span class="sd">            &gt;&gt;&gt; y.components = np.random.rand(1,10)</span>
-<span class="sd">            ---------------------------------------------------------------------------</span>
-<span class="sd">            ValueError                                Traceback (most recent call last)</span>
-
-<span class="sd">            &lt;ipython-input-20-a2621a428043&gt; in &lt;module&gt;()</span>
-<span class="sd">            ----&gt; 1 dts.uncontrolled_variables[0].components = np.random.rand(1,10)</span>
-<span class="sd">                2 # print(dts.uncontrolled_variables[0].components)</span>
-<span class="sd">                3 # print(dts.uncontrolled_variables[0].numeric_type)</span>
-<span class="sd">            ~/csdfpy/uv.py in components(self, value)</span>
-<span class="sd">                367                     &quot;shape of the components array, `{2}`.&quot;</span>
-<span class="sd">                368                 ).format(</span>
-<span class="sd">            --&gt; 369                     value.__class__.__name__,</span>
-<span class="sd">                370                     value.shape,</span>
-<span class="sd">                371                     self.components.shape</span>
-
-<span class="sd">            ValueError: The shape of `ndarray`, `(1, 10)`, is not consistent with</span>
-<span class="sd">            the shape of the components array, `(1, 5)`.</span>
+<span class="sd">            &gt;&gt;&gt; y.components = np.random.rand(1,10).astype(&#39;u1&#39;)</span>
+<span class="sd">            Traceback (most recent call last):</span>
+<span class="sd">              File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span>
+<span class="sd">              File &quot;/Users/deepansh/Dropbox/NMRgit/MRData/csdfpy/csdfpy/uv.py&quot;, line 491, in components</span>
+<span class="sd">                self.uv._set_components(value)</span>
+<span class="sd">              ValueError: The shape of `ndarray`, `(1, 10)`, is not consistent with the shape of the components array, `(3, 10)`.</span>
 
 <span class="sd">        a `ValueError` is raised because the shape of the input array (1,10) is</span>
 <span class="sd">        not consistent with the shape of the components array, (1,5).</span>
@@ -690,16 +693,21 @@
 <span class="sd">              &quot;name&quot;: &quot;rock star&quot;,</span>
 <span class="sd">              &quot;unit&quot;: &quot; s * W&quot;,</span>
 <span class="sd">              &quot;quantity&quot;: &quot;energy&quot;,</span>
+<span class="sd">              &quot;component_labels&quot;: [</span>
+<span class="sd">                &quot;x&quot;,</span>
+<span class="sd">                &quot;y&quot;,</span>
+<span class="sd">                &quot;z&quot;</span>
+<span class="sd">              ],</span>
 <span class="sd">              &quot;numeric_type&quot;: &quot;uint8&quot;,</span>
-<span class="sd">              &quot;dataset_type&quot;: &quot;RGB&quot;,</span>
-<span class="sd">              &quot;components&quot;: &quot;[4, 4, ...... 88, 88], [79, 79, ...... 47, 47], [63, 63, ...... 71, 71]&quot;</span>
+<span class="sd">              &quot;dataset_type&quot;: &quot;vector_3&quot;,</span>
+<span class="sd">              &quot;components&quot;: &quot;[0, 0, ...... 70, 70], [88, 88, ...... 158, 158], [176, 176, ...... 247, 247]&quot;</span>
 <span class="sd">            }</span>
-
 
 <span class="sd">        :raises AttributeError: When modified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dictionary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_python_dictionary</span><span class="p">()</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                           <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 
 <span class="c1"># =========================================================================== #</span>
 <span class="c1">#                                  Methods                                    #</span>
@@ -721,13 +729,15 @@
 <span class="sd">        astropy.units.Quantity.html#astropy.units.Quantity.to&gt;`_ class. ::</span>
 
 <span class="sd">            &gt;&gt;&gt; y.unit</span>
-<span class="sd">            W s</span>
+<span class="sd">            Unit(&quot;s W&quot;)</span>
 <span class="sd">            &gt;&gt;&gt; y.to(&#39;J&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; y.unit</span>
+<span class="sd">            Unit(&quot; J&quot;)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_components&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">*</span><span class="n">factor</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_unit&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span></div>
+        <span class="n">factor</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_components&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">components</span><span class="o">*</span><span class="n">factor</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uv</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_unit&#39;</span><span class="p">,</span> <span class="n">factor</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">reshape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
@@ -1204,8 +1214,6 @@
         <script type="text/javascript" src="../../_static/doctools.js"></script>
         <script type="text/javascript" src="../../_static/language_data.js"></script>
         <script type="text/javascript" src="../../_static/copybutton.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
 
   

@@ -88,7 +88,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../requirement.html">1. The requirements for csdfpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../CSDModel.html">3. The core scientific dataset model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CSDModel.html">3. The core scientific dataset (CSD) model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Importing_csdfpy.html">4. Getting Started With <span class="guilabel">csdfpy</span> package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">5. Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../startingFromScrach.html">6. Starting from scrach</a></li>
@@ -239,6 +239,7 @@
                  <span class="s1">&#39;_reciprocal_unit&#39;</span><span class="p">,</span>
                  <span class="s1">&#39;_reciprocal_dimensionless_unit&#39;</span><span class="p">,</span>
 
+                 <span class="s1">&#39;_string_type&#39;</span><span class="p">,</span>
                  <span class="s1">&#39;_type&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -265,6 +266,8 @@
                  <span class="n">_reciprocal_period</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">_reciprocal_made_dimensionless</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 
+        <span class="c1"># self.set_attribute(&#39;_string_type&#39;, {})</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_sampling_type&#39;</span><span class="p">,</span> <span class="n">_sampling_type</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_non_quantitative&#39;</span><span class="p">,</span> <span class="n">_non_quantitative</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_type&#39;</span><span class="p">,</span> <span class="s1">&#39;linear&#39;</span><span class="p">)</span>
@@ -274,6 +277,7 @@
 
         <span class="n">_value</span> <span class="o">=</span> <span class="n">_assign_and_check_unit_consistency</span><span class="p">(</span><span class="n">_sampling_interval</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_sampling_interval&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="c1"># self._string_type[&#39;_sampling_interval&#39;] = _sampling_interval</span>
 
         <span class="n">_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampling_interval</span><span class="o">.</span><span class="n">unit</span>
         <span class="n">_reciprocal_unit</span> <span class="o">=</span> <span class="n">_unit</span><span class="o">**-</span><span class="mi">1</span>
@@ -292,20 +296,30 @@
             <span class="n">_value</span> <span class="o">=</span> <span class="n">_assign_and_check_unit_consistency</span><span class="p">(</span>
                         <span class="n">_reciprocal_sampling_interval</span><span class="p">,</span> <span class="n">_reciprocal_unit</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_sampling_interval&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="c1"># self._string_type[&#39;_reciprocal_sampling_interval&#39;] = \</span>
+        <span class="c1">#     _reciprocal_sampling_interval</span>
 
         <span class="c1"># reference Offset</span>
         <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span><span class="n">_reference_offset</span><span class="p">,</span> <span class="n">_unit</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reference_offset&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="c1"># self._string_type[&#39;_reference_offset&#39;] = _reference_offset</span>
+
         <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span>
                     <span class="n">_reciprocal_reference_offset</span><span class="p">,</span> <span class="n">_reciprocal_unit</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_reference_offset&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="c1"># self._string_type[&#39;_reciprocal_reference_offset&#39;] = \</span>
+        <span class="c1">#     _reciprocal_reference_offset</span>
 
         <span class="c1"># origin offset</span>
         <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span><span class="n">_origin_offset</span><span class="p">,</span> <span class="n">_unit</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_origin_offset&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="c1"># self._string_type[&#39;_origin_offset&#39;] = _origin_offset</span>
+
         <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span>
                     <span class="n">_reciprocal_origin_offset</span><span class="p">,</span> <span class="n">_reciprocal_unit</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_origin_offset&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="c1"># self._string_type[&#39;_reciprocal_origin_offset&#39;] = \</span>
+        <span class="c1">#     _reciprocal_origin_offset</span>
 
         <span class="c1"># made dimensionless, specific to NMR datasets</span>
         <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_and_assign_bool</span><span class="p">(</span><span class="n">_made_dimensionless</span><span class="p">)</span>
@@ -328,10 +342,13 @@
         <span class="k">if</span> <span class="n">_value</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
             <span class="n">_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="o">*</span><span class="n">_value</span><span class="o">.</span><span class="n">unit</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_period&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="c1"># self._string_type[&#39;_period&#39;] = _period</span>
+
         <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_value_object</span><span class="p">(</span><span class="n">_reciprocal_period</span><span class="p">,</span> <span class="n">_reciprocal_unit</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">_value</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
             <span class="n">_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="o">*</span><span class="n">_value</span><span class="o">.</span><span class="n">unit</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;_reciprocal_period&#39;</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
+        <span class="c1"># self._string_type[&#39;_reciprocal_period&#39;] = _reciprocal_period</span>
 
         <span class="c1"># quantity</span>
         <span class="n">_value</span> <span class="o">=</span> <span class="n">_check_quantity</span><span class="p">(</span><span class="n">_quantity</span><span class="p">,</span> <span class="n">_unit</span><span class="p">)</span>
@@ -1335,8 +1352,6 @@
         <script type="text/javascript" src="../../_static/doctools.js"></script>
         <script type="text/javascript" src="../../_static/language_data.js"></script>
         <script type="text/javascript" src="../../_static/copybutton.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
 
   
