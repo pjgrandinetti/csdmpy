@@ -87,13 +87,14 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../requirement.html">1. The requirements for csdfpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. Installing <cite>csdfpy</cite> package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../CSDModel.html">3. The core scientific dataset (CSD) model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Importing_csdfpy.html">4. Getting Started With <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Importing_csdfpy.html">4. Getting Started With <cite>csdfpy</cite> package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">5. Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../startingFromScrach.html">6. Starting from scrach</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/A fun example.html">7. A fun 🤪 example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../referenceAPI.html">8. Reference/API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../controlled_variables.html">6. Controlled variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../startingFromScrach.html">7. Starting from scrach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/A fun example.html">8. A fun 🤪 example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../referenceAPI.html">9. Reference/API documentation</a></li>
 </ul>
 
             
@@ -167,20 +168,29 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">scipy.fftpack</span> <span class="k">import</span> <span class="n">fft</span><span class="p">,</span> <span class="n">fftshift</span>
-<span class="kn">import</span> <span class="nn">os</span>
+
 <span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
 <span class="kn">from</span> <span class="nn">.__version__</span> <span class="k">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">version</span>
+<span class="kn">from</span> <span class="nn">._utils</span> <span class="k">import</span> <span class="n">download_file_from_url</span>
 
-<span class="n">script_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
-<span class="c1"># print (script_path)</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="k">import</span> <span class="n">urlparse</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">path</span>
+
+<span class="c1"># from test_files import test_file</span>
+
+<span class="n">script_path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+<span class="c1"># print(script_path)</span>
 
 <span class="n">test_file</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;test01&quot;</span><span class="p">:</span> <span class="n">script_path</span><span class="o">+</span><span class="s1">&#39;/testFiles/test01.csdf&#39;</span><span class="p">,</span>
-    <span class="s2">&quot;test02&quot;</span><span class="p">:</span> <span class="n">script_path</span><span class="o">+</span><span class="s1">&#39;/testFiles/test02.csdf&#39;</span>
+    <span class="s2">&quot;test01&quot;</span><span class="p">:</span> <span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">script_path</span><span class="o">+</span><span class="s1">&#39;/../tests/test01.csdf&#39;</span><span class="p">),</span>
+    <span class="s2">&quot;test02&quot;</span><span class="p">:</span> <span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">script_path</span><span class="o">+</span><span class="s1">&#39;/../tests/test02.csdf&#39;</span><span class="p">)</span>
     <span class="p">}</span>
 
 
 <span class="k">def</span> <span class="nf">_import_json</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]:</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">download_file_from_url</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)))</span>
@@ -190,14 +200,16 @@
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Open a `.csdf or `.csdfx` file and return a :ref:`csdm_api` object.</span>
 
-<span class="sd">    The file must be a json serialization of the CSD Model. ::</span>
+<span class="sd">    The file must be a JSON serialization of the CSD Model. ::</span>
 
-<span class="sd">        &gt;&gt;&gt; import csdfpy</span>
-<span class="sd">        &gt;&gt;&gt; data1 = csdfpy.load(&#39;local/address/to/the/file.csdf&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; import csdfpy  # doctest: +SKIP</span>
+<span class="sd">        &gt;&gt;&gt; data1 = csdfpy.load(&#39;local_address/file.csdf&#39;)  # doctest: +SKIP</span>
+<span class="sd">        &gt;&gt;&gt; data2 = csdfpy.load(&#39;url_address/file.csdf&#39;)  # doctest: +SKIP</span>
 
 <span class="sd">    In the above example, ``data1`` is an instance of CSDModel class.</span>
 
-<span class="sd">    :params: filename: A local address to the `.csdf or `.csdfx` file.</span>
+<span class="sd">    :params: filename: A local or remote address to the `.csdf or</span>
+<span class="sd">                        `.csdfx` file.</span>
 <span class="sd">    :returns: CSDModel object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -287,9 +299,9 @@
 <span class="sd">    :math:`y_\alpha` must share the same set of controlled variable</span>
 <span class="sd">    coordinates.</span>
 
-<span class="sd">    In ``csdfpy`` package, every control variable, :math:`x_k`, is represented</span>
+<span class="sd">    In `csdfpy` package, every control variable, :math:`x_k`, is represented</span>
 <span class="sd">    as a :ref:`cv_api` object and every uncontrol variable, :math:`y_\alpha`,</span>
-<span class="sd">    by :ref:`uv_api` object. The ``CSDModel`` class holdes and manages the</span>
+<span class="sd">    by :ref:`uv_api` object. The CSDModel class holdes and manages the</span>
 <span class="sd">    tuples of both these variable objects.</span>
 
 <span class="sd">    :returns: A CSDM object.</span>
@@ -862,6 +874,8 @@
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/language_data.js"></script>
         <script type="text/javascript" src="../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
 
   

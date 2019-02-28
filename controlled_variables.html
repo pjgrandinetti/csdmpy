@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Controlled variables &mdash; csdfpy 0.0.9alpha documentation</title>
+  <title>6. Controlled variables &mdash; csdfpy 0.0.9alpha documentation</title>
   
 
   
@@ -28,7 +28,9 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="6.1. Linearly sampled grid controlled variable" href="cv.linear.html" />
+    <link rel="prev" title="5.5. \((3,2)\)-D datasets" href="examples/3-2 datasets.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -85,15 +87,19 @@
             
             
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="requirement.html">1. The requirements for csdfpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installing <cite>csdfpy</cite> package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CSDModel.html">3. The core scientific dataset (CSD) model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Importing_csdfpy.html">4. Getting Started With <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Importing_csdfpy.html">4. Getting Started With <cite>csdfpy</cite> package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/examples.html">5. Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="startingFromScrach.html">6. Starting from scrach</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/A fun example.html">7. A fun 🤪 example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="referenceAPI.html">8. Reference/API documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">6. Controlled variables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cv.linear.html">6.1. Linearly sampled grid controlled variable</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="startingFromScrach.html">7. Starting from scrach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/A fun example.html">8. A fun 🤪 example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="referenceAPI.html">9. Reference/API documentation</a></li>
 </ul>
 
             
@@ -139,7 +145,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Controlled variables</li>
+      <li>6. Controlled variables</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -186,26 +192,14 @@
 }
 </style>
 <div class="section" id="controlled-variables">
-<span id="id1"></span><h1>Controlled variables<a class="headerlink" href="#controlled-variables" title="Permalink to this headline">¶</a></h1>
-<p>In the <code class="docutils literal notranslate"><span class="pre">csdfpy</span></code> package, the <code class="docutils literal notranslate"><span class="pre">CSDModel</span></code> class is not
-just designed to read and save a scientific data file.</p>
-<p>In the following subsections, we describe the features
-of a controlled variable object using examples.
-Based on the sampling type and the types of coordinates,
-there are three types of grid controlled variable objects
-(<em>gcv</em>-objecta) associated with,</p>
+<span id="id1"></span><h1>6. Controlled variables<a class="headerlink" href="#controlled-variables" title="Permalink to this headline">¶</a></h1>
+<p>In the following subsections, we describe the attributes and methods
+associated with the controlled variable instance. Based on the
+sampling types and the types of coordinates, the controlled variables
+are categorized as follows,</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="cv.linear.html">Linearly sampled grid controlled variable</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cv.linear.html#attributes">Attributes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cv.linear.html#methods">Methods</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="cv.arbitrary.html">Arbitrarily sampled grid dimension controlled variable</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cv.arbitrary.html#attributes">Attributes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cv.arbitrary.html#methods">Methods</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="cv.linear.html">6.1. Linearly sampled grid controlled variable</a></li>
 </ul>
 </div>
 <span class="target" id="nqd"></span></div>
@@ -219,6 +213,15 @@ there are three types of grid controlled variable objects
     </a>
 
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cv.linear.html" class="btn btn-neutral float-right" title="6.1. Linearly sampled grid controlled variable" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="examples/3-2 datasets.html" class="btn btn-neutral" title="5.5. \((3,2)\)-D datasets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -252,6 +255,8 @@ there are three types of grid controlled variable objects
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
         <script type="text/javascript" src="_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
 
   

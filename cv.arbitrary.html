@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Arbitrarily sampled grid dimension controlled variable &mdash; csdfpy 0.0.9alpha documentation</title>
+  <title>6.2. Arbitrarily sampled grid dimension controlled variable &mdash; csdfpy 0.0.9alpha documentation</title>
   
 
   
@@ -87,13 +87,14 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="requirement.html">1. The requirements for csdfpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installing <cite>csdfpy</cite> package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CSDModel.html">3. The core scientific dataset (CSD) model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Importing_csdfpy.html">4. Getting Started With <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Importing_csdfpy.html">4. Getting Started With <cite>csdfpy</cite> package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/examples.html">5. Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="startingFromScrach.html">6. Starting from scrach</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/A fun example.html">7. A fun 🤪 example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="referenceAPI.html">8. Reference/API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controlled_variables.html">6. Controlled variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="startingFromScrach.html">7. Starting from scrach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/A fun example.html">8. A fun 🤪 example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="referenceAPI.html">9. Reference/API documentation</a></li>
 </ul>
 
             
@@ -139,7 +140,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Arbitrarily sampled grid dimension controlled variable</li>
+      <li>6.2. Arbitrarily sampled grid dimension controlled variable</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -187,22 +188,19 @@
 </style>
 <div class="section" id="arbitrarily-sampled-grid-dimension-controlled-variable">
 <span id="asgd"></span><h1>Arbitrarily sampled grid dimension controlled variable<a class="headerlink" href="#arbitrarily-sampled-grid-dimension-controlled-variable" title="Permalink to this headline">¶</a></h1>
-<p>In this subsection, we describe the features of an arbitrarily
-sampled grid controlled variable class. We again demostrate
-this with illustrative example. The following snippet
-loads a test file with an arbitrarily sampled grid dimension,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">csdfpy</span>
+<p>In this subsection, we describe the features of a linearly sampled grid
+controlled variable class. We do so by using an illustrative example.
+The following snippet loads a test file with a linearly sampled grid dimension,</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">csdfpy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="n">csdfpy</span><span class="o">.</span><span class="n">test_file</span><span class="p">[</span><span class="s1">&#39;test01&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">testdata1</span> <span class="o">=</span> <span class="n">csdfpy</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="p">(</span><span class="n">testdata1</span><span class="p">)</span>
-<span class="go">&lt;csdfpy.CSDModel object at 0x10b757bd0&gt;</span>
 </pre></div>
 </div>
-<p>The variable <code class="docutils literal notranslate"><span class="pre">testdata1</span></code> holds an object of the
+<p>The variable <code class="docutils literal notranslate"><span class="pre">testdata1</span></code> is an instance of the
 <a class="reference internal" href="api/csdfpy.CSDModel.html#csdm-api"><span class="std std-ref">CSDModel</span></a> class. For the remainder of this example,
-we will focus on its <code class="docutils literal notranslate"><span class="pre">controlled_variables</span></code> attribute,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">testdata2</span><span class="o">.</span><span class="n">controlled_variables</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+we will focus on its :py:attr:~csdfpy.CSDModel.controlled_variables attribute,</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">testdata1</span><span class="o">.</span><span class="n">controlled_variables</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="go">(&lt;csdfpy.controlled_variables._arbitrarilySampledGridDimension object at 0xa1c9f6e48&gt;,)</span>
 </pre></div>
 </div>

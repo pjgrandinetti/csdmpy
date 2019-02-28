@@ -87,13 +87,14 @@
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../requirement.html">1. The requirements for csdfpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../installation.html">2. Installing <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">2. Installing <cite>csdfpy</cite> package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../CSDModel.html">3. The core scientific dataset (CSD) model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../Importing_csdfpy.html">4. Getting Started With <span class="guilabel">csdfpy</span> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Importing_csdfpy.html">4. Getting Started With <cite>csdfpy</cite> package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples/examples.html">5. Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../startingFromScrach.html">6. Starting from scrach</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples/A fun example.html">7. A fun 🤪 example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../referenceAPI.html">8. Reference/API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../controlled_variables.html">6. Controlled variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../startingFromScrach.html">7. Starting from scrach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/A fun example.html">8. A fun 🤪 example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../referenceAPI.html">9. Reference/API documentation</a></li>
 </ul>
 
             
@@ -167,12 +168,12 @@
 <span class="kn">import</span> <span class="nn">base64</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">path</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">._utils</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">_assign_and_check_unit_consistency</span><span class="p">,</span>
-    <span class="n">_check_unit_consistency</span><span class="p">,</span>
+    <span class="c1"># _check_unit_consistency,</span>
     <span class="n">_check_quantity</span><span class="p">,</span>
     <span class="n">_check_encoding</span><span class="p">,</span>
     <span class="n">_check_numeric_type</span><span class="p">,</span>
@@ -186,7 +187,7 @@
 
 <span class="kn">from</span> <span class="nn">.unit</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">value_object_format</span><span class="p">,</span>
-    <span class="n">string_to_unit</span>
+    <span class="c1"># string_to_unit</span>
 <span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="k">import</span> <span class="n">urlopen</span>
@@ -199,19 +200,19 @@
 
 <span class="sd">    :params: data_path:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">_file_abs_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-    <span class="n">_path</span><span class="p">,</span> <span class="n">_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">_file_abs_path</span><span class="p">)</span>
-    <span class="n">_join</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_path</span><span class="p">,</span> <span class="n">data_path</span><span class="p">)</span>
-    <span class="n">_join</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">_join</span><span class="p">)</span>
+    <span class="n">_file_abs_path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="n">_path</span><span class="p">,</span> <span class="n">_file</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">_file_abs_path</span><span class="p">)</span>
+    <span class="n">_join</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_path</span><span class="p">,</span> <span class="n">data_path</span><span class="p">)</span>
+    <span class="n">_join</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">_join</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="s1">&#39;file:&#39;</span><span class="o">+</span><span class="n">_join</span>
 
 
 <span class="k">def</span> <span class="nf">_get_relative_data_address</span><span class="p">(</span><span class="n">data_absolute_uri</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">data_absolute_uri</span><span class="p">)</span>
-    <span class="n">_data_abs_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-    <span class="n">_file_abs_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">file</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">_data_rel_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">_data_abs_path</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">_file_abs_path</span><span class="p">)</span>
+    <span class="n">_data_abs_path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">_file_abs_path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">file</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">_data_rel_path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">_data_abs_path</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">_file_abs_path</span><span class="p">)</span>
     <span class="k">return</span> <span class="s1">&#39;file:./&#39;</span><span class="o">+</span><span class="n">_data_rel_path</span>
 
 
@@ -1148,17 +1149,17 @@
 
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;abs URI&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_components_uri</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;rel filename&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-                <span class="n">data_path_relative</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                    <span class="s1">&#39;file:.&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span>
-                        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">data_path_relative</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="s1">&#39;file:.&#39;</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span>
+                        <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">index</span> <span class="o">+</span> <span class="s1">&#39;.dat&#39;</span>
                 <span class="p">)</span>
 
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;relative path&#39;</span><span class="p">,</span> <span class="n">data_path_relative</span><span class="p">)</span>
                 <span class="n">dictionary</span><span class="p">[</span><span class="s1">&#39;components_URI&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_path_relative</span>
 
-                <span class="n">data_path_absolute</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
-                    <span class="n">urlparse</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">data_path_absolute</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
+                    <span class="n">urlparse</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                         <span class="n">file_save_path_abs</span><span class="p">,</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">data_path_relative</span><span class="p">)</span><span class="o">.</span><span class="n">path</span>
                     <span class="p">))</span><span class="o">.</span><span class="n">path</span>
                 <span class="p">)</span>
@@ -1214,6 +1215,8 @@
         <script type="text/javascript" src="../../_static/doctools.js"></script>
         <script type="text/javascript" src="../../_static/language_data.js"></script>
         <script type="text/javascript" src="../../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
 
   

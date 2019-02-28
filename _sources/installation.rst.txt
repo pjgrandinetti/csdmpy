@@ -1,6 +1,6 @@
 
 =====================================
-Installing :guilabel:`csdfpy` package
+Installing `csdfpy` package
 =====================================
 
 To install, download the package and run

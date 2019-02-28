@@ -1,25 +1,25 @@
 
 
 ===============================================
-Getting Started With :guilabel:`csdfpy` package
+Getting Started With `csdfpy` package
 ===============================================
 
 ----------------------------------------
-Importing the :guilabel:`csdfpy` package
+Importing the `csdfpy` package
 ----------------------------------------
 
-We have put together a set of guidelines for importing the :guilabel:`csdfpy`
+We have put together a set of guidelines for importing the `csdfpy`
 package and related functionalities. We encourage the users to follow these
 guidelines to promote consistency amongst others.
-Import the package using ::
+Import the package using
 
 .. doctest::
 
     >>> import csdfpy as cp
 
 To load a `.csdf` or a `.csdfx` file, use the :py:meth:`~csdfpy.load`
-method of the :guilabel:`csdfpy` package. In the following example, we use a
-sample test file. ::
+method of the `csdfpy` package. In the following example, we use a
+sample test file.
 
 .. doctest::
 
@@ -36,7 +36,7 @@ Accessing the controlled and uncontrolled variables
 To access the controlled and the uncontrolled variables of the dataset, use the
 :py:attr:`~csdfpy.CSDModel.controlled_variables` and the
 :py:attr:`~csdfpy.CSDModel.uncontrolled_variables` attribute,
-respectively, of the ``testdata1`` instance, ::
+respectively, of the ``testdata1`` instance,
 
 .. doctest::
 
@@ -44,7 +44,7 @@ respectively, of the ``testdata1`` instance, ::
     >>> y = testdata1.uncontrolled_variables
 
 where x and y are the tuples of :ref:`cv_api` and :ref:`uv_api` instances. In
-the above example, both x and y are tuples with a single object. ::
+the above example, both x and y are tuples with a single object.
 
 .. doctest::
 
@@ -55,7 +55,7 @@ the above example, both x and y are tuples with a single object. ::
 
 Access the list of coordinates of the controlled variables through the
 :py:attr:`~csdfpy.ControlledVariable.coordinates` attribute of the respective
-:ref:`cv_api` instance. For example, ::
+:ref:`cv_api` instance. In this example, the coordinates are
 
 .. doctest::
 
@@ -67,20 +67,20 @@ Access the list of coordinates of the controlled variables through the
     `Quantity <http://docs.astropy.org/en/stable/api/astropy.units.Quantity.html#astropy.units.Quantity>`_
     instance from the
     `Astropy <http://docs.astropy.org/en/stable/units/>`_ package.
-    The :guilabel:`csdfpy` package uses the units library from
+    The `csdfpy` package utilizes the units library from
     `astropy.units <http://docs.astropy.org/en/stable/units/>`_ package
     to handle the physical quantities. The numerical `value` and the
     `unit` of the physical quantities are accessed through the Quantity
     instance, using the ``value`` and the ``unit`` attributes, respectively.
     Please refer to the `astropy.units <http://docs.astropy.org/en/stable/units/>`_
     documentation for details.
-    In the :guilabel:`csdfpy` package, the ``Quantity.value`` is a
+    In the `csdfpy` package, the ``Quantity.value`` is a
     `Numpy array <https://docs.scipy.org/doc/numpy-1.15.0/reference/generated/numpy.ndarray.html>`_.
 
 
 Similarly, access the list of components of the uncontrolled variables through
 the :py:attr:`~csdfpy.UncontrolledVariable.components` attribute of the
-respective :ref:`uv_api` instance. For instance, ::
+respective :ref:`uv_api` instance. For instance,
 
 .. doctest::
 
@@ -96,7 +96,7 @@ This attribute returns a Numpy array. Note, the Numpy array from the
 :py:attr:`~csdfpy.UncontrolledVariable.components` attribute has :math:`d+1`
 dimensions, where :math:`d` is the number of controlled variables.
 In this example, there is only one controlled variable, and
-therefore, ``y[0].components`` holds a two-dimensional array of shape, ::
+therefore, ``y[0].components`` holds a two-dimensional array of shape,
 
 .. doctest::
 
@@ -114,19 +114,19 @@ Plotting the dataset
 --------------------
 
 For an illustrative purpose, we will use Python's
-`Matplotlib library <https://matplotlib.org>`_ for producing plots.
-The users may, however, use their favorite plotting library. ::
+`Matplotlib library <https://matplotlib.org>`_ for rendering plots.
+The users may, however, use their favorite plotting library.
 
 .. doctest::
 
     >>> import matplotlib.pyplot as plt
-    >>> plt.plot(x[0].coordinates, y[0].components[0])
-    >>> plt.xlabel(x[0].axis_label)
-    >>> plt.ylabel(y[0].axis_label[0])
-    >>> plt.title(y[0].name)
+    >>> plt.plot(x[0].coordinates, y[0].components[0])  # doctest: +SKIP
+    >>> plt.xlabel(x[0].axis_label)  # doctest: +SKIP
+    >>> plt.ylabel(y[0].axis_label[0])  # doctest: +SKIP
+    >>> plt.title(y[0].name)  # doctest: +SKIP
     >>> plt.show()
 
-.. image:: /resource/test.pdf
+.. image:: /_static/test.pdf
 
 
 
