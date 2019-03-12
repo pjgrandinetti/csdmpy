@@ -1,0 +1,534 @@
+<!-- 
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Linearly Sampled Dimension &mdash; csdfpy 0.0.9alpha0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> csdfpy
+          
+
+          
+            
+            <img src="../_static/csdfpy.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CSD_model.html">The core scientific dataset (CSD) model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../requirement.html">The requirements for csdfpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installing <cite>csdfpy</cite> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started With <cite>csdfpy</cite> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/A fun example.html">A fun 🤪 example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../referenceAPI.html">Reference/API documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">csdfpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Linearly Sampled Dimension</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/DeepanshS/csdfpy/blob/master/docs/source/independentVariable/linear.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+           <div itemprop="articleBody">
+            
+  <div class="section" id="linearly-sampled-dimension">
+<span id="lsgd"></span><h1>Linearly Sampled Dimension<a class="headerlink" href="#linearly-sampled-dimension" title="Permalink to this headline">¶</a></h1>
+<p>For a linearly sampled dimension, the coordinates of the independent variable
+are spaced linearly along the dimension and are frequently encountered in many
+scientific datasets.
+In this case, the instance of the corresponding <a class="reference internal" href="../api/IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a>
+class has a subtype called <cite>linearly_sampled</cite>.</p>
+<p>Consider that the <span class="math notranslate nohighlight">\(k^{th}\)</span> <a class="reference internal" href="../api/IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> instance from
+a <a class="reference internal" href="../api/CSDModel.html#csdm-api"><span class="std std-ref">CSDModel</span></a> instance has a <cite>linearly_sampled</cite> subtype.
+Let <span class="math notranslate nohighlight">\(m_k\)</span>, <span class="math notranslate nohighlight">\(N_k \ge 1\)</span>, <span class="math notranslate nohighlight">\(c_k\)</span>, and <span class="math notranslate nohighlight">\(o_k\)</span> be the
+sampling interval, number of points, reference offset, and the origin offset,
+respectively, from the corresponding IndependentVariable instance,
+then the coordinates along this dimension are evaluated as,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+\mathbf{X}_k &amp;= [m_k j ]_{j=0}^{N_k-1} - c_k \mathbf{1}, \\
+\mathbf{X}_k^\mathrm{abs} &amp;= \mathbf{X}_k + o_k \mathbf{1}.
+\end{align}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{X}_k\)</span> and <span class="math notranslate nohighlight">\(\mathbf{X}_k^\mathrm{abs}\)</span> are the
+ordered arrays of the reference and absolute independent variable
+coordinates, respectively, and <span class="math notranslate nohighlight">\(\mathbf{1}\)</span> is an array of ones.</p>
+<div class="section" id="methods-and-attributes">
+<h2>Methods and attributes<a class="headerlink" href="#methods-and-attributes" title="Permalink to this headline">¶</a></h2>
+<p>There are several attributes and methods associated with a linearly sampled
+dimension, each controlling the coordinates along the dimension in a unique
+way. The following section describes these attributes and methods and
+demonstrates their effect on the coordinates of the independent variable along
+the dimension using examples. Consider the following test file.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">csdfpy</span> <span class="kn">as</span> <span class="nn">cp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/DeepanshS/NMRLineshape/raw/master/test1.csdf&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">testdata1</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="go">Downloading &#39;/DeepanshS/NMRLineshape/raw/master/NMR_CSA_lineshape_simulation.csdf&#39; from &#39;github.com&#39; to file &#39;NMR_CSA_lineshape_simulation.csdf&#39;.</span>
+<span class="go">[█████████████████████████████████████████]</span>
+</pre></div>
+</div>
+<p>The above snippet downloads and loads a test file containing a linearly
+sampled independent variable.
+When the argument of the <a class="reference internal" href="../api/csdfpy.html#csdfpy.load" title="csdfpy.load"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code></a> method is an URL, the
+corresponding file is first downloaded to the working directory and then
+read in as a local file.
+In the above example, <code class="docutils literal notranslate"><span class="pre">testdata1</span></code> is an instance of the
+<a class="reference internal" href="../api/CSDModel.html#csdm-api"><span class="std std-ref">CSDModel</span></a> class with the following data structure.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">testdata1</span><span class="o">.</span><span class="n">data_structure</span><span class="p">)</span>
+<span class="go">{</span>
+<span class="go">  &quot;CSDM&quot;: {</span>
+<span class="go">    &quot;version&quot;: &quot;0.0.9&quot;,</span>
+<span class="go">    &quot;independent_variables&quot;: [</span>
+<span class="go">      {</span>
+<span class="go">        &quot;type&quot;: &quot;linearly_sampled&quot;,</span>
+<span class="go">        &quot;number_of_points&quot;: 10,</span>
+<span class="go">        &quot;sampling_interval&quot;: &quot;0.1 s&quot;,</span>
+<span class="go">        &quot;quantity&quot;: &quot;time&quot;,</span>
+<span class="go">        &quot;reciprocal&quot;: {</span>
+<span class="go">          &quot;quantity&quot;: &quot;frequency&quot;</span>
+<span class="go">        }</span>
+<span class="go">      }</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;dependent_variables&quot;: [</span>
+<span class="go">      {</span>
+<span class="go">        &quot;numeric_type&quot;: &quot;float32&quot;,</span>
+<span class="go">        &quot;components&quot;: &quot;[0.0, 0.0, ...... -0.95105654, -0.95105654]&quot;</span>
+<span class="go">      }</span>
+<span class="go">    ]</span>
+<span class="go">  }</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<p>This a 1D{1} dataset with one independent variable of subtype
+<cite>linearly_sampled</cite> and one single-component dependent variable.
+For the remainder of this example, we only focus on the independent variable
+instance <cite>i.e</cite> the member of the
+<a class="reference internal" href="../api/CSDModel.html#csdfpy.CSDModel.independent_variables" title="csdfpy.CSDModel.independent_variables"><code class="xref py py-attr docutils literal notranslate"><span class="pre">independent_variables</span></code></a> attribute’s tuple from the
+<code class="docutils literal notranslate"><span class="pre">testdata1</span></code> instance.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span> <span class="o">=</span> <span class="n">testdata1</span><span class="o">.</span><span class="n">independent_variables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The variable <cite>x0</cite> is an instance of the <a class="reference internal" href="../api/IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> class.
+The coordinates of the independent variable from this instance are</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">x0</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">[0.  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9] s</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">x0.coordinates</span></code> is a
+<a class="reference external" href="http://docs.astropy.org/en/stable/api/astropy.units.Quantity.html#astropy.units.Quantity">Quantity</a>
+instance. The value and the unit of the quantity instance are</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># To access the numpy array</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numpy_array</span> <span class="o">=</span> <span class="n">x0</span><span class="o">.</span><span class="n">coordinates</span><span class="o">.</span><span class="n">value</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;numpy array =&#39;</span><span class="p">,</span> <span class="n">numpy_array</span><span class="p">)</span>
+<span class="go">numpy array = [0.  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># To access the astropy.unit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unit</span> <span class="o">=</span> <span class="n">x0</span><span class="o">.</span><span class="n">coordinates</span><span class="o">.</span><span class="n">unit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;unit =&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+<span class="go">unit = s</span>
+</pre></div>
+</div>
+<p>respectively.</p>
+<div class="section" id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
+<p>The following are the attributes of the <a class="reference internal" href="../api/IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> instance along with
+examples demonstrating its effect on the coordinates along the dimension.</p>
+<ul>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="../api/IndependentVariable.html#csdfpy.IndependentVariable.dimension_type" title="csdfpy.IndependentVariable.dimension_type"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dimension_type</span></code></a></dt>
+<dd><p class="first">This attribute returns the subtype of the instance.</p>
+<div class="last highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">x0</span><span class="o">.</span><span class="n">dimension_type</span><span class="p">)</span>
+<span class="go">linearly_sampled</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+</ul>
+<p><strong>The attributes that modify the coordinates</strong></p>
+<ul>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="../api/IndependentVariable.html#csdfpy.IndependentVariable.number_of_points" title="csdfpy.IndependentVariable.number_of_points"><code class="xref py py-attr docutils literal notranslate"><span class="pre">number_of_points</span></code></a></dt>
+<dd><p class="first">The number of points along the independent variable dimension</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;number of points =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">number_of_points</span><span class="p">)</span>
+<span class="go">number of points = 10</span>
+</pre></div>
+</div>
+<p>To update the number of points, simply update the value of this attribute,</p>
+<div class="last highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span><span class="o">.</span><span class="n">number_of_points</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;new number of points =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">number_of_points</span><span class="p">)</span>
+<span class="go">new number of points = 12</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;new coordinates =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">new coordinates = [0.  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.  1.1] s</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="xref py py-attr docutils literal notranslate"><span class="pre">sampling</span> <span class="pre">interval</span></code></dt>
+<dd><p class="first">Similarly, the sampling interval</p>
+<div class="last highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;old sampling interval =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">sampling_interval</span><span class="p">)</span>
+<span class="go">old sampling interval = 0.1 s</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span><span class="o">.</span><span class="n">sampling_interval</span> <span class="o">=</span> <span class="s2">&quot;10 s&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;new sampling interval =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">sampling_interval</span><span class="p">)</span>
+<span class="go">new sampling interval = 10.0 s</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;new coordinates =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">new coordinates = [  0.  10.  20.  30.  40.  50.  60.  70.  80.  90. 100. 110.] s</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p class="first"><a class="reference internal" href="../api/IndependentVariable.html#csdfpy.IndependentVariable.reference_offset" title="csdfpy.IndependentVariable.reference_offset"><code class="xref py py-attr docutils literal notranslate"><span class="pre">reference_offset</span></code></a></p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;old reference offset =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">reference_offset</span><span class="p">)</span>
+<span class="go">old reference offset = 0.0 s</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span><span class="o">.</span><span class="n">reference_offset</span> <span class="o">=</span> <span class="s2">&quot;-1 s&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;new reference offset =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">reference_offset</span><span class="p">)</span>
+<span class="go">new reference offset = -1.0 s</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;new coordinates =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">new coordinates = [  1.  11.  21.  31.  41.  51.  61.  71.  81.  91. 101. 111.] s</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference internal" href="../api/IndependentVariable.html#csdfpy.IndependentVariable.origin_offset" title="csdfpy.IndependentVariable.origin_offset"><code class="xref py py-attr docutils literal notranslate"><span class="pre">origin_offset</span></code></a></p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;old origin offset =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">origin_offset</span><span class="p">)</span>
+<span class="go">old origin offset = 0.0 s</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span><span class="o">.</span><span class="n">origin_offset</span> <span class="o">=</span> <span class="s2">&quot;1 day&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="p">(</span><span class="s1">&#39;new origin offset =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">origin_offset</span><span class="p">)</span>
+<span class="go">new origin offset = 1.0 d</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;new coordinates =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">new coordinates = [  1.  11.  21.  31.  41.  51.  61.  71.  81.  91. 101. 111.] s</span>
+</pre></div>
+</div>
+<p>The last operation updates the value of the origin offset however
+the coordinates remain unaffected. This is because the
+<a class="reference internal" href="../api/IndependentVariable.html#csdfpy.IndependentVariable.coordinates" title="csdfpy.IndependentVariable.coordinates"><code class="xref py py-attr docutils literal notranslate"><span class="pre">coordinates</span></code></a> attribute refers to the
+reference coordinates. Access the absolute coordinates through the
+<a class="reference internal" href="../api/IndependentVariable.html#csdfpy.IndependentVariable.absolute_coordinates" title="csdfpy.IndependentVariable.absolute_coordinates"><code class="xref py py-attr docutils literal notranslate"><span class="pre">absolute_coordinates</span></code></a> attribute.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;absolute coordinates =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">absolute_coordinates</span><span class="p">)</span>
+<span class="go">absolute coordinates = [86401. 86411. 86421. 86431. 86441. 86451. 86461. 86471. 86481. 86491.</span>
+<span class="go"> 86501. 86511.] s</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<p id="lsgd-order-attributes"><strong>The attributes that modify the order of coordinates</strong></p>
+<ul>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="../api/IndependentVariable.html#csdfpy.IndependentVariable.fft_output_order" title="csdfpy.IndependentVariable.fft_output_order"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fft_output_order</span></code></a></dt>
+<dd><p class="first">Orders the coordinates along the dimension according to the output of a
+Fast Fourier Transform (FFT) routine.</p>
+<div class="last highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;old coordinates =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">old coordinates = [  1.  11.  21.  31.  41.  51.  61.  71.  81.  91. 101. 111.] s</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span><span class="o">.</span><span class="n">fft_output_order</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;new coordinates =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">new coordinates = [  1.  11.  21.  31.  41.  51. -59. -49. -39. -29. -19.  -9.] s</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="../api/IndependentVariable.html#csdfpy.IndependentVariable.reverse" title="csdfpy.IndependentVariable.reverse"><code class="xref py py-attr docutils literal notranslate"><span class="pre">reverse</span></code></a></dt>
+<dd><p class="first">Reverse the order of the coordinates.</p>
+<div class="last highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;old coordinates =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">old coordinates = [  1.  11.  21.  31.  41.  51. -59. -49. -39. -29. -19.  -9.] s</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span><span class="o">.</span><span class="n">reverse</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;new coordinates =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">new coordinates = [ -9. -19. -29. -39. -49. -59.  51.  41.  31.  21.  11.   1.] s</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+</ul>
+<p><strong>Other attributes</strong></p>
+<ul>
+<li><p class="first"><a class="reference internal" href="../api/IndependentVariable.html#csdfpy.IndependentVariable.period" title="csdfpy.IndependentVariable.period"><code class="xref py py-attr docutils literal notranslate"><span class="pre">period</span></code></a></p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;old period =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">period</span><span class="p">)</span>
+<span class="go">old period = inf s</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="s1">&#39;10 s&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;new period =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">period</span><span class="p">)</span>
+<span class="go">new period = 10.0 s</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="../api/IndependentVariable.html#csdfpy.IndependentVariable.quantity" title="csdfpy.IndependentVariable.quantity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">quantity</span></code></a></dt>
+<dd><p class="first">Returns the quantity name.</p>
+<div class="last highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;quantity is&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">quantity</span><span class="p">)</span>
+<span class="go">quantity is time</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p class="first"><a class="reference internal" href="../api/IndependentVariable.html#csdfpy.IndependentVariable.label" title="csdfpy.IndependentVariable.label"><code class="xref py py-attr docutils literal notranslate"><span class="pre">label</span></code></a></p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span><span class="o">.</span><span class="n">label</span>
+<span class="go">&#39;&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;t1&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span><span class="o">.</span><span class="n">label</span>
+<span class="go">&#39;t1&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="../api/IndependentVariable.html#csdfpy.IndependentVariable.axis_label" title="csdfpy.IndependentVariable.axis_label"><code class="xref py py-attr docutils literal notranslate"><span class="pre">axis_label</span></code></a></dt>
+<dd><p class="first">Returns a formatted string for axis labeling.</p>
+<div class="last highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span><span class="o">.</span><span class="n">label</span>
+<span class="go">&#39;t1&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span><span class="o">.</span><span class="n">axis_label</span>
+<span class="go">&#39;t1 / (s)&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../api/IndependentVariable.html#csdfpy.IndependentVariable.to" title="csdfpy.IndependentVariable.to"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to()</span></code></a>:
+This method is used for unit conversions.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;old unit =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">coordinates</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+<span class="go">old unit = s</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;old coordinates =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">old coordinates = [ -9. -19. -29. -39. -49. -59.  51.  41.  31.  21.  11.   1.] s</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">## unit conversion</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;min&#39;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="p">(</span><span class="s1">&#39;new coordinates =&#39;</span><span class="p">,</span> <span class="n">x0</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+<span class="go">new coordinates = [-0.15       -0.31666667 -0.48333333 -0.65       -0.81666667 -0.98333333</span>
+<span class="go">  0.85        0.68333333  0.51666667  0.35        0.18333333  0.01666667] min</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In the above examples, the coordinates are ordered according to FFT output
+order and are also reversed based on the previous set of operations.</p>
+</div>
+<p>The argument of this method is a string containing the unit, in this case,
+<cite>min</cite>, whose dimensionality must be consistent with the dimensionality of the
+coordinates.  An exception will be raised otherwise.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;km/s&#39;</span><span class="p">)</span>  
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+  File <span class="nb">&quot;/Users/deepansh/anaconda3/lib/python3.6/site-packages/csdfpy-0.0.9-py3.6.egg/csdfpy/cv.py&quot;</span>, line <span class="m">1238</span>, in <span class="n">to</span>
+    <span class="mf">1.0</span><span class="o">*</span><span class="n">string_to_unit</span><span class="p">(</span><span class="n">unit</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">gcv</span><span class="o">.</span><span class="n">unit</span>
+  File <span class="nb">&quot;/Users/deepansh/anaconda3/lib/python3.6/site-packages/csdfpy-0.0.9-py3.6.egg/csdfpy/_utils.py&quot;</span>, line <span class="m">290</span>, in <span class="n">_check_unit_consistency</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">options</span><span class="p">))</span>
+<span class="gr">Exception</span>: <span class="n">The unit &#39;km / s&#39; (speed) is inconsistent with the unit &#39;min&#39; (time).</span>
+</pre></div>
+</div>
+<p>Also see <a class="reference internal" href="../api/IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+    <a href="https://github.com/DeepanshS/csdfpy">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+    </a>
+
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Deepansh J. Srivastava
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

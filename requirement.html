@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>1. The requirements for csdfpy &mdash; csdfpy 0.0.9alpha documentation</title>
+  <title>The requirements for csdfpy &mdash; csdfpy 0.0.9alpha0 documentation</title>
   
 
   
@@ -29,8 +29,8 @@
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="2. Installing csdfpy package" href="installation.html" />
-    <link rel="prev" title="Welcome to csdfpy’s documentation!" href="index.html" /> 
+    <link rel="next" title="Installing csdfpy module" href="installation.html" />
+    <link rel="prev" title="The core scientific dataset (CSD) model" href="CSD_model.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -88,14 +88,13 @@
             
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">1. The requirements for csdfpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installing <cite>csdfpy</cite> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CSDModel.html">3. The core scientific dataset (CSD) model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Importing_csdfpy.html">4. Getting Started With <cite>csdfpy</cite> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="controlled_variables.html">5. Controlled variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="startingFromScrach.html">6. Starting from scrach</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/A fun example.html">7. A fun 🤪 example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="referenceAPI.html">8. Reference/API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CSD_model.html">The core scientific dataset (CSD) model</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The requirements for csdfpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing <cite>csdfpy</cite> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started With <cite>csdfpy</cite> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/A fun example.html">A fun 🤪 example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="referenceAPI.html">Reference/API documentation</a></li>
 </ul>
 
             
@@ -141,7 +140,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>1. The requirements for csdfpy</li>
+      <li>The requirements for csdfpy</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -163,38 +162,18 @@
 
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast + .nbinput {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="the-requirements-for-csdfpy">
-<h1>1. The requirements for csdfpy<a class="headerlink" href="#the-requirements-for-csdfpy" title="Permalink to this headline">¶</a></h1>
-<p>The package requires the following</p>
+  <div class="section" id="the-requirements-for-csdfpy">
+<h1>The requirements for csdfpy<a class="headerlink" href="#the-requirements-for-csdfpy" title="Permalink to this headline">¶</a></h1>
+<p>The <cite>csdfpy</cite> module requires the following packages/modules</p>
 <ul class="simple">
-<li>python&gt;=3.5</li>
-<li>numpy&gt;=1.13.0</li>
-<li>scipy&gt;=0.16.0</li>
-<li>astropy&gt;=3.1.1 (for astropy units module)</li>
+<li><a class="reference external" href="https://www.numpy.org">numpy&gt;=1.10.1</a> (for handling n-dimensional arrays)</li>
+<li><a class="reference external" href="https://scipy.org">scipy&gt;=0.16.0</a> (for numerical libraries)</li>
+<li><a class="reference external" href="http://docs.python-requests.org/en/master/">requests&gt;=2.21.0</a> (for downloading files from server)</li>
+<li><a class="reference external" href="http://www.astropy.org">astropy&gt;=3.0</a> (for astropy units module)</li>
+</ul>
+<p>We also recommend installing the following:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://matplotlib.org">matplotlib&gt;=3.0</a> (for rendering plots)</li>
 </ul>
 </div>
 
@@ -210,10 +189,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="installation.html" class="btn btn-neutral float-right" title="2. Installing csdfpy package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installing csdfpy module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Welcome to csdfpy’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="CSD_model.html" class="btn btn-neutral" title="The core scientific dataset (CSD) model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -250,7 +229,6 @@
         <script type="text/javascript" src="_static/language_data.js"></script>
         <script type="text/javascript" src="_static/copybutton.js"></script>
         <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
 
   

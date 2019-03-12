@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>8. A fun 🤪 example &mdash; csdfpy 0.0.9alpha documentation</title>
+  <title>A fun 🤪 example &mdash; csdfpy 0.0.9alpha0 documentation</title>
   
 
   
@@ -29,8 +29,8 @@
   <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="9. Reference/API documentation" href="../referenceAPI.html" />
-    <link rel="prev" title="7. Starting from scrach" href="../startingFromScrach.html" /> 
+    <link rel="next" title="Reference/API documentation" href="../referenceAPI.html" />
+    <link rel="prev" title="2D{3} datasets" href="2D{3} datasets.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -88,15 +88,13 @@
             
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../requirement.html">1. The requirements for csdfpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. Installing <cite>csdfpy</cite> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../CSDModel.html">3. The core scientific dataset (CSD) model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Importing_csdfpy.html">4. Getting Started With <cite>csdfpy</cite> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">5. Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../controlled_variables.html">6. Controlled variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../startingFromScrach.html">7. Starting from scrach</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">8. A fun 🤪 example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../referenceAPI.html">9. Reference/API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CSD_model.html">The core scientific dataset (CSD) model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../requirement.html">The requirements for csdfpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installing <cite>csdfpy</cite> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started With <cite>csdfpy</cite> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">A fun 🤪 example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../referenceAPI.html">Reference/API documentation</a></li>
 </ul>
 
             
@@ -142,7 +140,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>8. A fun 🤪 example</li>
+      <li>A fun 🤪 example</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -164,71 +162,56 @@
 
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast + .nbinput {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="a-fun-example">
-<h1>8. A fun 🤪 example<a class="headerlink" href="#a-fun-example" title="Permalink to this headline">¶</a></h1>
-<p>We have looked at datasets from various scientific fields. Let’s create a
-fun dataset. As usual, we start by importing the <code class="docutils literal notranslate"><span class="pre">csdfpy</span></code> package.</p>
+  <div class="section" id="a-fun-example">
+<h1>A fun 🤪 example<a class="headerlink" href="#a-fun-example" title="Permalink to this headline">¶</a></h1>
+<p>Previously, we examined datasets from various scientific fields which were
+already saved in the CSD model format. In this section, we’ll go through the steps
+on how one can create a new dataset. Let’s start with a simple example. To make
+it interesting let’s create an emoji dataset.</p>
+<p>Start by importing the <cite>csdfpy</cite> package.</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">csdfpy</span> <span class="kn">as</span> <span class="nn">cp</span>
 </pre></div>
 </div>
-<p>Let’s create a new <a class="reference internal" href="../api/csdfpy.CSDModel.html#csdm-api"><span class="std std-ref">CSDModel</span></a> object.</p>
+<p>To create a new dataset, use the <a class="reference internal" href="../api/csdfpy.html#csdfpy.new" title="csdfpy.new"><code class="xref py py-meth docutils literal notranslate"><span class="pre">new()</span></code></a> method of the <cite>csdfpy</cite>
+package.</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fundata</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Let’s also write a python dictionary for generating a <a class="reference internal" href="../api/csdfpy.ControlledVariable.html#cv-api"><span class="std std-ref">Controlled variable</span></a> object</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="p">{</span>
-<span class="gp">... </span>    <span class="s1">&#39;values&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;🍈&#39;</span><span class="p">,</span><span class="s1">&#39;🍉&#39;</span><span class="p">,</span><span class="s1">&#39;🍋&#39;</span><span class="p">,</span><span class="s1">&#39;🍌&#39;</span><span class="p">,</span><span class="s1">&#39;🥑&#39;</span><span class="p">,</span><span class="s1">&#39;🍍&#39;</span><span class="p">],</span>
-<span class="gp">... </span>    <span class="s1">&#39;non_quantitative&#39;</span><span class="p">:</span> <span class="bp">True</span>
-<span class="gp">... </span><span class="p">}</span>
-</pre></div>
-</div>
-<p>and another for the <a class="reference internal" href="../api/csdfpy.UnControlledVariable.html#uv-api"><span class="std std-ref">Uncontrolled variable</span></a> object,</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span><span class="p">{</span>
-<span class="gp">... </span>    <span class="s1">&#39;components&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">]]</span>
-<span class="gp">... </span><span class="p">}</span>
-</pre></div>
-</div>
-<p>Let’s add the two dictionaries to the <code class="docutils literal notranslate"><span class="pre">fundata</span></code> object,</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fundata</span><span class="o">.</span><span class="n">add_controlled_variable</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fundata</span><span class="o">.</span><span class="n">add_uncontrolled_variable</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Now, we have a 😂 dataset…</p>
+<p>This will create an instance of the <a class="reference internal" href="../api/CSDModel.html#csdm-api"><span class="std std-ref">CSDModel</span></a> class with a 0D{0} dataset,
+<cite>i.e.</cite>, a dataset with no dependent or independent variables.</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">fundata</span><span class="o">.</span><span class="n">data_structure</span><span class="p">)</span>
 <span class="go">{</span>
 <span class="go">  &quot;CSDM&quot;: {</span>
-<span class="go">    &quot;uncontrolled_variables&quot;: [</span>
+<span class="go">    &quot;version&quot;: &quot;0.0.9&quot;,</span>
+<span class="go">    &quot;independent_variables&quot;: [],</span>
+<span class="go">    &quot;dependent_variables&quot;: []</span>
+<span class="go">  }</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<p>There are three ways to add an independent variable to an instance of the
+<a class="reference internal" href="../api/CSDModel.html#csdm-api"><span class="std std-ref">CSDModel</span></a> class. Here, we’ll make use a python dictionary to create an
+<a class="reference internal" href="../api/IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> instance.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;labeled&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;values&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;🍈&#39;</span><span class="p">,</span><span class="s1">&#39;🍉&#39;</span><span class="p">,</span><span class="s1">&#39;🍋&#39;</span><span class="p">,</span><span class="s1">&#39;🍌&#39;</span><span class="p">,</span><span class="s1">&#39;🥑&#39;</span><span class="p">,</span><span class="s1">&#39;🍍&#39;</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The above python dictionary contains two keys. The <cite>type</cite> key identifies the
+independent variable as a labeled dimension while the <cite>values</cite> key holds an
+array of labels. In this example, the labels are emoji. To create an instance
+of the independent variable, simply add this dictionary as an argument of the
+<a class="reference internal" href="../api/CSDModel.html#csdfpy.CSDModel.add_independent_variable" title="csdfpy.CSDModel.add_independent_variable"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_independent_variable()</span></code></a> method of the <code class="docutils literal notranslate"><span class="pre">fundata</span></code>
+instance.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fundata</span><span class="o">.</span><span class="n">add_independent_variable</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">fundata</span><span class="o">.</span><span class="n">data_structure</span><span class="p">)</span>
+<span class="go">{</span>
+<span class="go">  &quot;CSDM&quot;: {</span>
+<span class="go">    &quot;version&quot;: &quot;0.0.9&quot;,</span>
+<span class="go">    &quot;independent_variables&quot;: [</span>
 <span class="go">      {</span>
-<span class="go">        &quot;numeric_type&quot;: &quot;float64&quot;,</span>
-<span class="go">        &quot;components&quot;: &quot;[0.5, 0.5, ...... 1.0, 1.0]&quot;</span>
-<span class="go">      }</span>
-<span class="go">    ],</span>
-<span class="go">    &quot;controlled_variables&quot;: [</span>
-<span class="go">      {</span>
+<span class="go">        &quot;type&quot;: &quot;labeled&quot;,</span>
 <span class="go">        &quot;values&quot;: [</span>
 <span class="go">          &quot;🍈&quot;,</span>
 <span class="go">          &quot;🍉&quot;,</span>
@@ -236,20 +219,76 @@ fun dataset. As usual, we start by importing the <code class="docutils literal n
 <span class="go">          &quot;🍌&quot;,</span>
 <span class="go">          &quot;🥑&quot;,</span>
 <span class="go">          &quot;🍍&quot;</span>
-<span class="go">        ],</span>
-<span class="go">        &quot;non_quantitative&quot;: true</span>
+<span class="go">        ]</span>
 <span class="go">      }</span>
 <span class="go">    ],</span>
-<span class="go">    &quot;version&quot;: &quot;0.0.9&quot;</span>
+<span class="go">    &quot;dependent_variables&quot;: []</span>
 <span class="go">  }</span>
 <span class="go">}</span>
 </pre></div>
 </div>
-<p>To plot,</p>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">add plot</p>
+<p>We have successfully added one independent variable to the <code class="docutils literal notranslate"><span class="pre">fundata</span></code>
+instance. To add more independent variables, simply write a python
+dictionary corresponding to each independent variable and sequentially add it
+to the <code class="docutils literal notranslate"><span class="pre">fundata</span></code> instance using the
+<a class="reference internal" href="../api/CSDModel.html#csdfpy.CSDModel.add_independent_variable" title="csdfpy.CSDModel.add_independent_variable"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_independent_variable()</span></code></a> method.
+In this example, we’ll limit to one independent variable.</p>
+<p>Similary to add a dependent variable, again write a python dictionary
+corresponding to the dependent variable. Only this time pass the dictionary as
+an argument of the <a class="reference internal" href="../api/CSDModel.html#csdfpy.CSDModel.add_dependent_variable" title="csdfpy.CSDModel.add_dependent_variable"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_dependent_variable()</span></code></a> method of
+the <code class="docutils literal notranslate"><span class="pre">fundata</span></code> instance.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span><span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;encoding&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;numeric_type&#39;</span><span class="p">:</span> <span class="s1">&#39;float16&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;components&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">]]</span>
+<span class="gp">... </span><span class="p">}</span>
+</pre></div>
 </div>
+<p>Here, the python dictionary contains <cite>encoding</cite>, <cite>numeric_type</cite> and
+<cite>components</cite> key. The value of the <cite>components</cite> holds an array of data values
+corresponding to the labels from the independent variable dimension.
+Add this dictionary to the <code class="docutils literal notranslate"><span class="pre">fundata</span></code> instance,</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fundata</span><span class="o">.</span><span class="n">add_dependent_variable</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now, we have a 😂 dataset…</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">fundata</span><span class="o">.</span><span class="n">data_structure</span><span class="p">)</span>
+<span class="go">{</span>
+<span class="go">  &quot;CSDM&quot;: {</span>
+<span class="go">    &quot;version&quot;: &quot;0.0.9&quot;,</span>
+<span class="go">    &quot;independent_variables&quot;: [</span>
+<span class="go">      {</span>
+<span class="go">        &quot;type&quot;: &quot;labeled&quot;,</span>
+<span class="go">        &quot;values&quot;: [</span>
+<span class="go">          &quot;🍈&quot;,</span>
+<span class="go">          &quot;🍉&quot;,</span>
+<span class="go">          &quot;🍋&quot;,</span>
+<span class="go">          &quot;🍌&quot;,</span>
+<span class="go">          &quot;🥑&quot;,</span>
+<span class="go">          &quot;🍍&quot;</span>
+<span class="go">        ]</span>
+<span class="go">      }</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;dependent_variables&quot;: [</span>
+<span class="go">      {</span>
+<span class="go">        &quot;numeric_type&quot;: &quot;float16&quot;,</span>
+<span class="go">        &quot;components&quot;: &quot;[0.5, 0.5, ...... 1.0, 1.0]&quot;</span>
+<span class="go">      }</span>
+<span class="go">    ]</span>
+<span class="go">  }</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<p>To save the file, use the <a class="reference internal" href="../api/CSDModel.html#csdfpy.CSDModel.save" title="csdfpy.CSDModel.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save()</span></code></a> method of the
+<code class="docutils literal notranslate"><span class="pre">fundata</span></code> instance as</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fundata</span><span class="o">.</span><span class="n">dependent_variables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="s1">&#39;base64&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fundata</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;myfile.csdf&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the above code, the data values from the
+<a class="reference internal" href="../api/CSDModel.html#csdfpy.CSDModel.dependent_variables" title="csdfpy.CSDModel.dependent_variables"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dependent_variables</span></code></a> attribute are encoded as
+a <cite>base64</cite> string
+before serializing the dataset to the <cite>myfile.csdf</cite> file.</p>
 </div>
 
 
@@ -264,10 +303,10 @@ fun dataset. As usual, we start by importing the <code class="docutils literal n
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../referenceAPI.html" class="btn btn-neutral float-right" title="9. Reference/API documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../referenceAPI.html" class="btn btn-neutral float-right" title="Reference/API documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../startingFromScrach.html" class="btn btn-neutral" title="7. Starting from scrach" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="2D{3} datasets.html" class="btn btn-neutral" title="2D{3} datasets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -304,7 +343,6 @@ fun dataset. As usual, we start by importing the <code class="docutils literal n
         <script type="text/javascript" src="../_static/language_data.js"></script>
         <script type="text/javascript" src="../_static/copybutton.js"></script>
         <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
 
   

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>7. Starting from scrach &mdash; csdfpy 0.0.9alpha documentation</title>
+  <title>Starting from scrach &mdash; csdfpy 0.0.9alpha0 documentation</title>
   
 
   
@@ -28,9 +28,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="8. A fun 🤪 example" href="examples/A fun example.html" />
-    <link rel="prev" title="6.1. Linearly sampled grid controlled variable" href="cv.linear.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -87,23 +85,14 @@
             
             
               <p class="caption"><span class="caption-text">Table of Contents</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="requirement.html">1. The requirements for csdfpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installing <cite>csdfpy</cite> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CSDModel.html">3. The core scientific dataset (CSD) model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Importing_csdfpy.html">4. Getting Started With <cite>csdfpy</cite> package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/examples.html">5. Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="controlled_variables.html">6. Controlled variables</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">7. Starting from scrach</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#adding-the-controlled-variables">7.1. Adding the <code class="docutils literal notranslate"><span class="pre">controlled_variables</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#the-linearly-sampled-grid-dimension">7.1.1. The linearly sampled grid dimension</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#the-arbitrarily-sampled-grid-dimension">7.1.2. The arbitrarily sampled grid dimension</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="examples/A fun example.html">8. A fun 🤪 example</a></li>
-<li class="toctree-l1"><a class="reference internal" href="referenceAPI.html">9. Reference/API documentation</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CSD_model.html">The core scientific dataset (CSD) model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requirement.html">The requirements for csdfpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing <cite>csdfpy</cite> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started With <cite>csdfpy</cite> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/A fun example.html">A fun 🤪 example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="referenceAPI.html">Reference/API documentation</a></li>
 </ul>
 
             
@@ -149,7 +138,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>7. Starting from scrach</li>
+      <li>Starting from scrach</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -171,113 +160,206 @@
 
            <div itemprop="articleBody">
             
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast,
-.nboutput.nblast {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast + .nbinput {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="starting-from-scrach">
-<h1>7. Starting from scrach<a class="headerlink" href="#starting-from-scrach" title="Permalink to this headline">¶</a></h1>
-<p>The <code class="docutils literal notranslate"><span class="pre">CSDModel</span></code> allow the users to create the data file from scrach.
-This is particularly useful when converting the raw or processed
-data to <code class="docutils literal notranslate"><span class="pre">.csdf</span></code> or <code class="docutils literal notranslate"><span class="pre">.csdfx</span></code> files.</p>
-<p>First, import the <code class="docutils literal notranslate"><span class="pre">csdfpy</span></code> module and then create a new
-<code class="docutils literal notranslate"><span class="pre">CSDModel</span></code> object,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">csdfpy</span> <span class="k">as</span> <span class="nn">cp</span>
+  <div class="section" id="starting-from-scrach">
+<h1>Starting from scrach<a class="headerlink" href="#starting-from-scrach" title="Permalink to this headline">¶</a></h1>
+<p>An instance of the <a class="reference internal" href="api/CSDModel.html#csdm-api"><span class="std std-ref">CSDModel</span></a> class can also be used to create a new
+data file. This is particularly useful when writing the raw or the processed
+data to a <cite>.csdf</cite> or <cite>.csdfe</cite> file.</p>
+<p>First, import the <cite>csdfpy</cite> module and then create a new instance of the
+CSDModel class following,</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">csdfpy</span> <span class="kn">as</span> <span class="nn">cp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">new</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The variable <code class="docutils literal notranslate"><span class="pre">new</span></code> is an object of class <code class="docutils literal notranslate"><span class="pre">CSDModel</span></code> with no
-controlled and uncontrolled variables. The structure of the
-this object follows,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="p">(</span><span class="n">new_object</span><span class="o">.</span><span class="n">data_structure</span><span class="p">())</span>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">new</span></code> is an instance of the CSDModel class with no
+independent or dependent variables, <cite>i.e.</cite>, a 0D{0} dataset.
+The data structure of this instance is</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">data_structure</span><span class="p">)</span>
 <span class="go">{</span>
 <span class="go">  &quot;CSDM&quot;: {</span>
-<span class="go">    &quot;uncontrolled_variables&quot;: [],</span>
-<span class="go">    &quot;controlled_variables&quot;: [],</span>
-<span class="go">    &quot;version&quot;: &quot;0.1.0&quot;</span>
+<span class="go">    &quot;version&quot;: &quot;0.0.9&quot;,</span>
+<span class="go">    &quot;independent_variables&quot;: [],</span>
+<span class="go">    &quot;dependent_variables&quot;: []</span>
 <span class="go">  }</span>
 <span class="go">}</span>
 </pre></div>
 </div>
-<div class="section" id="adding-the-controlled-variables">
-<h2>7.1. Adding the <code class="docutils literal notranslate"><span class="pre">controlled_variables</span></code><a class="headerlink" href="#adding-the-controlled-variables" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">controlled_variables</span></code> are added using the <code class="docutils literal notranslate"><span class="pre">add_controlled_variable</span></code>
-method of the <a class="reference internal" href="api/csdfpy.CSDModel.html#csdm-api"><span class="std std-ref">CSDModel</span></a> class. There are two ways to add controlled
-variables. The first approach is to employ the Python dictionary. The
-dictionary comprises of an unordered set of permitted key-value pairs. The
-other approach is to use the keys as the arguments to the
-<code class="docutils literal notranslate"><span class="pre">add_controlled_variable</span></code> method. In the following, we provide examples of
-both schemes for the three classes of controlled variables.</p>
-<div class="section" id="the-linearly-sampled-grid-dimension">
-<h3>7.1.1. The linearly sampled grid dimension<a class="headerlink" href="#the-linearly-sampled-grid-dimension" title="Permalink to this headline">¶</a></h3>
-<p>Using the Python dictionary</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d0</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;number_of_points&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>      <span class="s1">&#39;sampling_interval&#39;</span><span class="p">:</span> <span class="s1">&#39;0.1 s&#39;</span><span class="p">}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">new</span><span class="o">.</span><span class="n">add_controlled_variable</span><span class="p">(</span><span class="n">d0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">data_structure</span><span class="p">())</span>
+<div class="section" id="adding-instances-of-the-iv-api-class">
+<h2>Adding instances of the <a class="reference internal" href="api/IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> class<a class="headerlink" href="#adding-instances-of-the-iv-api-class" title="Permalink to this headline">¶</a></h2>
+<p>An instance of the IndependentVariable class is added using the
+<a class="reference internal" href="api/CSDModel.html#csdfpy.CSDModel.add_independent_variable" title="csdfpy.CSDModel.add_independent_variable"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_independent_variable()</span></code></a> method of the <a class="reference internal" href="api/CSDModel.html#csdm-api"><span class="std std-ref">CSDModel</span></a>
+instance, in this case, the variable <code class="docutils literal notranslate"><span class="pre">new</span></code>. There are three ways to add an
+independent variable instance. See <a class="reference internal" href="api/IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> API for further detail.</p>
+<div class="section" id="linearly-sampled-dimension">
+<h3>Linearly Sampled Dimension<a class="headerlink" href="#linearly-sampled-dimension" title="Permalink to this headline">¶</a></h3>
+<p>Start by adding an independent variable where the coordinates along the
+dimension are linearly spaced. Let’s make use of the
+Python dictionary to create and add a new independent variable
+<code class="docutils literal notranslate"><span class="pre">new</span></code> using its <code class="xref py py-meth docutils literal notranslate"><span class="pre">add_independent_variable()</span></code>
+method. The Python dictionary corresponding to a linearly spaced dimension
+coordinates follows,</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d0</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;linearly_sampled&#39;</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="s1">&#39;number_of_points&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="s1">&#39;sampling_interval&#39;</span><span class="p">:</span> <span class="s1">&#39;0.1 s&#39;</span>
+<span class="gp">... </span>     <span class="p">}</span>
+</pre></div>
+</div>
+<p>Here, we define the <cite>type</cite> as <cite>linearly_sampled</cite> and provide a sampling
+interval and number of points along the independent variable dimension. Add
+this dictionary as an argument of the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">add_independent_variable()</span></code> method.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">new</span><span class="o">.</span><span class="n">add_independent_variable</span><span class="p">(</span><span class="n">d0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This creates and adds a new independent variable to the <code class="docutils literal notranslate"><span class="pre">new</span></code> instance. The
+dataset is now a 1D{0} dataset with the data structure -</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">data_structure</span><span class="p">)</span>
 <span class="go">{</span>
 <span class="go">  &quot;CSDM&quot;: {</span>
-<span class="go">    &quot;uncontrolled_variables&quot;: [],</span>
-<span class="go">    &quot;controlled_variables&quot;: [</span>
+<span class="go">    &quot;version&quot;: &quot;0.0.9&quot;,</span>
+<span class="go">    &quot;independent_variables&quot;: [</span>
 <span class="go">      {</span>
-<span class="go">        &quot;reciprocal&quot;: {</span>
-<span class="go">          &quot;quantity&quot;: &quot;frequency&quot;</span>
-<span class="go">        },</span>
+<span class="go">        &quot;type&quot;: &quot;linearly_sampled&quot;,</span>
 <span class="go">        &quot;number_of_points&quot;: 10,</span>
 <span class="go">        &quot;sampling_interval&quot;: &quot;0.1 s&quot;,</span>
-<span class="go">        &quot;quantity&quot;: &quot;time&quot;</span>
-<span class="go">      }</span>
-<span class="go">    ],</span>
-<span class="go">    &quot;version&quot;: &quot;0.1.0&quot;</span>
-<span class="go">  }</span>
-<span class="go">}</span>
-</pre></div>
-</div>
-<p>Using keywords as arguments</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">new2</span> <span class="o">=</span> <span class="n">csdfpy</span><span class="o">.</span><span class="n">create_new</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">new2</span><span class="o">.</span><span class="n">add_controlled_variable</span><span class="p">(</span><span class="n">number_of_points</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">sampling_interval</span><span class="o">=</span><span class="s1">&#39;0.1 s&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">data_structure</span><span class="p">())</span>
-<span class="go">{</span>
-<span class="go">  &quot;CSDM&quot;: {</span>
-<span class="go">    &quot;uncontrolled_variables&quot;: [],</span>
-<span class="go">    &quot;controlled_variables&quot;: [</span>
-<span class="go">      {</span>
+<span class="go">        &quot;quantity&quot;: &quot;time&quot;,</span>
 <span class="go">        &quot;reciprocal&quot;: {</span>
 <span class="go">          &quot;quantity&quot;: &quot;frequency&quot;</span>
-<span class="go">        },</span>
-<span class="go">        &quot;number_of_points&quot;: 10,</span>
-<span class="go">        &quot;sampling_interval&quot;: &quot;0.1 s&quot;,</span>
-<span class="go">        &quot;quantity&quot;: &quot;time&quot;</span>
+<span class="go">        }</span>
 <span class="go">      }</span>
 <span class="go">    ],</span>
-<span class="go">    &quot;version&quot;: &quot;0.1.0&quot;</span>
+<span class="go">    &quot;dependent_variables&quot;: []</span>
 <span class="go">  }</span>
 <span class="go">}</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="the-arbitrarily-sampled-grid-dimension">
-<h3>7.1.2. The arbitrarily sampled grid dimension<a class="headerlink" href="#the-arbitrarily-sampled-grid-dimension" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="arbitrarily-sampled-dimension">
+<h3>Arbitrarily Sampled Dimension<a class="headerlink" href="#arbitrarily-sampled-dimension" title="Permalink to this headline">¶</a></h3>
+<p>Try adding another <a class="reference internal" href="api/IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> instance to the <code class="docutils literal notranslate"><span class="pre">new</span></code> instance.
+This time add an
+independent variable where the coordinates along the dimension are spaced
+arbitrarily. Also, try the second approach for adding independent
+variables, <cite>i.e.</cite>, by using keywords as the arguments of the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">add_independent_variable()</span></code> method as
+shown below.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">new</span><span class="o">.</span><span class="n">add_independent_variable</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;arbitrarily_sampled&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                             <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;1 µG&#39;</span><span class="p">,</span> <span class="s1">&#39;2.1 mG&#39;</span><span class="p">,</span> <span class="s1">&#39;12.4 G&#39;</span><span class="p">,</span> <span class="s1">&#39;0.5 T&#39;</span><span class="p">,</span> <span class="s1">&#39;2 T&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The above operation creates and adds another independent variable instance,
+thereby generating a 2D{0} dataset. The data structure form the updated <code class="docutils literal notranslate"><span class="pre">new</span></code>
+instance is</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">data_structure</span><span class="p">)</span>
+<span class="go">{</span>
+<span class="go">  &quot;CSDM&quot;: {</span>
+<span class="go">    &quot;version&quot;: &quot;0.0.9&quot;,</span>
+<span class="go">    &quot;independent_variables&quot;: [</span>
+<span class="go">      {</span>
+<span class="go">        &quot;type&quot;: &quot;linearly_sampled&quot;,</span>
+<span class="go">        &quot;number_of_points&quot;: 10,</span>
+<span class="go">        &quot;sampling_interval&quot;: &quot;0.1 s&quot;,</span>
+<span class="go">        &quot;quantity&quot;: &quot;time&quot;,</span>
+<span class="go">        &quot;reciprocal&quot;: {</span>
+<span class="go">          &quot;quantity&quot;: &quot;frequency&quot;</span>
+<span class="go">        }</span>
+<span class="go">      },</span>
+<span class="go">      {</span>
+<span class="go">        &quot;type&quot;: &quot;arbitrarily_sampled&quot;,</span>
+<span class="go">        &quot;values&quot;: [</span>
+<span class="go">          &quot;1 µG&quot;,</span>
+<span class="go">          &quot;2.1 mG&quot;,</span>
+<span class="go">          &quot;12.4 G&quot;,</span>
+<span class="go">          &quot;0.5 T&quot;,</span>
+<span class="go">          &quot;2 T&quot;</span>
+<span class="go">        ],</span>
+<span class="go">        &quot;quantity&quot;: &quot;magnetic flux density&quot;</span>
+<span class="go">      }</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;dependent_variables&quot;: []</span>
+<span class="go">  }</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<p>Notice, every time a new independent variable corresponding to a physical
+dimension is added, the value of the
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">quantity</span></code> attribute is self-generated, if
+possible.</p>
+</div>
+<div class="section" id="labeled-dimension">
+<h3>Labeled Dimension<a class="headerlink" href="#labeled-dimension" title="Permalink to this headline">¶</a></h3>
+<p>The third type of dimensions are the labeled dimension. As the name suggests,
+this dimension consists of labeled coordinates. The dimension is useful for
+datasets such as describing the human population as a function of the country’s
+name or the ionization energy as a function of atomic symbols.</p>
+<p>Try adding a labeled dimension to the <code class="docutils literal notranslate"><span class="pre">new</span></code> instance.
+This time pass an instance of the <a class="reference internal" href="api/IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> class as the argument of the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">add_independent_variable()</span></code> method.
+But before, create an instance of the IndependentVariable class as follows,</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">csdfpy</span> <span class="kn">import</span> <span class="n">IndependentVariable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d1</span> <span class="o">=</span> <span class="n">IndependentVariable</span><span class="p">(</span><span class="nb">type</span> <span class="o">=</span> <span class="s1">&#39;labeled&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                         <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Cu&#39;</span><span class="p">,</span> <span class="s1">&#39;Ag&#39;</span><span class="p">,</span> <span class="s1">&#39;Au&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>In the above code, the variable <code class="docutils literal notranslate"><span class="pre">d1</span></code> is an instance of <a class="reference internal" href="api/IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a>. Now
+add this instance to the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">add_independent_variable()</span></code> method.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">new</span><span class="o">.</span><span class="n">add_independent_variable</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This generates a 3D{0} dataset with the data structure -</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">data_structure</span><span class="p">)</span>
+<span class="go">{</span>
+<span class="go">  &quot;CSDM&quot;: {</span>
+<span class="go">    &quot;version&quot;: &quot;0.0.9&quot;,</span>
+<span class="go">    &quot;independent_variables&quot;: [</span>
+<span class="go">      {</span>
+<span class="go">        &quot;type&quot;: &quot;linearly_sampled&quot;,</span>
+<span class="go">        &quot;number_of_points&quot;: 10,</span>
+<span class="go">        &quot;sampling_interval&quot;: &quot;0.1 s&quot;,</span>
+<span class="go">        &quot;quantity&quot;: &quot;time&quot;,</span>
+<span class="go">        &quot;reciprocal&quot;: {</span>
+<span class="go">          &quot;quantity&quot;: &quot;frequency&quot;</span>
+<span class="go">        }</span>
+<span class="go">      },</span>
+<span class="go">      {</span>
+<span class="go">        &quot;type&quot;: &quot;arbitrarily_sampled&quot;,</span>
+<span class="go">        &quot;values&quot;: [</span>
+<span class="go">          &quot;1 µG&quot;,</span>
+<span class="go">          &quot;2.1 mG&quot;,</span>
+<span class="go">          &quot;12.4 G&quot;,</span>
+<span class="go">          &quot;0.5 T&quot;,</span>
+<span class="go">          &quot;2 T&quot;</span>
+<span class="go">        ],</span>
+<span class="go">        &quot;quantity&quot;: &quot;magnetic flux density&quot;</span>
+<span class="go">      },</span>
+<span class="go">      {</span>
+<span class="go">        &quot;type&quot;: &quot;labeled&quot;,</span>
+<span class="go">        &quot;values&quot;: [</span>
+<span class="go">          &quot;Cu&quot;,</span>
+<span class="go">          &quot;Ag&quot;,</span>
+<span class="go">          &quot;Au&quot;</span>
+<span class="go">        ]</span>
+<span class="go">      }</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;dependent_variables&quot;: []</span>
+<span class="go">  }</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When using an <a class="reference internal" href="api/IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> instance as an argument of the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">add_independent_variable()</span></code> method, one
+must be aware that instances in Python are passed by reference. Therefore,
+any change to the instance <code class="docutils literal notranslate"><span class="pre">d1</span></code>, in the above example, will affect the
+corresponding independent variable instance from the <code class="docutils literal notranslate"><span class="pre">new</span></code> instance.
+To be safe, as a general
+recommendation, one should always pass a copy of the instance to the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">add_independent_variable()</span></code> method. This
+method is useful when copying an instance of the <a class="reference internal" href="api/IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> class from one
+<a class="reference internal" href="api/CSDModel.html#csdm-api"><span class="std std-ref">CSDModel</span></a> instance to another.</p>
+</div>
 </div>
 </div>
 </div>
@@ -291,15 +373,6 @@ both schemes for the three classes of controlled variables.</p>
     </a>
 
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="examples/A fun example.html" class="btn btn-neutral float-right" title="8. A fun 🤪 example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="cv.linear.html" class="btn btn-neutral" title="6.1. Linearly sampled grid controlled variable" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
@@ -334,7 +407,6 @@ both schemes for the three classes of controlled variables.</p>
         <script type="text/javascript" src="_static/language_data.js"></script>
         <script type="text/javascript" src="_static/copybutton.js"></script>
         <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
 
   

@@ -1,0 +1,483 @@
+<!-- 
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CSDModel &mdash; csdfpy 0.0.9alpha0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="IndependentVariable" href="IndependentVariable.html" />
+    <link rel="prev" title="csdfpy" href="csdfpy.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> csdfpy
+          
+
+          
+            
+            <img src="../_static/csdfpy.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../CSD_model.html">The core scientific dataset (CSD) model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../requirement.html">The requirements for csdfpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installing <cite>csdfpy</cite> module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started With <cite>csdfpy</cite> package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/A fun example.html">A fun 🤪 example</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../referenceAPI.html">Reference/API documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="csdfpy.html">csdfpy</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CSDModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="IndependentVariable.html">IndependentVariable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DependentVariable.html">DependentVariable</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">csdfpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../referenceAPI.html">Reference/API documentation</a> &raquo;</li>
+        
+      <li>CSDModel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/DeepanshS/csdfpy/blob/master/docs/source/api/CSDModel.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+           <div itemprop="articleBody">
+            
+  <div class="section" id="csdmodel">
+<span id="csdm-api"></span><h1>CSDModel<a class="headerlink" href="#csdmodel" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="csdfpy.CSDModel">
+<em class="property">class </em><code class="descclassname">csdfpy.</code><code class="descname">CSDModel</code><span class="sig-paren">(</span><em>filename=''</em>, <em>version=None</em><span class="sig-paren">)</span><a class="headerlink" href="#csdfpy.CSDModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Instantiate a CSDModel class.</p>
+<p>The CSDModel class is based on the core scientific dataset (CSD) model.
+The class is a composition of the <a class="reference internal" href="DependentVariable.html#dv-api"><span class="std std-ref">DependentVariable</span></a> and <a class="reference internal" href="IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> instances,
+where every instance of the <a class="reference internal" href="DependentVariable.html#dv-api"><span class="std std-ref">DependentVariable</span></a> class is a <span class="math notranslate nohighlight">\(p\)</span>-component
+independent variable, <span class="math notranslate nohighlight">\(y\)</span> and every instance of <a class="reference internal" href="IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> class
+is a dimension of a <span class="math notranslate nohighlight">\(d\)</span>-dimensional independent variable space
+<span class="math notranslate nohighlight">\((x_0, x_1, ... x_k, ... x_{d-1})\)</span>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal notranslate"><span class="pre">CSDModel</span></code> instance.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy.CSDModel.independent_variables" title="csdfpy.CSDModel.independent_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">independent_variables</span></code></a></td>
+<td>Returns a tuple of the <a class="reference internal" href="IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> instances.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#csdfpy.CSDModel.dependent_variables" title="csdfpy.CSDModel.dependent_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dependent_variables</span></code></a></td>
+<td>Returns a tuple of the <a class="reference internal" href="DependentVariable.html#dv-api"><span class="std std-ref">DependentVariable</span></a> instances.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy.CSDModel.filename" title="csdfpy.CSDModel.filename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filename</span></code></a></td>
+<td>Returns the local file address of the current JSON file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#csdfpy.CSDModel.version" title="csdfpy.CSDModel.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a></td>
+<td>Returns the version number of the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> on file.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy.CSDModel.data_structure" title="csdfpy.CSDModel.data_structure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_structure</span></code></a></td>
+<td>Returns the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> instance as a JSON serialization.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy.CSDModel.add_independent_variable" title="csdfpy.CSDModel.add_independent_variable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_independent_variable</span></code></a>(*arg,&nbsp;**kwargs)</td>
+<td>Adds a new <a class="reference internal" href="IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> instance to the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> instance.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#csdfpy.CSDModel.add_dependent_variable" title="csdfpy.CSDModel.add_dependent_variable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_dependent_variable</span></code></a>(*arg,&nbsp;**kwargs)</td>
+<td>Adds a new <a class="reference internal" href="DependentVariable.html#dv-api"><span class="std std-ref">DependentVariable</span></a> instance to the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> instance.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#csdfpy.CSDModel.save" title="csdfpy.CSDModel.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(filename[,&nbsp;version])</td>
+<td>Serializes the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> instance as a JSON data-exchange data file.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="csdfpy.CSDModel.independent_variables">
+<code class="descname">independent_variables</code><a class="headerlink" href="#csdfpy.CSDModel.independent_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a tuple of the <a class="reference internal" href="IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> instances.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.CSDModel.dependent_variables">
+<code class="descname">dependent_variables</code><a class="headerlink" href="#csdfpy.CSDModel.dependent_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a tuple of the <a class="reference internal" href="DependentVariable.html#dv-api"><span class="std std-ref">DependentVariable</span></a> instances.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.CSDModel.filename">
+<code class="descname">filename</code><a class="headerlink" href="#csdfpy.CSDModel.filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the local file address of the current JSON file.</p>
+<p>The file extensions includes the <cite>.csdf</cite> and the <cite>.csdfe</cite> files.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.CSDModel.version">
+<code class="descname">version</code><a class="headerlink" href="#csdfpy.CSDModel.version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the version number of the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> on file.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="csdfpy.CSDModel.data_structure">
+<code class="descname">data_structure</code><a class="headerlink" href="#csdfpy.CSDModel.data_structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> instance as a JSON serialization.</p>
+<p>The data_structure attribute is only intended for a quick preview of
+the dataset. This JSON serialized output from this attribute avoids
+displaying large datasets. Do not use the value of this attribute to
+save the data to a file, instead use the <a class="reference internal" href="#csdfpy.CSDModel.save" title="csdfpy.CSDModel.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save()</span></code></a>
+methods of the instance.</p>
+<p>The attribute cannot be modified.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><strong>AttributeError</strong> – When modified.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="csdfpy.CSDModel.add_independent_variable">
+<code class="descname">add_independent_variable</code><span class="sig-paren">(</span><em>*arg</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#csdfpy.CSDModel.add_independent_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a new <a class="reference internal" href="IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> instance to the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> instance.</p>
+<p>There are three ways to add a new independent variable.</p>
+<p><em>From a python dictionary containing valid keywords.</em></p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">csdfpy</span> <span class="kn">as</span> <span class="nn">cp</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">py_dictionary</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;linearly_sampled&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;sampling_interval&#39;</span><span class="p">:</span> <span class="s1">&#39;5 G&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;number_of_points&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;reference_offset&#39;</span><span class="p">:</span> <span class="s1">&#39;-10 mT&#39;</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span><span class="o">.</span><span class="n">add_independent_variable</span><span class="p">(</span><span class="n">py_dictionary</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>From a list of valid keyword arguaments.</em></p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span><span class="o">.</span><span class="n">add_independent_variable</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="nb">type</span> <span class="o">=</span> <span class="s1">&#39;linearly_sampled&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">sampling_interval</span> <span class="o">=</span> <span class="s1">&#39;5 G&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">number_of_points</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">reference_offset</span> <span class="o">=</span> <span class="s1">&#39;-10 mT&#39;</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>From an</em> <a class="reference internal" href="IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> <em>instance.</em></p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">csdfpy</span> <span class="kn">import</span> <span class="n">IndependentVariable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">var1</span> <span class="o">=</span> <span class="n">IndependentVariable</span><span class="p">(</span><span class="nb">type</span> <span class="o">=</span> <span class="s1">&#39;linearly_sampled&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="n">sampling_interval</span> <span class="o">=</span> <span class="s1">&#39;5 G&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="n">number_of_points</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="n">reference_offset</span> <span class="o">=</span> <span class="s1">&#39;-10 mT&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span><span class="o">.</span><span class="n">add_independent_variable</span><span class="p">(</span><span class="n">var1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">datamodel</span><span class="o">.</span><span class="n">data_structure</span><span class="p">)</span>
+<span class="go">{</span>
+<span class="go">  &quot;CSDM&quot;: {</span>
+<span class="go">    &quot;version&quot;: &quot;0.0.9&quot;,</span>
+<span class="go">    &quot;independent_variables&quot;: [</span>
+<span class="go">      {</span>
+<span class="go">        &quot;type&quot;: &quot;linearly_sampled&quot;,</span>
+<span class="go">        &quot;number_of_points&quot;: 50,</span>
+<span class="go">        &quot;sampling_interval&quot;: &quot;5.0 G&quot;,</span>
+<span class="go">        &quot;reference_offset&quot;: &quot;-10.0 mT&quot;,</span>
+<span class="go">        &quot;quantity&quot;: &quot;magnetic flux density&quot;</span>
+<span class="go">      }</span>
+<span class="go">    ],</span>
+<span class="go">    &quot;dependent_variables&quot;: []</span>
+<span class="go">  }</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<p>For the last method, the instance <code class="docutils literal notranslate"><span class="pre">var1</span></code> is added to the <code class="docutils literal notranslate"><span class="pre">datamodel</span></code>
+as a reference, <cite>i.e.</cite>, if the instance <code class="docutils literal notranslate"><span class="pre">var1</span></code> is destroyed, the
+<code class="docutils literal notranslate"><span class="pre">datamodel</span></code> instance will become corrupt. As a recommendation always pass
+a copy of the <a class="reference internal" href="IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a> instance to the
+<a class="reference internal" href="#csdfpy.CSDModel.add_independent_variable" title="csdfpy.CSDModel.add_independent_variable"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_independent_variable()</span></code></a> method. We provide
+the later alternative for it is useful for copying an <a class="reference internal" href="IndependentVariable.html#iv-api"><span class="std std-ref">IndependentVariable</span></a>
+instance from one <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> instance to another.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="csdfpy.CSDModel.add_dependent_variable">
+<code class="descname">add_dependent_variable</code><span class="sig-paren">(</span><em>*arg</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#csdfpy.CSDModel.add_dependent_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a new <a class="reference internal" href="DependentVariable.html#dv-api"><span class="std std-ref">DependentVariable</span></a> instance to the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> instance.</p>
+<p>There are again three ways to add a new dependent variable instance.</p>
+<p><em>From a python dictionary containing valid keywords.</em></p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numpy_array</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">py_dictionary</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;components&#39;</span><span class="p">:</span> <span class="n">numpy_array</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;star&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="s1">&#39;W s&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="s1">&#39;energy&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;quantity_type&#39;</span><span class="p">:</span> <span class="s1">&#39;RGB&#39;</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span><span class="o">.</span><span class="n">add_dependent_variable</span><span class="p">(</span><span class="n">py_dictionary</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>From a lsit of valid keyword arguaments.</em></p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span><span class="o">.</span><span class="n">add_dependent_variable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;star&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                 <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;W s&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                 <span class="n">quantity_type</span><span class="o">=</span><span class="s1">&#39;RGB&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                 <span class="n">components</span><span class="o">=</span><span class="n">numpy_array</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>From a</em> <a class="reference internal" href="DependentVariable.html#dv-api"><span class="std std-ref">DependentVariable</span></a> <em>instance.</em></p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">csdfpy</span> <span class="kn">import</span> <span class="n">DependentVariable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">var1</span> <span class="o">=</span> <span class="n">DependentVariable</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;star&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                         <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;W s&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                         <span class="n">quantity_type</span><span class="o">=</span><span class="s1">&#39;RGB&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                         <span class="n">components</span><span class="o">=</span><span class="n">numpy_array</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span><span class="o">.</span><span class="n">add_dependent_variable</span><span class="p">(</span><span class="n">var1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If passing a <a class="reference internal" href="DependentVariable.html#dv-api"><span class="std std-ref">DependentVariable</span></a> instance, as a general recommendation,
+always pass a copy of the DependentVariable instance to the
+<a class="reference internal" href="#csdfpy.CSDModel.add_dependent_variable" title="csdfpy.CSDModel.add_dependent_variable"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_dependent_variable()</span></code></a> method. We provide
+the later alternative as it is useful for copying a DependentVariable
+instance from one <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> instance to another.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="csdfpy.CSDModel.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>filename</em>, <em>version='0.0.9'</em><span class="sig-paren">)</span><a class="headerlink" href="#csdfpy.CSDModel.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serializes the <a class="reference internal" href="#csdm-api"><span class="std std-ref">CSDModel</span></a> instance as a JSON data-exchange data file.</p>
+<p>The serialized file is saved with two file extensions.
+When every instance of the DependentVariable class from the CSDModel
+instance has
+an <cite>internal</cite> subtype, the corresponding CSDModel instance is serialized
+with a <cite>.csdf</cite> file extension.
+If any single DependentVariable instance has an <cite>external</cite> subtype, the
+CSDModel instance is serialized with a <cite>.csdfe</cite> file extension.
+We use the two different file extensions to alert the end use of the
+possible deserialization error associated with the <cite>.csdfe</cite> file
+extensions when the external data file is inaccessible.</p>
+<p>Irrespective of the subtypes from the serialized JSON file, by default,
+all instances of DependentVariable class are assigned an <cite>internal</cite> subtype
+with <cite>base64</cite> as the value of the <cite>encoding</cite> attribute upon the import.
+The user may, however, change these attribute at any time after the file
+import and before serializing to a file. The syntax follows,</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">datamodel</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;myfile.csdf&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">datamodel</span></code> is an instance of the CSDModel class.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+    <a href="https://github.com/DeepanshS/csdfpy">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+    </a>
+
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="IndependentVariable.html" class="btn btn-neutral float-right" title="IndependentVariable" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="csdfpy.html" class="btn btn-neutral" title="csdfpy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Deepansh J. Srivastava
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/copybutton.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
