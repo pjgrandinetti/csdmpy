@@ -1,4 +1,20 @@
 # folders #
+__pycache__/
+csdmpy.egg-info/**
+.eggs/**
+build/**
+dist/**
+.ipynb_checkpoints/**
+archive/**
+.eggs/**
+.vscode
+.pytest_cache/**
+htmlcov/**
+Test_files/**
+*/Test Files-CSDM-v1.0/**
+docs/_build/**
+docs/auto_examples/**
+docs/auto_tutorials/**
 
 # Compiled source #
 ###################
@@ -43,4 +59,14 @@ Thumbs.db
 # files
 files.txt
 info.txt
-**_test.py
+*.ipynb
+*schema
+*.csdf
+
+# files #
+#########
+my_file**
+.coverage
+csdm.code-workspace
+csdmpy.pdf
+*.temp
